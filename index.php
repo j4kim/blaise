@@ -18,7 +18,7 @@
         <input type="submit" value="Convert">
     </form>
     <p>
-        <b><?= $date ?></b>
+        <b><?= $date ?? '' ?></b>
     </p>
 </body>
 </html>
