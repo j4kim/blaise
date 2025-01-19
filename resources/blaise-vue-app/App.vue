@@ -7,6 +7,8 @@ import { RouterView } from "vue-router";
         <RouterLink to="/">
             <h1 class="text-xl py-4">blaise</h1>
         </RouterLink>
-        <RouterView />
+        <Suspense>
+            <RouterView />
+        </Suspense>
     </div>
 </template>
