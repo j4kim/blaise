@@ -14,8 +14,16 @@ return new class extends Migration
         Schema::create('clients', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string("first_name");
-            $table->string("last_name");
+            $table->softDeletes();
+            $table->string("first_name")->nullable();
+            $table->string("last_name")->nullable();
+            $table->string("tel_1")->nullable();
+            $table->string("tel_2")->nullable();
+            $table->string("tel_3")->nullable();
+            $table->integer("npa")->nullable();
+            $table->string("location")->nullable();
+            $table->tinyInteger("gender")->nullable();
+            $table->json("details")->nullable();
         });
     }
 
