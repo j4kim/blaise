@@ -50,7 +50,7 @@ function to(client) {
             v-for="(client, index) in state.clients"
             @click="to(client)"
             :class="[
-                'cursor-pointer',
+                'cursor-pointer hover:bg-primary',
                 {
                     '!bg-primary': state.selected === index,
                 },
