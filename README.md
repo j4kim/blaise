@@ -7,6 +7,9 @@ App de gestion de salon de coiffure.
 ```
 composer install
 npm install
+cp .env.example .env
+php artisan migrate
+php artisan key:generate
 ```
 
 ## Lancer
