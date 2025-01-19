@@ -9,3 +9,4 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::get('/clients/{client}', [ClientController::class, 'show'])->name('clients.show');
+Route::get('/clients/search/{query}', [ClientController::class, 'search'])->name('clients.search');

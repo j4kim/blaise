@@ -11,4 +11,11 @@ class ClientController extends Controller
     {
         return $client;
     }
+
+    public function search(Request $request, string $query)
+    {
+        return Client::where("first_name", "like", "%$query%")
+            ->orWhere("last_name", "like", "%$query%")
+            ->get();
+    }
 }
