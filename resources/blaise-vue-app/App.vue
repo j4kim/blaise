@@ -4,7 +4,9 @@ import { RouterView } from "vue-router";
 
 <template>
     <div class="md:max-w-screen-md md:mx-auto">
-        <h1 class="text-xl py-4">blaise</h1>
+        <RouterLink to="/">
+            <h1 class="text-xl py-4">blaise</h1>
+        </RouterLink>
         <RouterView />
     </div>
 </template>
