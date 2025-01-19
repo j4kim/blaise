@@ -8,9 +8,10 @@
 
         <!-- Styles / Scripts -->
         @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
-            @vite('resources/js/app.js')
+            @vite('resources/blaise-vue-app/app.js')
         @endif
     </head>
     <body>
+        <div id="app"></div>
     </body>
 </html>
