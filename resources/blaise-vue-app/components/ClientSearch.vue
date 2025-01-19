@@ -2,29 +2,11 @@
 import { Card, IconField, InputIcon, InputText } from "primevue";
 import { reactive } from "vue";
 import { useRouter } from "vue-router";
+import { useSearchStore } from "../stores/search";
 
 const router = useRouter();
 
-const state = reactive({
-    query: "",
-    clients: [],
-    selected: -1,
-});
-
-async function search() {
-    if (state.query.length < 2) {
-        state.clients = [];
-        return;
-    }
-    const response = await fetch(`/api/clients/search/${state.query}`);
-    const data = await response.json();
-    state.clients = data;
-}
-
-function select(n) {
-    if (n >= state.clients.length || n < -1) return;
-    state.selected = n;
-}
+const store = useSearchStore();
 
 function to(client) {
     if (!client) return;
@@ -37,22 +19,23 @@ function to(client) {
         <InputIcon class="pi pi-search" />
         <InputText
             placeholder="Recherche client-e"
-            v-model="state.query"
-            @input="search"
-            @keydown.up.prevent="select(state.selected - 1)"
-            @keydown.down.prevent="select(state.selected + 1)"
-            @keydown.enter.prevent="to(state.clients[state.selected])"
+            v-model="store.query"
+            @input="store.search"
+            @keydown.up.prevent="store.select(store.selected - 1)"
+            @keydown.down.prevent="store.select(store.selected + 1)"
+            @keydown.enter.prevent="to(store.clients[store.selected])"
+            autofocus
         />
     </IconField>
 
     <div class="space-y-2 my-2">
         <Card
-            v-for="(client, index) in state.clients"
+            v-for="(client, index) in store.clients"
             @click="to(client)"
             :class="[
                 'cursor-pointer hover:bg-primary',
                 {
-                    '!bg-primary': state.selected === index,
+                    '!bg-primary': store.selected === index,
                 },
             ]"
         >
