@@ -29,7 +29,11 @@ async function search() {
     </IconField>
 
     <div class="space-y-2 my-2">
-        <Card v-for="(client, index) in state.clients" :tabindex="index">
+        <Card
+            v-for="client in state.clients"
+            @click="$router.push(`clients/${client.id}`)"
+            class="cursor-pointer"
+        >
             <template #content>
                 <div>{{ client.first_name }} {{ client.last_name }}</div>
             </template>
