@@ -1,6 +1,6 @@
 <script setup>
 import { Card, IconField, InputIcon, InputText } from "primevue";
-import { reactive } from "vue";
+import { onMounted, useTemplateRef, nextTick } from "vue";
 import { useRouter } from "vue-router";
 import { useSearchStore } from "../stores/search";
 
@@ -12,6 +12,13 @@ function to(client) {
     if (!client) return;
     router.push(`clients/${client.id}`);
 }
+
+const input = useTemplateRef("input");
+
+onMounted(async () => {
+    await nextTick();
+    input.value.$el.focus();
+});
 </script>
 
 <template>
@@ -24,7 +31,7 @@ function to(client) {
             @keydown.up.prevent="store.select(store.selected - 1)"
             @keydown.down.prevent="store.select(store.selected + 1)"
             @keydown.enter.prevent="to(store.clients[store.selected])"
-            autofocus
+            ref="input"
         />
     </IconField>
 
