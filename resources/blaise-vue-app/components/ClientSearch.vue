@@ -16,15 +16,23 @@ function to(client) {
 const input = useTemplateRef("input");
 
 onMounted(async () => {
+    store.selected = -1;
     await nextTick();
     input.value.$el.focus();
 });
+
+function clear() {
+    store.query = "";
+    store.clients = [];
+    input.value.$el.focus();
+}
 </script>
 
 <template>
     <IconField>
         <InputIcon class="pi pi-search" />
         <InputText
+            class="w-full"
             placeholder="Recherche client-e"
             v-model="store.query"
             @input="store.search"
@@ -33,6 +41,7 @@ onMounted(async () => {
             @keydown.enter.prevent="to(store.clients[store.selected])"
             ref="input"
         />
+        <InputIcon @click="clear" class="pi pi-times cursor-pointer" />
     </IconField>
 
     <div class="space-y-2 my-2">
