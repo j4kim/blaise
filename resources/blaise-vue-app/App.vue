@@ -3,7 +3,7 @@ import { RouterView } from "vue-router";
 </script>
 
 <template>
-    <div class="md:max-w-screen-md md:mx-auto">
+    <div class="md:max-w-screen-md md:mx-auto px-2">
         <RouterLink to="/">
             <h1 class="text-xl py-4">blaise</h1>
         </RouterLink>
