@@ -22,8 +22,8 @@ class ClientsImport implements ToModel, WithHeadingRow, WithBatchInserts
     {
         return new Client([
             'id' => $row['Id'],
-            'created_at' => $row['DateCreation'],
-            'updated_at' => $row['DerVisite'],
+            'created_at' => Tools::convertDate($row['DateCreation']),
+            'updated_at' => Tools::convertDate($row['DerVisite']),
             'deleted_at' => Tools::convertTimestamp($row['FlagArchive']),
             'first_name' => $row['Prenom'],
             'last_name' => $row['Nom'],

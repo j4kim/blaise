@@ -13,4 +13,11 @@ class Tools
         $ts = intval(6.3115e8 + 0.86402 * $x);
         return new Carbon($ts);
     }
+
+    public static function convertDate(string $merlinDate): ?Carbon
+    {
+        $c = Carbon::createFromFormat('d.m.Y H:i:s', $merlinDate);
+        if ($c->year < 1900) return null;
+        return $c;
+    }
 }
