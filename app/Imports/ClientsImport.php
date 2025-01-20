@@ -5,12 +5,13 @@ namespace App\Imports;
 use App\Merlin\Tools;
 use App\Models\Client;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\WithBatchInserts;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Imports\HeadingRowFormatter;
 
 HeadingRowFormatter::default('none');
 
-class ClientsImport implements ToModel, WithHeadingRow
+class ClientsImport implements ToModel, WithHeadingRow, WithBatchInserts
 {
     /**
      * @param array $row
@@ -34,5 +35,10 @@ class ClientsImport implements ToModel, WithHeadingRow
             'gender' => $row['Sexe'],
             'details' => $row,
         ]);
+    }
+
+    public function batchSize(): int
+    {
+        return 100;
     }
 }
