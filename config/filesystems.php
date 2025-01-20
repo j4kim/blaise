@@ -37,10 +37,17 @@ return [
             'throw' => false,
         ],
 
+        'merlin-csv' => [
+            'driver' => 'local',
+            'root' => database_path('seeders/' . env('MERLIN_CSV_FOLDER', 'merlin-csv')),
+            'serve' => true,
+            'throw' => false,
+        ],
+
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
-            'url' => env('APP_URL').'/storage',
+            'url' => env('APP_URL') . '/storage',
             'visibility' => 'public',
             'throw' => false,
         ],
