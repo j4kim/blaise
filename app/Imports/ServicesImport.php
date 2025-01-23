@@ -22,7 +22,7 @@ class ServicesImport implements ToModel, WithHeadingRow
             'updated_at' => Tools::convertDate($row['DateDerModif']),
             'deleted_at' => Tools::convertTimestamp($row['FlagArchive']),
             'service_category_id' => $row['IdPrestationFamille'],
-            'sort_order' => $row['Id'],
+            'sort_order' => $row['Id'] * 10,
             'label' => $row['Libelle'],
             'price' => intval($row['Prix']) / 100,
             'execution_time' => $row['TempsExec'],
