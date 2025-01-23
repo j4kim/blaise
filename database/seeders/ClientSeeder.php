@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use App\Imports\ClientsImport;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Benchmark;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ClientSeeder extends Seeder
@@ -15,10 +14,6 @@ class ClientSeeder extends Seeder
      */
     public function run(): void
     {
-        $t = Benchmark::measure(
-            fn() =>
-            Excel::import(new ClientsImport, 'Client.csv', 'merlin-csv')
-        );
-        echo $t . " ms\n";
+        Excel::import(new ClientsImport, 'Client.csv', 'merlin-csv');
     }
 }
