@@ -15,6 +15,7 @@ return new class extends Migration
         Schema::create('services', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->softDeletes();
             $table->foreignIdFor(ServiceCategory::class);
             $table->integer('sort_order')->nullable();
             $table->string('label')->nullable();
