@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignIdFor(ServiceCategory::class);
             $table->integer('sort_order')->nullable();
             $table->string('label')->nullable();
-            $table->decimal('price', 6, 2)->nullable();
+            $table->decimal('price', 5, 2)->nullable();
             $table->integer('execution_time')->nullable();
             $table->integer('pause_time')->nullable();
         });
