@@ -18,8 +18,9 @@ state.client = await fetchClient(route.params.id);
 </script>
 
 <template>
-    <label>Cliente</label>
     <template v-if="state.client">
+        <label v-if="state.client.gender == 0">Cliente</label>
+        <label v-else>Client</label>
         <h2>{{ state.client.first_name }} {{ state.client.last_name }}</h2>
     </template>
 </template>
