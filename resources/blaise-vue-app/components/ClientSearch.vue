@@ -33,7 +33,7 @@ function clear() {
         <InputIcon class="pi pi-search" />
         <InputText
             class="w-full"
-            placeholder="Recherche client-e"
+            placeholder="Recherche client·e"
             v-model="store.query"
             @input="store.search"
             @keydown.up.prevent="store.select(store.selected - 1)"
