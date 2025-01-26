@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 class ClientController extends Controller
@@ -14,9 +15,16 @@ class ClientController extends Controller
 
     public function search(Request $request, string $query)
     {
-        return Client::where("first_name", "like", "%$query%")
-            ->orWhere("last_name", "like", "%$query%")
-            ->take(5)
-            ->get();
+        $qb = Client::query();
+        $words = explode(" ", $query);
+        foreach ($words as $word) {
+            $qb->where(
+                function (Builder $qb) use ($word) {
+                    $qb->where("first_name", "like", "$word%")
+                        ->orWhere("last_name", "like", "$word%");
+                }
+            );
+        }
+        return $qb->take(5)->get();
     }
 }
