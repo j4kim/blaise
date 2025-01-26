@@ -16,6 +16,7 @@ class ClientController extends Controller
     {
         return Client::where("first_name", "like", "%$query%")
             ->orWhere("last_name", "like", "%$query%")
+            ->take(5)
             ->get();
     }
 }
