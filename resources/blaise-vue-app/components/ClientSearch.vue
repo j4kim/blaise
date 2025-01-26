@@ -16,7 +16,7 @@ function to(client) {
 const input = useTemplateRef("input");
 
 onMounted(async () => {
-    store.selected = -1;
+    store.selected = 0;
     await nextTick();
     input.value.$el.focus();
 });
