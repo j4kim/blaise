@@ -19,18 +19,6 @@ class Client extends Model
      */
     protected $appends = ['title'];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
-    {
-        return [
-            'details' => 'array',
-        ];
-    }
-
     protected function title(): Attribute
     {
         return Attribute::make(

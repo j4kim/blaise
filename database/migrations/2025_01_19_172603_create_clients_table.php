@@ -23,7 +23,6 @@ return new class extends Migration
             $table->integer("npa")->nullable();
             $table->string("location")->nullable();
             $table->tinyInteger("gender")->nullable();
-            $table->json("details")->nullable();
         });
     }
 

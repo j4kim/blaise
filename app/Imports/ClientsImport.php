@@ -33,7 +33,6 @@ class ClientsImport implements ToModel, WithHeadingRow, WithBatchInserts
             'npa' => $row['CodePostal'],
             'location' => $row['Ville'],
             'gender' => $row['Sexe'],
-            'details' => $row,
         ]);
     }
 
