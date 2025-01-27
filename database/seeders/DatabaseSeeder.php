@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             BrandSeeder::class,
             LineSeeder::class,
             ArticleSeeder::class,
+            VisitSeeder::class,
         ]);
     }
 }
