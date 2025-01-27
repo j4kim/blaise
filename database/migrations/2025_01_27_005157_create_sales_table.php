@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Article;
+use App\Models\Service;
 use App\Models\Visit;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -16,6 +18,8 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->foreignIdFor(Visit::class);
+            $table->foreignIdFor(Service::class)->nullable();
+            $table->foreignIdFor(Article::class)->nullable();
             $table->decimal('base_price', 5, 2)->nullable();
             $table->decimal('price_charged', 5, 2)->nullable();
             $table->integer('quantity')->default(1);
