@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             LineSeeder::class,
             ArticleSeeder::class,
             VisitSeeder::class,
+            SaleSeeder::class,
         ]);
     }
 }
