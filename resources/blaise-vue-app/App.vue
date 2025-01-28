@@ -10,7 +10,7 @@ import ClientSearch from "./components/ClientSearch.vue";
         <RouterLink to="/" class="text-xl hover:text-primary">
             <h1>blaise</h1>
         </RouterLink>
-        <ClientSearch size="small" />
+        <ClientSearch size="small" class="w-52" />
     </header>
     <div class="md:max-w-screen-md md:mx-auto p-2 h-full w-full">
         <Suspense>
