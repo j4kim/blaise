@@ -4,6 +4,14 @@ import { onMounted, useTemplateRef, nextTick } from "vue";
 import { useRouter } from "vue-router";
 import { useSearchStore } from "../stores/search";
 
+const props = defineProps({
+    size: {
+        type: String,
+        default: "large",
+    },
+    autofocus: Boolean,
+});
+
 const router = useRouter();
 
 const store = useSearchStore();
@@ -17,8 +25,10 @@ const input = useTemplateRef("input");
 
 onMounted(async () => {
     store.selected = 0;
-    await nextTick();
-    input.value.$el.focus();
+    if (props.autofocus) {
+        await nextTick();
+        input.value.$el.focus();
+    }
 });
 
 function clear() {
@@ -35,7 +45,7 @@ function clear() {
             <InputText
                 class="w-full"
                 placeholder="Recherche client·e"
-                size="large"
+                :size="size"
                 v-model="store.query"
                 @input="store.search"
                 @keydown.up.prevent="store.select(store.selected - 1)"
