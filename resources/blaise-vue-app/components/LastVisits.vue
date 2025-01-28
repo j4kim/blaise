@@ -16,10 +16,9 @@ const selected = ref(null);
 
 function getSalesSummary(sales) {
     const labels = sales.map((s) => s.label);
-    if (labels.length < 3) {
-        return labels.join(", ");
-    }
-    return labels.slice(0, 2).join(", ") + " +" + (labels.length - 2);
+    const slice = labels.slice(0, 2);
+    const diff = labels.length - slice.length;
+    return slice.join(", ") + (diff > 0 ? ` +${diff}` : "");
 }
 </script>
 
