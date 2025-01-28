@@ -6,14 +6,17 @@ import {
     AccordionHeader,
     AccordionPanel,
 } from "primevue";
+import { ref } from "vue";
 
 defineProps({
     visits: Array,
 });
+
+const selected = ref(null);
 </script>
 
 <template>
-    <Accordion value="0" expand-icon=" " collapse-icon=" ">
+    <Accordion v-model:value="selected" expand-icon=" " collapse-icon=" ">
         <AccordionPanel
             v-for="visit in visits"
             :key="visit.id"
@@ -25,7 +28,10 @@ defineProps({
                         {{ dayjs(visit.visit_date).format("DD.MM.YYYY") }}
                     </div>
                     <div class="w-full truncate">
-                        {{ visit.sales.map((s) => s.label).join(", ") }}
+                        <span v-if="visit.id != selected">
+                            {{ visit.sales.map((s) => s.label).join(", ") }}
+                        </span>
+                        <div v-else class="text-right">Total</div>
                     </div>
                     <div class="ml-4">CHF&nbsp;{{ visit.billed }}</div>
                 </div>
