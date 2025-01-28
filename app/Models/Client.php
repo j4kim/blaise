@@ -40,6 +40,6 @@ class Client extends Model
 
     public function lastVisits(): HasMany
     {
-        return $this->visits()->orderBy('created_at', 'desc')->take(5);
+        return $this->visits()->orderBy('visit_date', 'desc')->take(5);
     }
 }
