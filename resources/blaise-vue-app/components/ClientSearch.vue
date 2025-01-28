@@ -64,7 +64,7 @@ function clear() {
         >
             <Card
                 v-for="(client, index) in store.clients"
-                @click="to(client)"
+                @mousedown="to(client)"
                 :class="[
                     'cursor-pointer hover:bg-primary',
                     {
