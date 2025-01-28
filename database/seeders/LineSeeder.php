@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Imports\LinesImport;
+use App\Merlin\Import;
+use App\Models\Line;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Maatwebsite\Excel\Facades\Excel;
 
 class LineSeeder extends Seeder
 {
@@ -14,6 +14,11 @@ class LineSeeder extends Seeder
      */
     public function run(): void
     {
-        Excel::import(new LinesImport, 'ProduitGamme.csv', 'merlin-csv');
+        new Import('ProduitGamme.csv', function (array $row) {
+            Line::create([
+                'id' => $row['Id'],
+                'name' => $row['NomGamme'],
+            ]);
+        });
     }
 }

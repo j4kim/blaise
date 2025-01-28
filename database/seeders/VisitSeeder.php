@@ -2,10 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Imports\VisitsImport;
+use App\Merlin\Import;
+use App\Merlin\Tools;
+use App\Models\Visit;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Maatwebsite\Excel\Facades\Excel;
 
 class VisitSeeder extends Seeder
 {
@@ -14,6 +15,15 @@ class VisitSeeder extends Seeder
      */
     public function run(): void
     {
-        Excel::import(new VisitsImport, 'CaisseTicket.csv', 'merlin-csv');
+        new Import('CaisseTicket.csv', function (array $row) {
+            Visit::create([
+                'id' => $row['Id'],
+                'created_at' => now(),
+                'updated_at' => now(),
+                'client_id' => $row['IdClient'],
+                'visit_date' => Tools::convertTimestamp($row['DateHeure']),
+                'billed' => intval($row['PrixFacture']) / 100,
+            ]);
+        });
     }
 }

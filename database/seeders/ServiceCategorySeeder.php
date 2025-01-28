@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Imports\ServiceCategoriesImport;
+use App\Merlin\Import;
+use App\Models\ServiceCategory;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Maatwebsite\Excel\Facades\Excel;
 
 class ServiceCategorySeeder extends Seeder
 {
@@ -14,6 +14,15 @@ class ServiceCategorySeeder extends Seeder
      */
     public function run(): void
     {
-        Excel::import(new ServiceCategoriesImport, 'PrestationFamille.csv', 'merlin-csv');
+        new Import('PrestationFamille.csv', function (array $row) {
+            ServiceCategory::create([
+                'id' => $row['Id'],
+                'created_at' => now(),
+                'updated_at' => now(),
+                'deleted_at' => $row['VisibleFacturation'] ? null : now(),
+                'sort_order' => $row['ColonneTri'],
+                'label' => $row['NomService'],
+            ]);
+        });
     }
 }
