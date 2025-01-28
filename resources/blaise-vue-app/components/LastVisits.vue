@@ -50,7 +50,16 @@ function getSalesSummary(sales) {
                     class="flex justify-between mb-2"
                 >
                     <div>{{ sale.label }}</div>
-                    <div>CHF&nbsp;{{ sale.price_charged }}</div>
+                    <div>
+                        CHF
+                        <span
+                            v-if="sale.price_charged != sale.base_price"
+                            class="line-through opacity-50"
+                        >
+                            {{ sale.base_price }}
+                        </span>
+                        {{ sale.price_charged }}
+                    </div>
                 </div>
             </AccordionContent>
         </AccordionPanel>
