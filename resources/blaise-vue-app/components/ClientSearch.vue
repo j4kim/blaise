@@ -18,7 +18,7 @@ const store = useSearchStore();
 
 function to(client) {
     if (!client) return;
-    router.push(`clients/${client.id}`);
+    router.push(`/clients/${client.id}`);
 }
 
 const input = useTemplateRef("input");
