@@ -1,5 +1,5 @@
 <script setup>
-import { reactive } from "vue";
+import { reactive, watch } from "vue";
 import { useRoute } from "vue-router";
 import LastVisits from "../components/LastVisits.vue";
 
@@ -15,7 +15,13 @@ async function fetchClient(id) {
     return data;
 }
 
-state.client = await fetchClient(route.params.id);
+watch(
+    () => route.params.id,
+    async (id) => {
+        state.client = await fetchClient(id);
+    },
+    { immediate: true }
+);
 </script>
 
 <template>

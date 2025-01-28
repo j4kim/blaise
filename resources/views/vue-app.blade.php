@@ -21,6 +21,6 @@
 @endif
     </head>
     <body>
-        <div id="app"></div>
+        <div id="app" class="h-dvh flex flex-col"></div>
     </body>
 </html>
