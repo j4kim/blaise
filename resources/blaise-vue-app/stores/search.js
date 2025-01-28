@@ -5,6 +5,7 @@ export const useSearchStore = defineStore("search", {
         query: "",
         clients: [],
         selected: -1,
+        focused: false,
     }),
 
     actions: {

@@ -18,6 +18,7 @@ const store = useSearchStore();
 
 function to(client) {
     if (!client) return;
+    store.focused = false;
     router.push(`clients/${client.id}`);
 }
 
@@ -36,6 +37,12 @@ function clear() {
     store.clients = [];
     input.value.$el.focus();
 }
+
+function focusout() {
+    setTimeout(() => {
+        store.focused = false;
+    }, 100);
+}
 </script>
 
 <template>
@@ -51,12 +58,14 @@ function clear() {
                 @keydown.up.prevent="store.select(store.selected - 1)"
                 @keydown.down.prevent="store.select(store.selected + 1)"
                 @keydown.enter.prevent="to(store.clients[store.selected])"
+                @focusin="store.focused = true"
+                @focusout="focusout"
                 ref="input"
             />
             <InputIcon @click="clear" class="pi pi-times cursor-pointer" />
         </IconField>
 
-        <div class="space-y-2 my-2 absolute w-full">
+        <div class="space-y-2 my-2 absolute w-full" v-if="store.focused">
             <Card
                 v-for="(client, index) in store.clients"
                 @click="to(client)"
