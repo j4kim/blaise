@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -38,8 +39,8 @@ class Client extends Model
         return $this->hasMany(Visit::class);
     }
 
-    public function lastVisits(): HasMany
+    public function getLastVisits(): LengthAwarePaginator
     {
-        return $this->visits()->orderBy('created_at', 'desc')->take(5);
+        return $this->visits()->with('sales')->orderBy('created_at', 'desc')->paginate(5);
     }
 }
