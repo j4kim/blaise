@@ -25,6 +25,6 @@ class ClientController extends Controller
                 }
             );
         }
-        return $qb->take(5)->get();
+        return $qb->orderBy('updated_at', 'desc')->take(5)->get();
     }
 }
