@@ -29,35 +29,38 @@ function clear() {
 </script>
 
 <template>
-    <IconField>
-        <InputIcon class="pi pi-search" />
-        <InputText
-            class="w-full"
-            placeholder="Recherche client·e"
-            v-model="store.query"
-            @input="store.search"
-            @keydown.up.prevent="store.select(store.selected - 1)"
-            @keydown.down.prevent="store.select(store.selected + 1)"
-            @keydown.enter.prevent="to(store.clients[store.selected])"
-            ref="input"
-        />
-        <InputIcon @click="clear" class="pi pi-times cursor-pointer" />
-    </IconField>
+    <div class="relative">
+        <IconField>
+            <InputIcon class="pi pi-search" />
+            <InputText
+                class="w-full"
+                placeholder="Recherche client·e"
+                size="large"
+                v-model="store.query"
+                @input="store.search"
+                @keydown.up.prevent="store.select(store.selected - 1)"
+                @keydown.down.prevent="store.select(store.selected + 1)"
+                @keydown.enter.prevent="to(store.clients[store.selected])"
+                ref="input"
+            />
+            <InputIcon @click="clear" class="pi pi-times cursor-pointer" />
+        </IconField>
 
-    <div class="space-y-2 my-2">
-        <Card
-            v-for="(client, index) in store.clients"
-            @click="to(client)"
-            :class="[
-                'cursor-pointer hover:bg-primary',
-                {
-                    '!bg-primary': store.selected === index,
-                },
-            ]"
-        >
-            <template #content>
-                <div>{{ client.first_name }} {{ client.last_name }}</div>
-            </template>
-        </Card>
+        <div class="space-y-2 my-2 absolute w-full">
+            <Card
+                v-for="(client, index) in store.clients"
+                @click="to(client)"
+                :class="[
+                    'cursor-pointer hover:bg-primary',
+                    {
+                        '!bg-primary': store.selected === index,
+                    },
+                ]"
+            >
+                <template #content>
+                    <div>{{ client.first_name }} {{ client.last_name }}</div>
+                </template>
+            </Card>
+        </div>
     </div>
 </template>
