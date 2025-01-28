@@ -13,6 +13,14 @@ defineProps({
 });
 
 const selected = ref(null);
+
+function getSalesSummary(sales) {
+    const labels = sales.map((s) => s.label);
+    if (labels.length < 3) {
+        return labels.join(", ");
+    }
+    return labels.slice(0, 2).join(", ") + " +" + (labels.length - 2);
+}
 </script>
 
 <template>
@@ -29,7 +37,7 @@ const selected = ref(null);
                     </div>
                     <div class="w-full truncate">
                         <span v-if="visit.id != selected">
-                            {{ visit.sales.map((s) => s.label).join(", ") }}
+                            {{ getSalesSummary(visit.sales) }}
                         </span>
                         <div v-else class="text-right">Total</div>
                     </div>
