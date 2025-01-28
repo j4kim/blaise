@@ -10,7 +10,7 @@ class ClientController extends Controller
 {
     public function show(Client $client)
     {
-        return $client;
+        return $client->load('lastVisits.sales');
     }
 
     public function search(Request $request, string $query)
