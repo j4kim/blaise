@@ -12,7 +12,7 @@ import ClientSearch from "./components/ClientSearch.vue";
         </RouterLink>
         <ClientSearch size="small" class="w-52" />
     </header>
-    <div class="md:max-w-screen-md md:mx-auto p-2 h-full w-full">
+    <div class="md:max-w-screen-md md:mx-auto px-2 py-4 h-full w-full">
         <Suspense>
             <RouterView />
         </Suspense>
