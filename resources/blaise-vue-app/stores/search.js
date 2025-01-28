@@ -9,7 +9,7 @@ export const useSearchStore = defineStore("search", {
 
     actions: {
         async search() {
-            if (this.query.length < 2) {
+            if (this.query.length < 1) {
                 this.clients = [];
                 return;
             }
