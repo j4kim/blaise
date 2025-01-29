@@ -3,8 +3,11 @@ import { reactive, watch } from "vue";
 import { useRoute } from "vue-router";
 import LastVisits from "../components/LastVisits.vue";
 import { Button } from "primevue";
+import { useSidebarStore } from "../stores/sidebar";
 
 const route = useRoute();
+
+const sidebar = useSidebarStore();
 
 const state = reactive({
     client: {},
@@ -26,14 +29,19 @@ watch(
 </script>
 
 <template>
-    <div class="mb-8 flex justify-between items-end">
+    <div class="mb-8 flex justify-between items-end flex-wrap gap-3">
         <div>
             <h5 class="mb-1">{{ state.client.title }}</h5>
             <h2 class="text-3xl font-extralight">
                 {{ state.client.first_name }} {{ state.client.last_name }}
             </h2>
         </div>
-        <Button label="Nouveau ticket" icon="pi pi-plus" />
+        <Button
+            label="Nouveau ticket"
+            icon="pi pi-plus"
+            @click="sidebar.open = !sidebar.open"
+            variant="outlined"
+        ></Button>
     </div>
 
     <h5 class="mb-2">Dernières visites</h5>

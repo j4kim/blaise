@@ -62,7 +62,7 @@ function clear() {
         </IconField>
 
         <div
-            class="space-y-2 my-2 absolute w-full"
+            class="space-y-2 my-2 absolute w-full z-10"
             v-if="props.autofocus || focused"
         >
             <Card
