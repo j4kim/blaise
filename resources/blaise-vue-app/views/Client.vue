@@ -14,7 +14,9 @@ const state = reactive({
 });
 
 async function fetchClient(id) {
-    const response = await fetch(`/api/clients/${id}`);
+    const response = await fetch(`/api/clients/${id}`, {
+        headers: { Accept: "application/json" },
+    });
     const data = await response.json();
     return data;
 }
