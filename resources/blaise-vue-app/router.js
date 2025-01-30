@@ -2,9 +2,15 @@ import { createWebHashHistory, createRouter } from "vue-router";
 
 import Home from "./views/Home.vue";
 import Client from "./views/Client.vue";
+import Login from "./views/Login.vue";
 
 const routes = [
-    { path: "/", component: Home },
+    { path: "/", component: Home, meta: { hideHeader: true } },
+    {
+        path: "/login",
+        component: Login,
+        meta: { hideHeader: true, hideFooter: true },
+    },
     { path: "/clients/:id", component: Client },
 ];
 

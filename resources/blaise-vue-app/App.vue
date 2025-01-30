@@ -8,7 +8,7 @@ const sidebar = useSidebarStore();
 <template>
     <main class="flex flex-col w-full overflow-auto">
         <header
-            v-if="$route.path != '/'"
+            v-if="!$route.meta.hideHeader"
             class="flex justify-between px-3 py-2 bg-surface-100 dark:bg-surface-950 items-center"
         >
             <RouterLink to="/" class="text-xl hover:text-primary">
@@ -21,7 +21,9 @@ const sidebar = useSidebarStore();
                 <RouterView />
             </Suspense>
         </div>
-        <footer class="text-center p-3">Administration</footer>
+        <footer v-if="!$route.meta.hideFooter" class="text-center p-3">
+            Administration
+        </footer>
     </main>
     <aside
         v-if="sidebar.open"
