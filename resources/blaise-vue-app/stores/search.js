@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import { get } from "../api";
 
 export const useSearchStore = defineStore("search", {
     state: () => ({
@@ -13,11 +14,7 @@ export const useSearchStore = defineStore("search", {
                 this.clients = [];
                 return;
             }
-            const response = await fetch(`/api/clients/search/${this.query}`, {
-                headers: { Accept: "application/json" },
-            });
-            const data = await response.json();
-            this.clients = data;
+            this.clients = await get(`/api/clients/search/${this.query}`);
         },
 
         select(n) {

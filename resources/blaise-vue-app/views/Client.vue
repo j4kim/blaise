@@ -4,6 +4,7 @@ import { useRoute } from "vue-router";
 import LastVisits from "../components/LastVisits.vue";
 import { Button } from "primevue";
 import { useSidebarStore } from "../stores/sidebar";
+import { get } from "../api";
 
 const route = useRoute();
 
@@ -13,18 +14,10 @@ const state = reactive({
     client: {},
 });
 
-async function fetchClient(id) {
-    const response = await fetch(`/api/clients/${id}`, {
-        headers: { Accept: "application/json" },
-    });
-    const data = await response.json();
-    return data;
-}
-
 watch(
     () => route.params.id,
     async (id) => {
-        state.client = await fetchClient(id);
+        state.client = await get(`/api/clients/${id}`);
     },
     { immediate: true }
 );
