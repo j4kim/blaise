@@ -69,7 +69,7 @@ function clear() {
                 v-for="(client, index) in store.clients"
                 @mousedown="to(client)"
                 :class="[
-                    'cursor-pointer hover:bg-primary',
+                    'cursor-pointer hover:!bg-highlight',
                     {
                         '!bg-primary': store.selected === index,
                     },

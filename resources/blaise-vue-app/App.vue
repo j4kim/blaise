@@ -9,7 +9,7 @@ const sidebar = useSidebarStore();
     <main class="flex flex-col w-full overflow-auto">
         <header
             v-if="$route.path != '/'"
-            class="flex justify-between px-3 py-2 bg-surface-950 items-center"
+            class="flex justify-between px-3 py-2 bg-surface-100 dark:bg-surface-950 items-center"
         >
             <RouterLink to="/" class="text-xl hover:text-primary">
                 <h1>blaise</h1>
@@ -25,6 +25,6 @@ const sidebar = useSidebarStore();
     </main>
     <aside
         v-if="sidebar.open"
-        class="bg-surface-900 w-96 shrink-0 border-l border-surface-700"
+        class="bg-surface-100 dark:bg-surface-900 w-96 shrink-0 border-l dark:border-surface-700"
     ></aside>
 </template>
