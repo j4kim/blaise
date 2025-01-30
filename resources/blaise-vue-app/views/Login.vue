@@ -3,7 +3,7 @@ import { Button, InputText, Password } from "primevue";
 import { reactive } from "vue";
 
 const form = reactive({
-    username: "",
+    email: "",
     password: "",
 });
 </script>
@@ -14,7 +14,7 @@ const form = reactive({
         <form class="flex flex-col gap-4 w-full sm:w-64">
             <InputText
                 type="email"
-                v-model="form.username"
+                v-model="form.email"
                 placeholder="Adresse email"
                 required
             />
