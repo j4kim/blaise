@@ -1,6 +1,9 @@
 export async function request(uri, options = {}) {
     const response = await fetch(uri, {
-        headers: { Accept: "application/json" },
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+        },
         ...options,
     });
     const data = await response.json();
