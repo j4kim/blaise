@@ -18,8 +18,8 @@
 
         <!-- Styles / Scripts -->
         @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
-        @vite('resources/blaise-vue-app/app.js')
-@endif
+            @vite('resources/blaise-vue-app/app.js')
+        @endif
     </head>
     <body>
         <div id="app" class="h-dvh flex dark:bg-surface-900"></div>
