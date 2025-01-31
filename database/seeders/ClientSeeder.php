@@ -26,7 +26,7 @@ class ClientSeeder extends Seeder
                 'tel_1' => $row['Tel1'],
                 'tel_2' => $row['Tel2'],
                 'tel_3' => $row['Tel3'],
-                'npa' => $row['CodePostal'],
+                'npa' => $row['CodePostal'] ?: null,
                 'location' => $row['Ville'],
                 'gender' => $row['Sexe'],
             ]);

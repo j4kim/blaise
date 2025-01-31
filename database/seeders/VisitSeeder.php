@@ -16,6 +16,7 @@ class VisitSeeder extends Seeder
     public function run(): void
     {
         new Import('CaisseTicket.csv', function (array $row) {
+            if ($row['IdClient'] == -1) return;
             Visit::create([
                 'id' => $row['Id'],
                 'created_at' => now(),
