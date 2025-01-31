@@ -12,7 +12,7 @@ export async function request(uri, options = {}) {
         ...options,
     });
     const data = await response.json();
-    return data;
+    return { data, response };
 }
 
 export const get = request;

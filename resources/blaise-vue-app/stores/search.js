@@ -14,7 +14,9 @@ export const useSearchStore = defineStore("search", {
                 this.clients = [];
                 return;
             }
-            this.clients = await get(`/api/clients/search/${this.query}`);
+            this.clients = (
+                await get(`/api/clients/search/${this.query}`)
+            ).data;
         },
 
         select(n) {

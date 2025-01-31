@@ -17,7 +17,7 @@ const state = reactive({
 watch(
     () => route.params.id,
     async (id) => {
-        state.client = await get(`/api/clients/${id}`);
+        state.client = (await get(`/api/clients/${id}`)).data;
     },
     { immediate: true }
 );
