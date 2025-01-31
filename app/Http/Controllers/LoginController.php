@@ -25,4 +25,18 @@ class LoginController extends Controller
 
         abort(422, "Authentication failed");
     }
+
+    /**
+     * Log the user out of the application.
+     */
+    public function logout(Request $request)
+    {
+        Auth::guard('web')->logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return ["message" => "Success", "new_token" => csrf_token()];
+    }
 }
