@@ -2,6 +2,9 @@
 import { Button, InputText, Password } from "primevue";
 import { reactive } from "vue";
 import { csrfToken, post } from "../api";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 
 const form = reactive({
     email: "",
@@ -12,6 +15,7 @@ async function submit() {
     const { data, response } = await post("/api/authenticate", form);
     if (response.ok) {
         csrfToken.value = data.new_token;
+        router.push("/");
     }
 }
 </script>
