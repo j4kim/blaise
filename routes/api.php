@@ -7,9 +7,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/authenticate', [LoginController::class, 'authenticate']);
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
-
-Route::get('/clients/{client}', [ClientController::class, 'show'])->name('clients.show');
-Route::get('/clients/search/{query}', [ClientController::class, 'search'])->name('clients.search');
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/user', fn(Request $request) => $request->user());
+    Route::get('/clients/{client}', [ClientController::class, 'show'])->name('clients.show');
+    Route::get('/clients/search/{query}', [ClientController::class, 'search'])->name('clients.search');
+});
