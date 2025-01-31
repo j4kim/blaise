@@ -10,7 +10,7 @@ class ClientController extends Controller
 {
     public function show(Client $client)
     {
-        return $client->load('lastVisits.sales');
+        return $client->append('title')->load('lastVisits.sales');
     }
 
     public function search(Request $request, string $query)
@@ -25,6 +25,9 @@ class ClientController extends Controller
                 }
             );
         }
-        return $qb->orderBy('updated_at', 'desc')->take(5)->get();
+        return $qb->orderBy('updated_at', 'desc')
+            ->select("id", "first_name", "last_name")
+            ->take(5)
+            ->get();
     }
 }

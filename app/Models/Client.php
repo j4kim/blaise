@@ -13,13 +13,6 @@ class Client extends Model
     use SoftDeletes;
     use HasFactory;
 
-    /**
-     * The accessors to append to the model's array form.
-     *
-     * @var array
-     */
-    protected $appends = ['title'];
-
     protected function title(): Attribute
     {
         return Attribute::make(
