@@ -10,8 +10,6 @@ class VisitController extends Controller
 {
     public function store(Client $client)
     {
-        return $client->visits()->forceCreate([
-            'visit_date' => now(),
-        ]);
+        return $client->visits()->create();
     }
 }
