@@ -21,13 +21,13 @@ const sidebar = useSidebarStore();
                 <RouterView />
             </Suspense>
         </div>
-        <footer v-if="!$route.meta.hideFooter" class="text-center p-3">
+        <footer v-if="!$route.meta.hideFooter" class="text-center p-3 text-sm">
             Administration
         </footer>
     </main>
     <aside
         v-if="sidebar.component"
-        class="bg-surface-100 dark:bg-surface-900 w-full sm:w-96 xl:w-1/3 shrink-0 border-l dark:border-surface-700"
+        class="bg-surface-100 dark:bg-surface-900 w-full sm:w-96 xl:w-1/3 shrink-0 border-l dark:border-surface-700 px-5 py-3 flex flex-col"
     >
         <component :is="sidebar.component"></component>
     </aside>

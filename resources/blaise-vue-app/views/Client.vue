@@ -23,11 +23,12 @@ watch(
     { immediate: true }
 );
 
+const showLastVisits = ref(true);
+
 async function createTicket() {
     sidebar.component = shallowRef(CurrentTicket);
+    showLastVisits.value = false;
 }
-
-const showLastVisits = ref(true);
 </script>
 
 <template>
