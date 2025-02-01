@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\VisitController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -12,4 +13,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [LoginController::class, 'logout']);
     Route::get('/clients/{client}', [ClientController::class, 'show'])->name('clients.show');
     Route::get('/clients/search/{query}', [ClientController::class, 'search'])->name('clients.search');
+    Route::post('/clients/{client}/visit', [VisitController::class, 'store'])->name('visits.store');
 });

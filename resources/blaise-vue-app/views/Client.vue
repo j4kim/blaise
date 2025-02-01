@@ -5,11 +5,13 @@ import LastVisits from "../components/LastVisits.vue";
 import { Button } from "primevue";
 import { useSidebarStore } from "../stores/sidebar";
 import { get } from "../api";
-import CurrentTicket from "./CurrentTicket.vue";
+import CurrentVisit from "./CurrentVisit.vue";
+import { useVisitStore } from "../stores/visit";
 
 const route = useRoute();
 
 const sidebar = useSidebarStore();
+const visit = useVisitStore();
 
 const state = reactive({
     client: {},
@@ -26,7 +28,8 @@ watch(
 const showLastVisits = ref(true);
 
 async function createTicket() {
-    sidebar.component = shallowRef(CurrentTicket);
+    await visit.create(state.client);
+    sidebar.component = shallowRef(CurrentVisit);
     showLastVisits.value = false;
 }
 </script>
