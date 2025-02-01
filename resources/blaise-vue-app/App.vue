@@ -26,7 +26,9 @@ const sidebar = useSidebarStore();
         </footer>
     </main>
     <aside
-        v-if="sidebar.open"
+        v-if="sidebar.component"
         class="bg-surface-100 dark:bg-surface-900 w-full sm:w-96 xl:w-1/3 shrink-0 border-l dark:border-surface-700"
-    ></aside>
+    >
+        <component :is="sidebar.component"></component>
+    </aside>
 </template>

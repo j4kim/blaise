@@ -1,10 +1,11 @@
 <script setup>
-import { reactive, ref, watch } from "vue";
+import { reactive, ref, shallowRef, watch } from "vue";
 import { useRoute } from "vue-router";
 import LastVisits from "../components/LastVisits.vue";
 import { Button } from "primevue";
 import { useSidebarStore } from "../stores/sidebar";
 import { get } from "../api";
+import CurrentTicket from "./CurrentTicket.vue";
 
 const route = useRoute();
 
@@ -22,6 +23,10 @@ watch(
     { immediate: true }
 );
 
+async function createTicket() {
+    sidebar.component = shallowRef(CurrentTicket);
+}
+
 const showLastVisits = ref(true);
 </script>
 
@@ -34,9 +39,10 @@ const showLastVisits = ref(true);
             </h2>
         </div>
         <Button
+            v-if="!sidebar.component"
             label="Nouveau ticket"
             icon="pi pi-plus"
-            @click="sidebar.open = !sidebar.open"
+            @click="createTicket"
             variant="outlined"
         ></Button>
     </div>
