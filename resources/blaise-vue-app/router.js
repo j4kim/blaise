@@ -1,7 +1,7 @@
 import { createWebHashHistory, createRouter } from "vue-router";
 
 import Home from "./views/Home.vue";
-import Logout from "./views/Logout.vue";
+import Admin from "./views/Admin.vue";
 import Client from "./views/Client.vue";
 import Login from "./views/Login.vue";
 
@@ -12,7 +12,7 @@ const routes = [
         component: Login,
         meta: { hideHeader: true, hideFooter: true },
     },
-    { path: "/logout", component: Logout },
+    { path: "/admin", component: Admin, meta: { hideFooter: true } },
     { path: "/clients/:id", component: Client },
 ];
 

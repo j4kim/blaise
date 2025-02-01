@@ -23,7 +23,12 @@ const sidebar = useSidebarStore();
             </Suspense>
         </div>
         <footer v-if="!$route.meta.hideFooter" class="text-center p-3 text-sm">
-            <Button variant="text" severity="secondary" size="small">
+            <Button
+                @click="$router.push('/admin')"
+                variant="text"
+                severity="secondary"
+                size="small"
+            >
                 Administration
             </Button>
         </footer>
