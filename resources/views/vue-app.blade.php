@@ -22,6 +22,6 @@
         @endif
     </head>
     <body>
-        <div id="app" class="min-h-dvh flex flex-col sm:flex-row dark:bg-surface-900"></div>
+        <div id="app"></div>
     </body>
 </html>
