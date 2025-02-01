@@ -7,6 +7,7 @@ import { useSidebarStore } from "../stores/sidebar";
 import { get } from "../api";
 import CurrentVisit from "./CurrentVisit.vue";
 import { useVisitStore } from "../stores/visit";
+import dayjs from "dayjs";
 
 const route = useRoute();
 
@@ -25,6 +26,7 @@ watch(
     { immediate: true }
 );
 
+const showDetails = ref(false);
 const showLastVisits = ref(true);
 
 async function createTicket() {
@@ -49,6 +51,48 @@ async function createTicket() {
             @click="createTicket"
             variant="outlined"
         ></Button>
+    </div>
+
+    <div class="mb-12">
+        <h5
+            class="mb-2 inline-block cursor-pointer hover:text-color"
+            @click="showDetails = !showDetails"
+            :class="{
+                'text-muted-color': !showDetails,
+            }"
+        >
+            <i
+                class="pi pi-angle-right transition"
+                :class="{ 'rotate-90': showDetails }"
+            ></i>
+            Coordonnées
+        </h5>
+        <div v-if="showDetails" class="grid sm:grid-cols-3 grid-cols-2 gap-4">
+            <dl>
+                <dt class="text-sm text-muted-color">Prénom</dt>
+                <dd>{{ state.client.first_name }}</dd>
+            </dl>
+            <dl>
+                <dt class="text-sm text-muted-color">Nom</dt>
+                <dd>{{ state.client.last_name }}</dd>
+            </dl>
+            <dl>
+                <dt class="text-sm text-muted-color">Date de création</dt>
+                <dd>
+                    {{ dayjs(state.client.created_at).format("DD.MM.YYYY") }}
+                </dd>
+            </dl>
+            <dl>
+                <dt class="text-sm text-muted-color">Ville</dt>
+                <dd>{{ state.client.npa }} {{ state.client.location }}</dd>
+            </dl>
+            <dl>
+                <dt class="text-sm text-muted-color">Téléphone</dt>
+                <dd>{{ state.client.tel_1 }}</dd>
+                <dd>{{ state.client.tel_2 }}</dd>
+                <dd>{{ state.client.tel_3 }}</dd>
+            </dl>
+        </div>
     </div>
 
     <div class="mb-12">
