@@ -67,7 +67,7 @@ async function createTicket() {
             ></i>
             Coordonnées
         </h5>
-        <div v-if="showDetails" class="grid sm:grid-cols-3 grid-cols-2 gap-4">
+        <div v-if="showDetails" class="grid lg:grid-cols-3 grid-cols-2 gap-4">
             <dl>
                 <dt class="text-sm text-muted-color">Prénom</dt>
                 <dd>{{ state.client.first_name }}</dd>
