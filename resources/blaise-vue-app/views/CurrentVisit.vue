@@ -11,5 +11,12 @@ const sidebar = useSidebarStore();
     <div class="grow"></div>
 
     <Button class="mb-3">Valider</Button>
-    <button @click="sidebar.component = null" class="text-sm">Annuler</button>
+    <Button
+        @click="sidebar.component = null"
+        variant="text"
+        severity="secondary"
+        size="small"
+    >
+        Annuler
+    </Button>
 </template>

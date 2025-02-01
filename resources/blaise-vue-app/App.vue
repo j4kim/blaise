@@ -1,4 +1,5 @@
 <script setup>
+import { Button } from "primevue";
 import ClientSearch from "./components/ClientSearch.vue";
 import { useSidebarStore } from "./stores/sidebar";
 
@@ -22,7 +23,9 @@ const sidebar = useSidebarStore();
             </Suspense>
         </div>
         <footer v-if="!$route.meta.hideFooter" class="text-center p-3 text-sm">
-            Administration
+            <Button variant="text" severity="secondary" size="small">
+                Administration
+            </Button>
         </footer>
     </main>
     <aside
