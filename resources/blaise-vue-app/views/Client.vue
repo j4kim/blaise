@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, watch } from "vue";
+import { reactive, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import LastVisits from "../components/LastVisits.vue";
 import { Button } from "primevue";
@@ -21,10 +21,12 @@ watch(
     },
     { immediate: true }
 );
+
+const showLastVisits = ref(true);
 </script>
 
 <template>
-    <div class="mb-8 flex justify-between items-end flex-wrap gap-3">
+    <div class="mt-2 mb-12 flex justify-between items-end flex-wrap gap-3">
         <div>
             <h5 class="mb-1">{{ state.client.title }}</h5>
             <h2 class="text-3xl font-extralight">
@@ -39,6 +41,23 @@ watch(
         ></Button>
     </div>
 
-    <h5 class="mb-2">Dernières visites</h5>
-    <LastVisits :visits="state.client.last_visits"></LastVisits>
+    <div class="mb-12">
+        <h5
+            class="mb-2 inline-block cursor-pointer hover:text-color"
+            @click="showLastVisits = !showLastVisits"
+            :class="{
+                'text-muted-color': !showLastVisits,
+            }"
+        >
+            <i
+                class="pi pi-angle-right transition"
+                :class="{ 'rotate-90': showLastVisits }"
+            ></i>
+            Dernières visites
+        </h5>
+        <LastVisits
+            v-if="showLastVisits"
+            :visits="state.client.last_visits"
+        ></LastVisits>
+    </div>
 </template>
