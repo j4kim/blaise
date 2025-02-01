@@ -20,6 +20,7 @@ watch(
     () => route.params.id,
     async (id) => {
         state.client = (await get(`/api/clients/${id}`)).data;
+        visit.current = state.client.currentVisit;
     },
     { immediate: true }
 );
