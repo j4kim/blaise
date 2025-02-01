@@ -7,7 +7,12 @@ const sidebar = useSidebarStore();
 </script>
 
 <template>
-    <div class="min-h-dvh flex flex-col sm:flex-row dark:bg-surface-900">
+    <div
+        class="min-h-dvh flex sm:flex-row dark:bg-surface-900"
+        :class="{
+            'flex-col': sidebar.component,
+        }"
+    >
         <main class="flex flex-col w-full overflow-auto">
             <header
                 v-if="!$route.meta.hideHeader"

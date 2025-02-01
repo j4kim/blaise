@@ -6,11 +6,11 @@ const sidebar = useSidebarStore();
 </script>
 
 <template>
-    <h2 class="text-3xl font-extralight">Ticket en cours</h2>
+    <h2 class="text-3xl font-extralight mb-3">Ticket en cours</h2>
 
     <div class="grow"></div>
 
-    <Button class="mb-3">Valider</Button>
+    <Button class="my-3">Valider</Button>
     <Button
         @click="sidebar.component = null"
         variant="text"
