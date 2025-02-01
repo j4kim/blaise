@@ -13,19 +13,6 @@ class Client extends Model
     use SoftDeletes;
     use HasFactory;
 
-    protected function title(): Attribute
-    {
-        return Attribute::make(
-            get: function ($value, array $attributes) {
-                return match ($attributes['gender']) {
-                    0 => 'Cliente',
-                    1 => 'Client',
-                    default => 'Client·e',
-                };
-            }
-        );
-    }
-
     public function visits(): HasMany
     {
         return $this->hasMany(Visit::class);
@@ -33,6 +20,20 @@ class Client extends Model
 
     public function lastVisits(): HasMany
     {
-        return $this->visits()->orderBy('visit_date', 'desc')->take(5);
+        return $this->visits()->whereNotNull('billed')->orderBy('visit_date', 'desc')->take(5);
+    }
+
+    public function getTitle(): string
+    {
+        return match ($this->gender) {
+            0 => 'Cliente',
+            1 => 'Client',
+            default => 'Client·e',
+        };
+    }
+
+    public function getCurrentVisit(): ?Visit
+    {
+        return $this->visits()->whereNull('billed')->first();
     }
 }

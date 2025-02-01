@@ -10,7 +10,12 @@ class ClientController extends Controller
 {
     public function show(Client $client)
     {
-        return $client->append('title')->load('lastVisits.sales');
+        $client->load('lastVisits.sales');
+        return [
+            ...$client->toArray(),
+            'title' => $client->getTitle(),
+            'currentVisit' => $client->getCurrentVisit(),
+        ];
     }
 
     public function search(Request $request, string $query)
