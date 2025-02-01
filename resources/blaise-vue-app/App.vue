@@ -1,16 +1,17 @@
 <script setup>
 import { Button } from "primevue";
 import ClientSearch from "./components/ClientSearch.vue";
-import { useSidebarStore } from "./stores/sidebar";
+import { useVisitStore } from "./stores/visit";
+import CurrentVisit from "./views/CurrentVisit.vue";
 
-const sidebar = useSidebarStore();
+const visit = useVisitStore();
 </script>
 
 <template>
     <div
         class="min-h-dvh flex sm:flex-row dark:bg-surface-900"
         :class="{
-            'flex-col': sidebar.component,
+            'flex-col': visit.current,
         }"
     >
         <main class="flex flex-col w-full overflow-auto">
@@ -32,7 +33,7 @@ const sidebar = useSidebarStore();
                 v-if="!$route.meta.hideFooter"
                 class="text-center p-3 text-sm sm:block"
                 :class="{
-                    hidden: sidebar.component,
+                    hidden: visit.current,
                 }"
             >
                 <Button
@@ -46,10 +47,10 @@ const sidebar = useSidebarStore();
             </footer>
         </main>
         <aside
-            v-if="sidebar.component"
+            v-if="visit.current"
             class="bg-surface-100 dark:bg-surface-900 w-full sm:w-96 xl:w-1/3 shrink-0 border-l dark:border-surface-700 px-5 py-3 flex flex-col"
         >
-            <component :is="sidebar.component"></component>
+            <CurrentVisit />
         </aside>
     </div>
 </template>

@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { post } from "../api";
+import { del, post } from "../api";
 
 export const useVisitStore = defineStore("visit", {
     state: () => ({
@@ -8,7 +8,11 @@ export const useVisitStore = defineStore("visit", {
 
     actions: {
         async create(client) {
-            this.current = (await post(`/api/clients/${client.id}/visit`)).data;
+            this.current = (await post(`/api/visits/${client.id}`)).data;
+        },
+        async deleteCurrent() {
+            await del(`/api/visits/${this.current.id}`);
+            this.current = null;
         },
     },
 });

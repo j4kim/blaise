@@ -12,4 +12,9 @@ class VisitController extends Controller
     {
         return $client->visits()->create();
     }
+
+    public function destroy(Visit $visit)
+    {
+        return $visit->delete();
+    }
 }

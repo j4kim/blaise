@@ -1,8 +1,8 @@
 <script setup>
 import { Button } from "primevue";
-import { useSidebarStore } from "../stores/sidebar";
+import { useVisitStore } from "../stores/visit";
 
-const sidebar = useSidebarStore();
+const visit = useVisitStore();
 </script>
 
 <template>
@@ -12,7 +12,7 @@ const sidebar = useSidebarStore();
 
     <Button class="my-3">Valider</Button>
     <Button
-        @click="sidebar.component = null"
+        @click="visit.deleteCurrent()"
         variant="text"
         severity="secondary"
         size="small"

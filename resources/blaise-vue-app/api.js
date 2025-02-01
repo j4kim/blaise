@@ -22,3 +22,7 @@ export const get = request;
 export async function post(uri, data) {
     return await request(uri, { body: JSON.stringify(data), method: "POST" });
 }
+
+export async function del(uri) {
+    return await request(uri, { method: "DELETE" });
+}
