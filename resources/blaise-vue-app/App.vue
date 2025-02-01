@@ -27,6 +27,6 @@ const sidebar = useSidebarStore();
     </main>
     <aside
         v-if="sidebar.open"
-        class="bg-surface-100 dark:bg-surface-900 w-96 shrink-0 border-l dark:border-surface-700"
+        class="bg-surface-100 dark:bg-surface-900 w-full sm:w-96 xl:w-1/3 shrink-0 border-l dark:border-surface-700"
     ></aside>
 </template>
