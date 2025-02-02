@@ -19,9 +19,13 @@ const category = computed(() =>
         <div class="flex gap-3 flex-col">
             <Button
                 v-for="service in category.services"
-                :label="service.label"
                 severity="secondary"
-            />
+                class="!justify-between"
+                size="large"
+            >
+                <div>{{ service.label }}</div>
+                <div>CHF {{ service.price }}</div>
+            </Button>
         </div>
         <Button
             @click="$router.replace(`/clients/${$route.params.id}`)"
