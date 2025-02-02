@@ -15,6 +15,11 @@ const saleables = useSaleablesStore();
             <Button
                 v-for="cat in saleables.serviceCategories"
                 :label="cat.label"
+                @click="
+                    $router.replace(
+                        `/clients/${$route.params.id}/services/${cat.id}`
+                    )
+                "
                 class="h-16 md:h-24"
                 severity="secondary"
             />
