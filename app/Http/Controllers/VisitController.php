@@ -31,10 +31,6 @@ class VisitController extends Controller
             'service_id' => $service->id,
             'label' => $service->label,
         ]);
-        $visit->load('sales');
-        return [
-            ...$visit->toArray(),
-            'total' => $visit->getTotal(),
-        ];
+        return $visit->load('sales')->append('total');
     }
 }

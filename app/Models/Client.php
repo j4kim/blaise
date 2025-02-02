@@ -34,8 +34,6 @@ class Client extends Model
 
     public function getCurrentVisit(): ?Visit
     {
-        $visit = $this->visits()->with('sales')->whereNull('billed')->first();
-        $visit->total = $visit->getTotal();
-        return $visit;
+        return $this->visits()->with('sales')->whereNull('billed')->first()?->append('total');
     }
 }
