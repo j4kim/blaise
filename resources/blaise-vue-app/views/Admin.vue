@@ -22,20 +22,15 @@ async function submit() {
 </script>
 
 <template>
-    <div class="h-full flex flex-col justify-center gap-12 items-center">
-        <form
-            class="flex flex-col gap-4 w-full sm:w-64"
-            @submit.prevent="submit"
-        >
-            <p>
-                Vous êtes connecté·e en tant que {{ user.name }} (
-                {{ user.email }} )
-            </p>
-            <Button
-                type="submit"
-                severity="secondary"
-                label="Se déconnecter"
-            ></Button>
-        </form>
-    </div>
+    <form @submit.prevent="submit">
+        <p>
+            Vous êtes connecté·e en tant que {{ user.name }} (
+            {{ user.email }} )
+        </p>
+        <Button
+            type="submit"
+            severity="secondary"
+            label="Se déconnecter"
+        ></Button>
+    </form>
 </template>
