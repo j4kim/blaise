@@ -8,7 +8,7 @@ const visit = useVisitStore();
 
 <template>
     <aside
-        class="bg-surface-100 dark:bg-surface-900 w-full md:w-96 xl:w-1/3 shrink-0 border-l dark:border-surface-700 px-5 py-3 flex flex-col gap-4"
+        class="bg-surface-100 dark:bg-surface-900 w-full md:w-96 xl:w-1/3 shrink-0 border-t md:border-l md:border-t-0 dark:border-surface-700 px-5 py-3 flex flex-col gap-4"
     >
         <div>
             <h2 class="text-3xl font-extralight mb-1">Ticket en cours</h2>

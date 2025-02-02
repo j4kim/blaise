@@ -105,5 +105,5 @@ onBeforeRouteLeave(() => (visit.current = null));
         ></LastVisits>
     </div>
 
-    <Saleables v-if="visit.current" class="mb-12"></Saleables>
+    <Saleables v-if="visit.current" class="mb-6 md:mb-12"></Saleables>
 </template>
