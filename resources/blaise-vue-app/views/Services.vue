@@ -1,7 +1,7 @@
 <script setup>
 import { Button } from "primevue";
 import { useSaleablesStore } from "../stores/saleables";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { computed } from "vue";
 import { useVisitStore } from "../stores/visit";
 
@@ -9,10 +9,16 @@ const saleables = useSaleablesStore();
 const visit = useVisitStore();
 
 const route = useRoute();
+const router = useRouter();
 
 const category = computed(() =>
     saleables.serviceCategories.find((c) => c.id == route.params.catId)
 );
+
+async function add(service) {
+    await visit.addService(service);
+    router.replace(`/clients/${route.params.id}`);
+}
 </script>
 
 <template>
@@ -21,7 +27,7 @@ const category = computed(() =>
         <div class="flex gap-3 flex-col">
             <Button
                 v-for="service in category.services"
-                @click="visit.addService(service)"
+                @click="add(service)"
                 severity="secondary"
                 class="!justify-between"
                 size="large"
