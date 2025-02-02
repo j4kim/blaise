@@ -26,5 +26,12 @@ export const useVisitStore = defineStore("visit", {
             if (!response.ok) return;
             this.current = null;
         },
+        async addService(service) {
+            const { response, data } = await post(
+                `/api/visits/${this.current.id}/services/${service.id}`
+            );
+            if (!response.ok) return;
+            this.current = data;
+        },
     },
 });

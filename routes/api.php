@@ -17,6 +17,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/clients/search/{query}', [ClientController::class, 'search'])->name('clients.search');
     Route::post('/visits/{client}', [VisitController::class, 'store'])->name('visits.store');
     Route::delete('/visits/{visit}', [VisitController::class, 'destroy'])->name('visits.destroy');
+    Route::post('visits/{visit}/services/{service}', [VisitController::class, 'addService'])->name('visits.addService');
     Route::get('/articles', [ArticleController::class, 'index'])->name('articles.index');
     Route::get('/services', [ServiceController::class, 'index'])->name('services.index');
 });

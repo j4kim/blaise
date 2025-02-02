@@ -3,8 +3,10 @@ import { Button } from "primevue";
 import { useSaleablesStore } from "../stores/saleables";
 import { useRoute } from "vue-router";
 import { computed } from "vue";
+import { useVisitStore } from "../stores/visit";
 
 const saleables = useSaleablesStore();
+const visit = useVisitStore();
 
 const route = useRoute();
 
@@ -19,6 +21,7 @@ const category = computed(() =>
         <div class="flex gap-3 flex-col">
             <Button
                 v-for="service in category.services"
+                @click="visit.addService(service)"
                 severity="secondary"
                 class="!justify-between"
                 size="large"

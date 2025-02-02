@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
+use App\Models\Service;
 use App\Models\Visit;
 use Illuminate\Http\Request;
 
@@ -18,5 +19,17 @@ class VisitController extends Controller
     public function destroy(Visit $visit)
     {
         return $visit->delete();
+    }
+
+    public function addService(Visit $visit, Service $service)
+    {
+        $visit->sales()->forceCreate([
+            'base_price' => $service->price,
+            'price_charged' => $service->price,
+            'quantity' => 1,
+            'type' => 'service',
+            'label' => $service->label,
+        ]);
+        return $visit->load('sales');
     }
 }
