@@ -20,7 +20,15 @@ const visit = useVisitStore();
 
         <div class="grow"></div>
 
-        <div class="flex gap-2 justify-end">
+        <div class="flex gap-2 justify-end flex-wrap">
+            <Button
+                label="Notes"
+                type="button"
+                size="small"
+                icon="pi pi-plus"
+                severity="secondary"
+                variant="outlined"
+            />
             <Button
                 label="Remise"
                 type="button"
