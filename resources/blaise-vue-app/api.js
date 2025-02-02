@@ -5,16 +5,20 @@ export const csrfToken = ref(
 );
 
 export async function request(uri, options = {}) {
-    const response = await fetch(uri, {
-        headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            "X-CSRF-TOKEN": csrfToken.value,
-        },
-        ...options,
-    });
-    const data = await response.json();
-    return { data, response };
+    try {
+        const response = await fetch(uri, {
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": csrfToken.value,
+            },
+            ...options,
+        });
+        const data = await response.json();
+        return { data, response };
+    } catch (error) {
+        alert(error);
+    }
 }
 
 export const get = request;
