@@ -28,6 +28,7 @@ class VisitController extends Controller
             'price_charged' => $service->price,
             'quantity' => 1,
             'type' => 'service',
+            'service_id' => $service->id,
             'label' => $service->label,
         ]);
         return $visit->load('sales');
