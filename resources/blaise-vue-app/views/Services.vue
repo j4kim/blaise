@@ -23,5 +23,13 @@ const category = computed(() =>
                 severity="secondary"
             />
         </div>
+        <Button
+            @click="$router.replace(`/clients/${$route.params.id}`)"
+            label="Retour"
+            severity="secondary"
+            variant="outlined"
+            icon="pi pi-arrow-left"
+            class="my-3"
+        />
     </div>
 </template>
