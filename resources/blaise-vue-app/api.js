@@ -1,10 +1,14 @@
 import { ref } from "vue";
+import router from "./router";
+
+console.log(router);
 
 export const csrfToken = ref(document.body.dataset.csrf);
 
 export async function request(uri, options = {}) {
+    var response = null;
     try {
-        const response = await fetch(uri, {
+        response = await fetch(uri, {
             headers: {
                 Accept: "application/json",
                 "Content-Type": "application/json",
@@ -12,11 +16,20 @@ export async function request(uri, options = {}) {
             },
             ...options,
         });
-        const data = await response.json();
-        return { data, response };
     } catch (error) {
         alert(error);
+        return;
     }
+
+    const data = await response.json();
+
+    if (response.status === 401) {
+        if (confirm("Vous êtes déconnecté, aller à la page de login ?")) {
+            router.push("/login");
+        }
+    }
+
+    return { data, response };
 }
 
 export const get = request;

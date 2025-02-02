@@ -9,7 +9,9 @@ export const useVisitStore = defineStore("visit", {
 
     actions: {
         async fetchClient(id) {
-            this.client = (await get(`/api/clients/${id}`)).data;
+            const { data, response } = await get(`/api/clients/${id}`);
+            if (!response.ok) return;
+            this.client = data;
             this.current = this.client.currentVisit;
         },
         async create() {
