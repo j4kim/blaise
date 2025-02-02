@@ -29,11 +29,10 @@ async function add(service) {
                 v-for="service in category.services"
                 @click="add(service)"
                 severity="secondary"
-                class="!justify-between"
                 size="large"
             >
-                <div>{{ service.label }}</div>
-                <div>CHF {{ service.price }}</div>
+                <div class="grow text-left">{{ service.label }}</div>
+                <div>CHF&nbsp;{{ service.price }}</div>
             </Button>
         </div>
         <Button
