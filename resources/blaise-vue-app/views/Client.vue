@@ -5,6 +5,7 @@ import LastVisits from "../components/LastVisits.vue";
 import { Button } from "primevue";
 import { useVisitStore } from "../stores/visit";
 import dayjs from "dayjs";
+import Saleables from "../components/Saleables.vue";
 
 const route = useRoute();
 
@@ -103,4 +104,6 @@ onBeforeRouteLeave(() => (visit.current = null));
             :visits="visit.client.last_visits"
         ></LastVisits>
     </div>
+
+    <Saleables v-if="visit.current" class="mb-12"></Saleables>
 </template>
