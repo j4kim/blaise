@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\VisitController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -15,4 +17,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/clients/search/{query}', [ClientController::class, 'search'])->name('clients.search');
     Route::post('/visits/{client}', [VisitController::class, 'store'])->name('visits.store');
     Route::delete('/visits/{visit}', [VisitController::class, 'destroy'])->name('visits.destroy');
+    Route::get('/articles', [ArticleController::class, 'index'])->name('articles.index');
+    Route::get('/services', [ServiceController::class, 'index'])->name('services.index');
 });
