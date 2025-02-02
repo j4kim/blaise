@@ -3,7 +3,6 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <title>blaise</title>
 
@@ -21,7 +20,7 @@
             @vite('resources/blaise-vue-app/app.js')
         @endif
     </head>
-    <body>
+    <body data-csrf="{{ csrf_token() }}" data-user="{{ auth()->id() }}">
         <div id="app"></div>
     </body>
 </html>

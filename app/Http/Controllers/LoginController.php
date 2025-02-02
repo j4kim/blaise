@@ -4,22 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 
 class LoginController extends Controller
 {
-    public function hi(Request $request)
-    {
-        $userId = Auth::id();
-        Log::channel('visits')->info($userId, [
-            'ip' => $request->ip(),
-            'user-agent' => $request->header('user-agent'),
-            'sec-ch-ua-platform' => $request->header('sec-ch-ua-platform'),
-            'sec-ch-ua' => $request->header('sec-ch-ua'),
-        ]);
-        return ['authenticated' => $userId];
-    }
-
     /**
      * Handle an authentication attempt.
      */

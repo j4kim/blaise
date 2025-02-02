@@ -6,7 +6,6 @@ use App\Http\Controllers\VisitController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/hi', [LoginController::class, 'hi']);
 Route::post('/authenticate', [LoginController::class, 'authenticate']);
 
 Route::middleware('auth:sanctum')->group(function () {

@@ -1,8 +1,6 @@
 import { ref } from "vue";
 
-export const csrfToken = ref(
-    document.querySelector('meta[name="csrf-token"]').getAttribute("content")
-);
+export const csrfToken = ref(document.body.dataset.csrf);
 
 export async function request(uri, options = {}) {
     try {

@@ -24,8 +24,6 @@ app.use(pinia);
 
 app.mount("#app");
 
-const { data } = await get("/api/hi");
-
-if (!data.authenticated) {
+if (!document.body.dataset.user) {
     router.push("/login");
 }
