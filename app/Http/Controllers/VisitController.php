@@ -10,7 +10,7 @@ class VisitController extends Controller
 {
     public function store(Client $client)
     {
-        return $client->visits()->create();
+        return $client->visits()->create()->fresh();
     }
 
     public function destroy(Visit $visit)
