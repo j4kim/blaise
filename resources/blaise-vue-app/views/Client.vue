@@ -1,9 +1,8 @@
 <script setup>
-import { reactive, ref, watch } from "vue";
+import { ref, watch } from "vue";
 import { onBeforeRouteLeave, useRoute } from "vue-router";
 import LastVisits from "../components/LastVisits.vue";
 import { Button } from "primevue";
-import { get } from "../api";
 import { useVisitStore } from "../stores/visit";
 import dayjs from "dayjs";
 
@@ -11,15 +10,10 @@ const route = useRoute();
 
 const visit = useVisitStore();
 
-const state = reactive({
-    client: {},
-});
-
 watch(
     () => route.params.id,
     async (id) => {
-        state.client = (await get(`/api/clients/${id}`)).data;
-        visit.current = state.client.currentVisit;
+        await visit.fetchClient(id);
     },
     { immediate: true }
 );
@@ -28,19 +22,19 @@ const showDetails = ref(false);
 const showLastVisits = ref(true);
 
 async function createTicket() {
-    await visit.create(state.client);
+    await visit.create();
     showLastVisits.value = false;
 }
 
 onBeforeRouteLeave(() => (visit.current = null));
 </script>
 
-<template>
+<template v-if="visit.client">
     <div class="mt-2 mb-12 flex justify-between items-end flex-wrap gap-3">
         <div>
-            <h5 class="mb-1">{{ state.client.title }}</h5>
+            <h5 class="mb-1">{{ visit.client.title }}</h5>
             <h2 class="text-3xl font-extralight">
-                {{ state.client.first_name }} {{ state.client.last_name }}
+                {{ visit.client.first_name }} {{ visit.client.last_name }}
             </h2>
         </div>
         <Button
@@ -69,27 +63,27 @@ onBeforeRouteLeave(() => (visit.current = null));
         <div v-if="showDetails" class="grid lg:grid-cols-3 grid-cols-2 gap-4">
             <dl>
                 <dt class="text-sm text-muted-color">Prénom</dt>
-                <dd>{{ state.client.first_name }}</dd>
+                <dd>{{ visit.client.first_name }}</dd>
             </dl>
             <dl>
                 <dt class="text-sm text-muted-color">Nom</dt>
-                <dd>{{ state.client.last_name }}</dd>
+                <dd>{{ visit.client.last_name }}</dd>
             </dl>
             <dl>
                 <dt class="text-sm text-muted-color">Date de création</dt>
                 <dd>
-                    {{ dayjs(state.client.created_at).format("DD.MM.YYYY") }}
+                    {{ dayjs(visit.client.created_at).format("DD.MM.YYYY") }}
                 </dd>
             </dl>
             <dl>
                 <dt class="text-sm text-muted-color">Ville</dt>
-                <dd>{{ state.client.npa }} {{ state.client.location }}</dd>
+                <dd>{{ visit.client.npa }} {{ visit.client.location }}</dd>
             </dl>
             <dl>
                 <dt class="text-sm text-muted-color">Téléphone</dt>
-                <dd>{{ state.client.tel_1 }}</dd>
-                <dd>{{ state.client.tel_2 }}</dd>
-                <dd>{{ state.client.tel_3 }}</dd>
+                <dd>{{ visit.client.tel_1 }}</dd>
+                <dd>{{ visit.client.tel_2 }}</dd>
+                <dd>{{ visit.client.tel_3 }}</dd>
             </dl>
         </div>
     </div>
@@ -110,7 +104,7 @@ onBeforeRouteLeave(() => (visit.current = null));
         </h5>
         <LastVisits
             v-if="showLastVisits"
-            :visits="state.client.last_visits"
+            :visits="visit.client.last_visits"
         ></LastVisits>
     </div>
 </template>
