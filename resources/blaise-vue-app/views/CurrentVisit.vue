@@ -25,7 +25,7 @@ const visit = useVisitStore();
                 label="Notes"
                 type="button"
                 size="small"
-                icon="pi pi-plus"
+                icon="pi pi-comment"
                 severity="secondary"
                 variant="outlined"
             />
@@ -33,7 +33,7 @@ const visit = useVisitStore();
                 label="Remise"
                 type="button"
                 size="small"
-                icon="pi pi-plus"
+                icon="pi pi-percentage"
                 severity="secondary"
                 variant="outlined"
             />
@@ -41,7 +41,7 @@ const visit = useVisitStore();
                 label="Bon cadeau"
                 type="button"
                 size="small"
-                icon="pi pi-plus"
+                icon="pi pi-gift"
                 severity="secondary"
                 variant="outlined"
             />
