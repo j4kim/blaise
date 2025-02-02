@@ -70,7 +70,7 @@ function clear() {
                 :class="[
                     'cursor-pointer hover:!bg-highlight',
                     {
-                        '!bg-primary': store.selected === index,
+                        '!bg-primary !text-white': store.selected === index,
                     },
                 ]"
             >
