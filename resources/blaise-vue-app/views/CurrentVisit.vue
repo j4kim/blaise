@@ -8,7 +8,7 @@ const visit = useVisitStore();
 
 <template>
     <aside
-        class="bg-surface-100 dark:bg-surface-900 w-full md:w-96 xl:w-1/3 shrink-0 border-t md:border-l md:border-t-0 dark:border-surface-700 px-5 py-3 flex flex-col gap-4"
+        class="bg-surface-100 dark:bg-surface-900 w-full md:w-96 xl:w-1/3 shrink-0 border-t md:border-l md:border-t-0 dark:border-surface-700 px-5 py-3 flex flex-col gap-5"
     >
         <div>
             <h2 class="text-3xl font-extralight mb-1">Ticket en cours</h2>
@@ -16,6 +16,14 @@ const visit = useVisitStore();
                 Visite du
                 {{ dayjs(visit.current.visit_date).format("DD.MM.YYYY HH:mm") }}
             </h5>
+        </div>
+
+        <div
+            v-for="sale in visit.current.sales"
+            class="flex justify-between text-xl items-center"
+        >
+            <div>{{ sale.label }}</div>
+            <div>CHF&nbsp;{{ sale.price_charged }}</div>
         </div>
 
         <div class="grow"></div>
