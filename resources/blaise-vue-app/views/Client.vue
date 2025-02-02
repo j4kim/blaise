@@ -26,7 +26,11 @@ async function createTicket() {
 
 await visit.fetchClient(route.params.id);
 
-onBeforeRouteUpdate((to) => visit.fetchClient(to.params.id));
+onBeforeRouteUpdate((to, from) => {
+    if (to.params.id !== from.params.id) {
+        visit.fetchClient(to.params.id);
+    }
+});
 
 onBeforeRouteLeave(() => (visit.current = null));
 </script>
