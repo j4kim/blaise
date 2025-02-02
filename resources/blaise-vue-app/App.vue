@@ -9,7 +9,7 @@ const visit = useVisitStore();
 
 <template>
     <div
-        class="min-h-dvh flex sm:flex-row dark:bg-surface-900"
+        class="min-h-dvh flex md:flex-row dark:bg-surface-900"
         :class="{
             'flex-col': visit.current,
         }"
@@ -31,7 +31,7 @@ const visit = useVisitStore();
             </div>
             <footer
                 v-if="!$route.meta.hideFooter"
-                class="text-center p-3 text-sm sm:block"
+                class="text-center p-3 text-sm md:block"
                 :class="{
                     hidden: visit.current,
                 }"
@@ -48,7 +48,7 @@ const visit = useVisitStore();
         </main>
         <aside
             v-if="visit.current"
-            class="bg-surface-100 dark:bg-surface-900 w-full sm:w-96 xl:w-1/3 shrink-0 border-l dark:border-surface-700 px-5 py-3 flex flex-col"
+            class="bg-surface-100 dark:bg-surface-900 w-full md:w-96 xl:w-1/3 shrink-0 border-l dark:border-surface-700 px-5 py-3 flex flex-col"
         >
             <CurrentVisit />
         </aside>
