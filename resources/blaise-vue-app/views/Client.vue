@@ -1,10 +1,9 @@
 <script setup>
-import { reactive, ref, shallowRef, watch } from "vue";
-import { useRoute } from "vue-router";
+import { reactive, ref, watch } from "vue";
+import { onBeforeRouteLeave, useRoute } from "vue-router";
 import LastVisits from "../components/LastVisits.vue";
 import { Button } from "primevue";
 import { get } from "../api";
-import CurrentVisit from "./CurrentVisit.vue";
 import { useVisitStore } from "../stores/visit";
 import dayjs from "dayjs";
 
@@ -32,6 +31,8 @@ async function createTicket() {
     await visit.create(state.client);
     showLastVisits.value = false;
 }
+
+onBeforeRouteLeave(() => (visit.current = null));
 </script>
 
 <template>
