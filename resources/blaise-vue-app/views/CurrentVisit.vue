@@ -55,12 +55,12 @@ const visit = useVisitStore();
             />
         </div>
 
-        <div class="flex justify-between text-2xl">
+        <div class="flex justify-between text-3xl">
             <div>Total</div>
             <div>CHF 0</div>
         </div>
 
-        <Button>Valider</Button>
+        <Button size="large">Valider</Button>
         <Button
             @click="visit.deleteCurrent()"
             variant="text"
