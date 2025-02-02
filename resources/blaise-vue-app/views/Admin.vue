@@ -24,7 +24,7 @@ async function submit() {
 <template>
     <div class="h-full flex flex-col justify-center gap-12 items-center">
         <form
-            class="flex flex-col gap-4 w-full md:w-64"
+            class="flex flex-col gap-4 w-full sm:w-64"
             @submit.prevent="submit"
         >
             <p>

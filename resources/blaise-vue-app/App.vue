@@ -24,7 +24,7 @@ const visit = useVisitStore();
                 </RouterLink>
                 <ClientSearch size="small" class="w-52" />
             </header>
-            <div class="md:max-w-screen-md md:mx-auto px-2 py-4 h-full w-full">
+            <div class="sm:max-w-screen-md sm:mx-auto px-2 py-4 h-full w-full">
                 <Suspense>
                     <RouterView />
                 </Suspense>
