@@ -11,4 +11,9 @@ class Visit extends Model
     {
         return $this->hasMany(Sale::class);
     }
+
+    public function getTotal(): float
+    {
+        return $this->sales->sum('price_charged');
+    }
 }

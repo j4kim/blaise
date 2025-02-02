@@ -20,7 +20,7 @@ const visit = useVisitStore();
 
         <div
             v-for="sale in visit.current.sales"
-            class="flex justify-between text-xl items-center"
+            class="flex justify-between text-xl items-center gap-2"
         >
             <div>{{ sale.label }}</div>
             <div>CHF&nbsp;{{ sale.price_charged }}</div>
@@ -57,7 +57,7 @@ const visit = useVisitStore();
 
         <div class="flex justify-between text-3xl">
             <div>Total</div>
-            <div>CHF 0</div>
+            <div>CHF {{ visit.current.total }}</div>
         </div>
 
         <Button size="large">Valider</Button>
