@@ -1,11 +1,15 @@
 <script setup>
 import { ref } from "vue";
-import { onBeforeRouteLeave, onBeforeRouteUpdate, useRoute } from "vue-router";
+import {
+    onBeforeRouteLeave,
+    onBeforeRouteUpdate,
+    RouterView,
+    useRoute,
+} from "vue-router";
 import LastVisits from "../components/LastVisits.vue";
 import { Button } from "primevue";
 import { useVisitStore } from "../stores/visit";
 import dayjs from "dayjs";
-import Saleables from "../components/Saleables.vue";
 
 const route = useRoute();
 
@@ -106,5 +110,5 @@ onBeforeRouteLeave(() => (visit.current = null));
         ></LastVisits>
     </div>
 
-    <Saleables v-if="visit.current" class="mb-6 md:mb-12"></Saleables>
+    <RouterView class="mb-6 md:mb-12" v-if="visit.current" />
 </template>

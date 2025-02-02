@@ -4,6 +4,7 @@ import Home from "./views/Home.vue";
 import Admin from "./views/Admin.vue";
 import Client from "./views/Client.vue";
 import Login from "./views/Login.vue";
+import Saleables from "./views/Saleables.vue";
 
 const routes = [
     { path: "/", component: Home, meta: { hideHeader: true } },
@@ -13,7 +14,16 @@ const routes = [
         meta: { hideHeader: true, hideFooter: true },
     },
     { path: "/admin", component: Admin, meta: { hideFooter: true } },
-    { path: "/clients/:id", component: Client },
+    {
+        path: "/clients/:id",
+        component: Client,
+        children: [
+            {
+                path: "",
+                component: Saleables,
+            },
+        ],
+    },
 ];
 
 const router = createRouter({
