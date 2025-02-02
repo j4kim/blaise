@@ -9,7 +9,7 @@ const visit = useVisitStore();
 
 <template>
     <div
-        class="min-h-dvh flex md:flex-row dark:bg-surface-900"
+        class="min-h-dvh md:h-dvh flex md:flex-row dark:bg-surface-900"
         :class="{
             'flex-col': visit.current,
         }"
@@ -24,10 +24,12 @@ const visit = useVisitStore();
                 </RouterLink>
                 <ClientSearch size="small" class="w-52" />
             </header>
-            <div class="sm:max-w-screen-md sm:mx-auto px-2 py-4 h-full w-full">
-                <Suspense>
-                    <RouterView />
-                </Suspense>
+            <div class="h-full w-full overflow-auto">
+                <div class="sm:max-w-screen-md sm:mx-auto px-2 py-4 h-full">
+                    <Suspense>
+                        <RouterView />
+                    </Suspense>
+                </div>
             </div>
             <footer
                 v-if="!$route.meta.hideFooter"

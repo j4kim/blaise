@@ -1,17 +1,17 @@
 import { defineStore } from "pinia";
-import { get, del, post } from "../api";
+import { get } from "../api";
 
 export const useSaleablesStore = defineStore("saleables", {
     state: () => ({
         articles: [],
-        servicecategories: [],
+        serviceCategories: [],
     }),
 
     actions: {
         async fetchServices() {
             const { data, response } = await get("/api/services");
             if (response.ok) {
-                this.servicecategories = data;
+                this.serviceCategories = data;
             }
         },
         async fetchArticles() {

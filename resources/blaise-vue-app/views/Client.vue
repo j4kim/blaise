@@ -16,6 +16,7 @@ const showLastVisits = ref(true);
 
 async function createTicket() {
     await visit.create();
+    showDetails.value = false;
     showLastVisits.value = false;
 }
 

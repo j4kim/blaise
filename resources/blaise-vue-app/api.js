@@ -1,8 +1,6 @@
 import { ref } from "vue";
 import router from "./router";
 
-console.log(router);
-
 export const csrfToken = ref(document.body.dataset.csrf);
 
 export async function request(uri, options = {}) {
