@@ -27,7 +27,6 @@ function to(client) {
 const input = useTemplateRef("input");
 
 onMounted(async () => {
-    store.selected = 0;
     if (props.autofocus) {
         await nextTick();
         input.value.$el.focus();
