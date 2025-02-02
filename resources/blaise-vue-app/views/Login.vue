@@ -1,6 +1,6 @@
 <script setup>
-import { Button, InputText, Password } from "primevue";
-import { reactive } from "vue";
+import { Button, InputText, Message, Password } from "primevue";
+import { reactive, ref } from "vue";
 import { csrfToken, post } from "../api";
 import { useRouter } from "vue-router";
 
@@ -11,20 +11,28 @@ const form = reactive({
     password: "",
 });
 
+const error = ref("");
+
 async function submit() {
+    error.value = "";
     const { data, response } = await post("/api/authenticate", form);
     if (response.ok) {
         csrfToken.value = data.new_token;
         router.push("/");
+    } else if (response.status === 422) {
+        error.value = "Authentification échouée";
+    } else {
+        error.value = data.message ?? response.statusText;
     }
 }
 </script>
 
 <template>
-    <div class="h-full flex flex-col justify-center gap-12 items-center">
+    <div class="sm:h-1/3"></div>
+    <div class="flex flex-col justify-center gap-12 items-center">
         <h1 class="text-4xl">blaise</h1>
         <form
-            class="flex flex-col gap-4 w-full md:w-64"
+            class="flex flex-col gap-4 w-full sm:w-64"
             @submit.prevent="submit"
         >
             <InputText
@@ -46,6 +54,9 @@ async function submit() {
                 severity="secondary"
                 label="Se connecter"
             ></Button>
+            <Message v-if="error" severity="error" :life="3000">
+                {{ error }}
+            </Message>
         </form>
     </div>
 </template>
