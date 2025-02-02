@@ -1,6 +1,6 @@
 <script setup>
-import { ref, watch } from "vue";
-import { onBeforeRouteLeave, useRoute } from "vue-router";
+import { ref } from "vue";
+import { onBeforeRouteLeave, onBeforeRouteUpdate, useRoute } from "vue-router";
 import LastVisits from "../components/LastVisits.vue";
 import { Button } from "primevue";
 import { useVisitStore } from "../stores/visit";
@@ -10,14 +10,6 @@ const route = useRoute();
 
 const visit = useVisitStore();
 
-watch(
-    () => route.params.id,
-    async (id) => {
-        await visit.fetchClient(id);
-    },
-    { immediate: true }
-);
-
 const showDetails = ref(false);
 const showLastVisits = ref(true);
 
@@ -25,6 +17,10 @@ async function createTicket() {
     await visit.create();
     showLastVisits.value = false;
 }
+
+await visit.fetchClient(route.params.id);
+
+onBeforeRouteUpdate((to) => visit.fetchClient(to.params.id));
 
 onBeforeRouteLeave(() => (visit.current = null));
 </script>
