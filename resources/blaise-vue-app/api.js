@@ -27,6 +27,10 @@ export async function request(uri, options = {}) {
         if (confirm("Vous êtes déconnecté, aller à la page de login ?")) {
             router.push("/login");
         }
+    } else if (response.status === 419) {
+        if (confirm(`Erreur interne (${data.message}) Recharger la page ?`)) {
+            location.reload();
+        }
     }
 
     return { data, response };

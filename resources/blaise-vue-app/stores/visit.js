@@ -15,10 +15,15 @@ export const useVisitStore = defineStore("visit", {
             this.current = this.client.currentVisit;
         },
         async create() {
-            this.current = (await post(`/api/visits/${this.client.id}`)).data;
+            const { data, response } = await post(
+                `/api/visits/${this.client.id}`
+            );
+            if (!response.ok) return;
+            this.current = data;
         },
         async deleteCurrent() {
-            await del(`/api/visits/${this.current.id}`);
+            const { response } = await del(`/api/visits/${this.current.id}`);
+            if (!response.ok) return;
             this.current = null;
         },
     },
