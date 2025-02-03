@@ -5,6 +5,17 @@ import dayjs from "dayjs";
 
 const visit = useVisitStore();
 
+async function validate() {
+    if (
+        visit.current.sales?.length ||
+        confirm(
+            "Ce ticket n'a pas de vente associée, voulez-vous vraiment le valider ?"
+        )
+    ) {
+        await visit.validateCurrent();
+    }
+}
+
 async function del() {
     if (
         !visit.current.sales?.length ||
@@ -71,7 +82,7 @@ async function del() {
             <div>CHF {{ visit.current.total ?? 0 }}</div>
         </div>
 
-        <Button @click="visit.validateCurrent" size="large">Valider</Button>
+        <Button @click="validate" size="large">Valider</Button>
         <Button @click="del" variant="text" severity="secondary" size="small">
             Annuler
         </Button>
