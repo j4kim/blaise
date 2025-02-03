@@ -20,6 +20,7 @@ class VisitController extends Controller
     {
         $visit->billed = $visit->total;
         $visit->save();
+        $visit->client()->touch();
         return $visit;
     }
 
