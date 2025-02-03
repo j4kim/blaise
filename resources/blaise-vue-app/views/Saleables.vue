@@ -12,7 +12,10 @@ const saleables = useSaleablesStore();
             class="grid gap-3 grid-cols-2 sm:grid-cols-4 md:grid-cols-2 lg:grid-cols-4"
         >
             <Button
-                label="Vente"
+                label="Article"
+                @click="
+                    $router.replace(`/clients/${$route.params.id}/articles/`)
+                "
                 class="h-16 md:h-24"
                 severity="secondary"
                 size="large"
