@@ -57,7 +57,7 @@ async function del() {
                 variant="outlined"
             />
             <Button
-                label="Bon cadeau"
+                label="Paiement par bon"
                 type="button"
                 size="small"
                 icon="pi pi-gift"
@@ -68,7 +68,7 @@ async function del() {
 
         <div class="flex justify-between text-3xl">
             <div>Total</div>
-            <div>CHF {{ visit.current.total }}</div>
+            <div>CHF {{ visit.current.total ?? 0 }}</div>
         </div>
 
         <Button @click="visit.validateCurrent" size="large">Valider</Button>
