@@ -43,6 +43,7 @@ async function del() {
         <div class="overflow-y-auto -mx-5">
             <div
                 v-for="sale in visit.current.sales"
+                @click="visit.openSaleDialog(sale)"
                 class="flex justify-between text-xl items-center gap-2 cursor-pointer hover:bg-surface-200 dark:hover:bg-surface-800 px-5 py-3 rounded"
             >
                 <div>{{ sale.label }}</div>

@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import { get, del, post } from "../api";
+import { toRaw } from "vue";
 
 export const useVisitStore = defineStore("visit", {
     state: () => ({
@@ -7,6 +8,8 @@ export const useVisitStore = defineStore("visit", {
         client: {},
         showClientDetails: false,
         showClientLastVisits: false,
+        showSaleDialog: false,
+        selectedSale: null,
     }),
 
     actions: {
@@ -62,6 +65,10 @@ export const useVisitStore = defineStore("visit", {
             );
             if (!response.ok) return;
             this.current = data;
+        },
+        openSaleDialog(sale) {
+            this.selectedSale = structuredClone(toRaw(sale));
+            this.showSaleDialog = true;
         },
     },
 });
