@@ -8,6 +8,18 @@ export const useSaleablesStore = defineStore("saleables", {
     }),
 
     actions: {
+        prepareArticle(article) {
+            const parts = [
+                article.label,
+                article.brand?.name,
+                article.line?.name,
+            ];
+            article.searchText = parts
+                .filter((s) => s)
+                .map((s) => s.toLowerCase())
+                .join(" ");
+            return article;
+        },
         async fetchServices() {
             const { data, response } = await get("/api/services");
             if (response.ok) {
@@ -17,7 +29,7 @@ export const useSaleablesStore = defineStore("saleables", {
         async fetchArticles() {
             const { data, response } = await get("/api/articles");
             if (response.ok) {
-                this.articles = data;
+                this.articles = data.map((a) => this.prepareArticle(a));
             }
         },
     },

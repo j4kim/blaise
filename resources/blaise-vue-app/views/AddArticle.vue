@@ -1,9 +1,17 @@
 <script setup>
-import { Button, IconField, InputIcon, InputText, Message } from "primevue";
+import {
+    Button,
+    Column,
+    DataTable,
+    IconField,
+    InputIcon,
+    InputText,
+    Message,
+} from "primevue";
 import { useSaleablesStore } from "../stores/saleables";
 import { useRoute, useRouter } from "vue-router";
 import { useVisitStore } from "../stores/visit";
-import { reactive } from "vue";
+import { computed, reactive } from "vue";
 
 const saleables = useSaleablesStore();
 const visit = useVisitStore();
@@ -12,8 +20,16 @@ const router = useRouter();
 const route = useRoute();
 
 const state = reactive({
+    search: "",
     barcode: "",
     message: "",
+});
+
+const filtered = computed(() => {
+    const parts = state.search.split(" ");
+    return saleables.articles.filter((a) =>
+        parts.every((part) => a.searchText.includes(part))
+    );
 });
 
 async function find() {
@@ -40,7 +56,8 @@ async function add(article) {
             <IconField class="grow">
                 <InputIcon class="pi pi-search" />
                 <InputText
-                    placeholder="Recherche par nom ou marque"
+                    v-model="state.search"
+                    placeholder="Recherche par nom, marque, gamme"
                     size="large"
                     fluid
                 />
@@ -60,6 +77,26 @@ async function add(article) {
             <Message v-if="state.message" severity="warn">
                 {{ state.message }}
             </Message>
+
+            <DataTable
+                v-if="state.search"
+                :value="filtered"
+                paginator
+                :rows="5"
+                size="small"
+                @row-click="add($event.data)"
+                :pt="{
+                    bodyRow: {
+                        class: 'cursor-pointer hover:bg-surface-100 dark:hover:bg-surface-800',
+                    },
+                }"
+            >
+                <template #empty> Aucun article trouvé </template>
+                <Column field="label" header="Nom"></Column>
+                <Column field="brand.name" header="Marque"></Column>
+                <Column field="line.name" header="Gamme"></Column>
+                <Column field="retail_price" header="Prix"></Column>
+            </DataTable>
         </div>
         <Button
             @click="$router.replace(`/clients/${$route.params.id}`)"
