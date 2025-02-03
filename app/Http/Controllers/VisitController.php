@@ -56,4 +56,14 @@ class VisitController extends Controller
         ]);
         return $visit->load('sales')->append('total');
     }
+
+    public function addSale(Visit $visit, Request $request)
+    {
+        $visit->sales()->forceCreate([
+            'price_charged' => $request->price_charged,
+            'type' => $request->type,
+            'label' => $request->label,
+        ]);
+        return $visit->load('sales')->append('total');
+    }
 }
