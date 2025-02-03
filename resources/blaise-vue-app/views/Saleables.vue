@@ -1,8 +1,11 @@
 <script setup>
 import { Button } from "primevue";
 import { useSaleablesStore } from "../stores/saleables";
+import { useVisitStore } from "../stores/visit";
 
 const saleables = useSaleablesStore();
+
+const visit = useVisitStore();
 </script>
 
 <template>
@@ -34,12 +37,14 @@ const saleables = useSaleablesStore();
             />
             <Button
                 label="Bon cadeau"
+                @click="visit.addSale({ type: 'voucher', label: 'Bon cadeau' })"
                 class="h-16 md:h-24"
                 severity="secondary"
                 size="large"
             />
             <Button
                 label="Autre"
+                @click="visit.addSale({ type: 'other', label: 'Autre' })"
                 class="h-16 md:h-24"
                 severity="secondary"
                 size="large"

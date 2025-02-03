@@ -55,5 +55,13 @@ export const useVisitStore = defineStore("visit", {
             if (!response.ok) return;
             this.current = data;
         },
+        async addSale({ type, label }) {
+            const { response, data } = await post(
+                `/api/visits/${this.current.id}/sale/`,
+                { type, label, price_charged: 50 }
+            );
+            if (!response.ok) return;
+            this.current = data;
+        },
     },
 });
