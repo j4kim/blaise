@@ -4,6 +4,17 @@ import { useVisitStore } from "../stores/visit";
 import dayjs from "dayjs";
 
 const visit = useVisitStore();
+
+async function del() {
+    if (
+        !visit.current.sales?.length ||
+        confirm(
+            "Ce ticket n'est pas finalisé, voulez-vous supprimer le ticket et les ventes associées ?"
+        )
+    ) {
+        await visit.deleteCurrent();
+    }
+}
 </script>
 
 <template>
@@ -61,12 +72,7 @@ const visit = useVisitStore();
         </div>
 
         <Button size="large">Valider</Button>
-        <Button
-            @click="visit.deleteCurrent()"
-            variant="text"
-            severity="secondary"
-            size="small"
-        >
+        <Button @click="del" variant="text" severity="secondary" size="small">
             Annuler
         </Button>
     </aside>
