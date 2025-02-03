@@ -16,6 +16,13 @@ class VisitController extends Controller
         ])->fresh();
     }
 
+    public function validate(Visit $visit)
+    {
+        $visit->billed = $visit->total;
+        $visit->save();
+        return $visit;
+    }
+
     public function destroy(Visit $visit)
     {
         $visit->sales()->delete();

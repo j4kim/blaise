@@ -71,7 +71,7 @@ async function del() {
             <div>CHF {{ visit.current.total }}</div>
         </div>
 
-        <Button size="large">Valider</Button>
+        <Button @click="visit.validateCurrent" size="large">Valider</Button>
         <Button @click="del" variant="text" severity="secondary" size="small">
             Annuler
         </Button>

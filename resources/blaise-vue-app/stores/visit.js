@@ -21,6 +21,13 @@ export const useVisitStore = defineStore("visit", {
             if (!response.ok) return;
             this.current = data;
         },
+        async validateCurrent() {
+            const { response } = await post(
+                `/api/visits/${this.current.id}/validate`
+            );
+            if (!response.ok) return;
+            await this.fetchClient(this.client.id);
+        },
         async deleteCurrent() {
             const { response } = await del(`/api/visits/${this.current.id}`);
             if (!response.ok) return;
