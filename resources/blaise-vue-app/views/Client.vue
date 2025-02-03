@@ -1,5 +1,4 @@
 <script setup>
-import { ref } from "vue";
 import {
     onBeforeRouteLeave,
     onBeforeRouteUpdate,
@@ -14,15 +13,6 @@ import dayjs from "dayjs";
 const route = useRoute();
 
 const visit = useVisitStore();
-
-const showDetails = ref(false);
-const showLastVisits = ref(true);
-
-async function createTicket() {
-    await visit.create();
-    showDetails.value = false;
-    showLastVisits.value = false;
-}
 
 await visit.fetchClient(route.params.id);
 
@@ -47,7 +37,7 @@ onBeforeRouteLeave(() => (visit.current = null));
             v-if="!visit.current"
             label="Nouveau ticket"
             icon="pi pi-plus"
-            @click="createTicket"
+            @click="visit.create"
             variant="outlined"
         ></Button>
     </div>
@@ -55,18 +45,21 @@ onBeforeRouteLeave(() => (visit.current = null));
     <div class="mb-12">
         <h5
             class="mb-2 inline-block cursor-pointer hover:text-color"
-            @click="showDetails = !showDetails"
+            @click="visit.showClientDetails = !visit.showClientDetails"
             :class="{
-                'text-muted-color': !showDetails,
+                'text-muted-color': !visit.showClientDetails,
             }"
         >
             <i
                 class="pi pi-angle-right transition"
-                :class="{ 'rotate-90': showDetails }"
+                :class="{ 'rotate-90': visit.showClientDetails }"
             ></i>
             Coordonnées
         </h5>
-        <div v-if="showDetails" class="grid lg:grid-cols-3 grid-cols-2 gap-4">
+        <div
+            v-if="visit.showClientDetails"
+            class="grid lg:grid-cols-3 grid-cols-2 gap-4"
+        >
             <dl>
                 <dt class="text-sm text-muted-color">Prénom</dt>
                 <dd>{{ visit.client.first_name }}</dd>
@@ -97,19 +90,19 @@ onBeforeRouteLeave(() => (visit.current = null));
     <div class="mb-12">
         <h5
             class="mb-2 inline-block cursor-pointer hover:text-color"
-            @click="showLastVisits = !showLastVisits"
+            @click="visit.showClientLastVisits = !visit.showClientLastVisits"
             :class="{
-                'text-muted-color': !showLastVisits,
+                'text-muted-color': !visit.showClientLastVisits,
             }"
         >
             <i
                 class="pi pi-angle-right transition"
-                :class="{ 'rotate-90': showLastVisits }"
+                :class="{ 'rotate-90': visit.showClientLastVisits }"
             ></i>
             Dernières visites
         </h5>
         <LastVisits
-            v-if="showLastVisits"
+            v-if="visit.showClientLastVisits"
             :visits="visit.client.last_visits"
         ></LastVisits>
     </div>

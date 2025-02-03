@@ -5,6 +5,8 @@ export const useVisitStore = defineStore("visit", {
     state: () => ({
         current: null,
         client: {},
+        showClientDetails: false,
+        showClientLastVisits: false,
     }),
 
     actions: {
@@ -13,6 +15,8 @@ export const useVisitStore = defineStore("visit", {
             if (!response.ok) return;
             this.client = data;
             this.current = this.client.currentVisit;
+            this.showClientDetails = false;
+            this.showClientLastVisits = true;
         },
         async create() {
             const { data, response } = await post(
@@ -20,6 +24,8 @@ export const useVisitStore = defineStore("visit", {
             );
             if (!response.ok) return;
             this.current = data;
+            this.showClientDetails = false;
+            this.showClientLastVisits = false;
         },
         async validateCurrent() {
             const { response } = await post(
@@ -32,6 +38,8 @@ export const useVisitStore = defineStore("visit", {
             const { response } = await del(`/api/visits/${this.current.id}`);
             if (!response.ok) return;
             this.current = null;
+            this.showClientDetails = false;
+            this.showClientLastVisits = true;
         },
         async addService(service) {
             const { response, data } = await post(
