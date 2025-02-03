@@ -40,12 +40,14 @@ async function del() {
             </h5>
         </div>
 
-        <div
-            v-for="sale in visit.current.sales"
-            class="flex justify-between text-xl items-center gap-2"
-        >
-            <div>{{ sale.label }}</div>
-            <div>CHF&nbsp;{{ sale.price_charged ?? 0 }}</div>
+        <div class="overflow-y-auto -mx-5">
+            <div
+                v-for="sale in visit.current.sales"
+                class="flex justify-between text-xl items-center gap-2 cursor-pointer hover:bg-surface-200 dark:hover:bg-surface-800 px-5 py-3 rounded"
+            >
+                <div>{{ sale.label }}</div>
+                <div>CHF&nbsp;{{ sale.price_charged ?? 0 }}</div>
+            </div>
         </div>
 
         <div class="grow"></div>
