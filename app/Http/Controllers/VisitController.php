@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Article;
 use App\Models\Client;
 use App\Models\Service;
 use App\Models\Visit;
@@ -39,6 +40,19 @@ class VisitController extends Controller
             'type' => 'service',
             'service_id' => $service->id,
             'label' => $service->label,
+        ]);
+        return $visit->load('sales')->append('total');
+    }
+
+    public function addArticle(Visit $visit, Article $article)
+    {
+        $visit->sales()->forceCreate([
+            'base_price' => $article->retail_price,
+            'price_charged' => $article->retail_price,
+            'quantity' => 1,
+            'type' => 'article',
+            'article_id' => $article->id,
+            'label' => $article->label,
         ]);
         return $visit->load('sales')->append('total');
     }
