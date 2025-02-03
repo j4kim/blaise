@@ -45,7 +45,7 @@ async function del() {
             class="flex justify-between text-xl items-center gap-2"
         >
             <div>{{ sale.label }}</div>
-            <div>CHF&nbsp;{{ sale.price_charged }}</div>
+            <div>CHF&nbsp;{{ sale.price_charged ?? 0 }}</div>
         </div>
 
         <div class="grow"></div>

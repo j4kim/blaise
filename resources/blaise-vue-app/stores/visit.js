@@ -48,5 +48,12 @@ export const useVisitStore = defineStore("visit", {
             if (!response.ok) return;
             this.current = data;
         },
+        async addArticle(article) {
+            const { response, data } = await post(
+                `/api/visits/${this.current.id}/article/${article.id}`
+            );
+            if (!response.ok) return;
+            this.current = data;
+        },
     },
 });
