@@ -26,7 +26,7 @@ onBeforeRouteLeave(() => (visit.current = null));
 </script>
 
 <template v-if="visit.client">
-    <div class="mt-2 mb-12 flex justify-between items-end flex-wrap gap-3">
+    <div class="mt-2 mb-8 flex justify-between items-end flex-wrap gap-3">
         <div>
             <h5 class="mb-1">{{ visit.client.title }}</h5>
             <h2 class="text-3xl font-extralight">
@@ -42,7 +42,7 @@ onBeforeRouteLeave(() => (visit.current = null));
         ></Button>
     </div>
 
-    <div class="mb-12">
+    <div class="mb-8">
         <h5
             class="mb-2 inline-block cursor-pointer hover:text-color"
             @click="visit.showClientDetails = !visit.showClientDetails"
@@ -87,7 +87,7 @@ onBeforeRouteLeave(() => (visit.current = null));
         </div>
     </div>
 
-    <div class="mb-12">
+    <div class="mb-8">
         <h5
             class="mb-2 inline-block cursor-pointer hover:text-color"
             @click="visit.showClientLastVisits = !visit.showClientLastVisits"
@@ -107,5 +107,5 @@ onBeforeRouteLeave(() => (visit.current = null));
         ></LastVisits>
     </div>
 
-    <RouterView class="mb-6 md:mb-12" v-if="visit.current" />
+    <RouterView class="mb-6 md:mb-8" v-if="visit.current" />
 </template>
