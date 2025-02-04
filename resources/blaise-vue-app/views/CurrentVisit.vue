@@ -46,17 +46,22 @@ async function del() {
                 @click="visit.openSaleDialog(sale)"
                 class="cursor-pointer hover:bg-surface-200 dark:hover:bg-surface-800 px-5 py-3"
             >
-                <div class="flex justify-between text-xl items-center gap-2">
+                <div
+                    class="flex justify-between sm:text-lg xl:text-xl items-center gap-2"
+                >
                     <div>{{ sale.label }}</div>
-                    <div>
-                        CHF&nbsp;<span
+                    <div class="whitespace-nowrap">
+                        CHF
+                        <span
                             v-if="
                                 sale.base_price &&
                                 sale.price_charged != sale.base_price
                             "
                             class="line-through opacity-50"
-                            >{{ sale.base_price }}&nbsp;</span
-                        >{{ sale.price_charged ?? 0 }}
+                        >
+                            {{ sale.base_price }}
+                        </span>
+                        {{ sale.price_charged ?? 0 }}
                     </div>
                 </div>
                 <div class="text-sm text-muted-color">{{ sale.notes }}</div>
