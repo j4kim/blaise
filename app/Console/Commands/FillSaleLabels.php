@@ -39,11 +39,8 @@ class FillSaleLabels extends Command
             foreach ($sales as $sale) {
                 if ($sale->article_id) {
                     $article = $articles->findOrFail($sale->article_id);
-                    if ($sale->quantity == 1) {
-                        $sale->label = $article->label;
-                    } else {
-                        $sale->label = $sale->quantity . 'x ' . $article->label;
-                    }
+                    $sale->setRelation('article', $article);
+                    $sale->computeLabel();
                 } else if ($sale->service_id) {
                     $service = $services->findOrFail($sale->service_id);
                     $sale->label = $service->label;

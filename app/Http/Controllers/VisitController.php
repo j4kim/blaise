@@ -79,6 +79,7 @@ class VisitController extends Controller
         if ($sale->type === 'article') {
             $sale->base_price = $request->base_price;
             $sale->quantity = $request->quantity;
+            $sale->computeLabel();
         }
         $sale->save();
         return $visit->load('sales')->append('total');

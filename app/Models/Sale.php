@@ -11,4 +11,18 @@ class Sale extends Model
     {
         return $this->belongsTo(Service::class);
     }
+
+    public function article(): BelongsTo
+    {
+        return $this->belongsTo(Article::class);
+    }
+
+    public function computeLabel()
+    {
+        if ($this->quantity == 1) {
+            $this->label = $this->article->label;
+        } else {
+            $this->label = $this->quantity . 'x ' . $this->article->label;
+        }
+    }
 }
