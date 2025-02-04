@@ -19,7 +19,7 @@ export const useVisitStore = defineStore("visit", {
             this.client = data;
             this.current = this.client.currentVisit;
             this.showClientDetails = false;
-            this.showClientLastVisits = true;
+            this.showClientLastVisits = !this.current;
         },
         async create() {
             const { data, response } = await post(
