@@ -23,13 +23,16 @@ class Client extends Model
         return $this->visits()->whereNotNull('billed')->orderBy('visit_date', 'desc')->take(5);
     }
 
-    public function getTitle(): string
+    public function title(): Attribute
     {
-        return match ($this->gender) {
-            0 => 'Cliente',
-            1 => 'Client',
-            default => 'Client·e',
-        };
+        return new Attribute(
+            get: fn() =>
+            match ($this->gender) {
+                0 => 'Cliente',
+                1 => 'Client',
+                default => 'Client·e',
+            }
+        );
     }
 
     public function getCurrentVisit(): ?Visit

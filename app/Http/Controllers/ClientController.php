@@ -10,10 +10,9 @@ class ClientController extends Controller
 {
     public function show(Client $client)
     {
-        $client->load('lastVisits.sales');
+        $client->load('lastVisits.sales')->append('title');
         return [
             ...$client->toArray(),
-            'title' => $client->getTitle(),
             'currentVisit' => $client->getCurrentVisit(),
         ];
     }
@@ -21,7 +20,7 @@ class ClientController extends Controller
     public function update(Client $client, Request $request)
     {
         $client->forceFill($request->all())->save();
-        return $client;
+        return $client->append('title');
     }
 
     public function search(Request $request, string $query)
