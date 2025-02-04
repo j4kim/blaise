@@ -124,9 +124,11 @@ async function del() {
             />
         </div>
 
-        <div class="flex justify-between text-3xl">
+        <div class="flex justify-between text-3xl gap-2 flex-wrap">
             <div>Total</div>
-            <div>CHF {{ (visit.current.total ?? 0).toFixed(2) }}</div>
+            <div class="whitespace-nowrap">
+                CHF {{ (visit.current.total ?? 0).toFixed(2) }}
+            </div>
         </div>
 
         <Button @click="validate" size="large">Valider</Button>
