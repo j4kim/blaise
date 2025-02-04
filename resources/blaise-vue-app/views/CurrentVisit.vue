@@ -72,8 +72,8 @@ async function del() {
 
         <div class="overflow-y-auto -mx-5">
             <div
-                @click="visit.showDiscountDialog = true"
                 v-if="visit.current.discount"
+                @click="visit.showDiscountDialog = true"
                 class="cursor-pointer hover:bg-surface-200 dark:hover:bg-surface-800 px-5 py-3"
             >
                 <div
@@ -87,6 +87,7 @@ async function del() {
             </div>
             <div
                 v-if="visit.current.voucher_payment"
+                @click="visit.showVoucherPaymentDialog = true"
                 class="cursor-pointer hover:bg-surface-200 dark:hover:bg-surface-800 px-5 py-3"
             >
                 <div

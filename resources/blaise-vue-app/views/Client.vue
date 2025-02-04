@@ -11,6 +11,7 @@ import { useVisitStore } from "../stores/visit";
 import dayjs from "dayjs";
 import SaleDialog from "../components/SaleDialog.vue";
 import DiscountDialog from "../components/DiscountDialog.vue";
+import VoucherPaymentDialog from "../components/VoucherPaymentDialog.vue";
 
 const route = useRoute();
 
@@ -113,4 +114,5 @@ onBeforeRouteLeave(() => (visit.current = null));
 
     <SaleDialog />
     <DiscountDialog />
+    <VoucherPaymentDialog />
 </template>
