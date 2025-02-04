@@ -20,15 +20,19 @@ const visit = useVisitStore();
         header="Détails vente"
         class="max-w-full w-96"
     >
-        <FloatLabel class="mb-8 mt-2" variant="on">
-            <InputText
-                v-model="visit.selectedSale.label"
-                id="label"
-                fluid
-                readonly
-            />
+        <div class="mb-2"></div>
+        <FloatLabel
+            class="mb-8"
+            variant="on"
+            v-if="visit.selectedSale.type == 'other'"
+        >
+            <InputText v-model="visit.selectedSale.label" id="label" fluid />
             <label for="label">Libellé</label>
         </FloatLabel>
+        <div v-else class="mb-8">
+            <div class="text-sm text-muted-color">Libellé</div>
+            <div>{{ visit.selectedSale.label }}</div>
+        </div>
         <FloatLabel class="mb-8" variant="on">
             <InputNumber
                 v-model="visit.selectedSale.price_charged"
