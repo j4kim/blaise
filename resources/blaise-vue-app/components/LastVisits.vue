@@ -48,7 +48,12 @@ function getSalesSummary(sales) {
                     v-for="sale in visit.sales"
                     class="flex justify-between mb-2"
                 >
-                    <div>{{ sale.label }}</div>
+                    <div>
+                        {{ sale.label }}
+                        <span class="text-muted-color" v-if="sale.notes">
+                            ({{ sale.notes }})
+                        </span>
+                    </div>
                     <div>
                         CHF
                         <span

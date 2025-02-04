@@ -59,7 +59,7 @@ async function del() {
                         >{{ sale.price_charged ?? 0 }}
                     </div>
                 </div>
-                <div class="text-sm text-surface-500">{{ sale.notes }}</div>
+                <div class="text-sm text-muted-color">{{ sale.notes }}</div>
             </div>
         </div>
 
