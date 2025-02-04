@@ -53,6 +53,18 @@ const visit = useVisitStore();
                 />
                 <label for="price_charged">Prix</label>
             </FloatLabel>
+            <FloatLabel
+                variant="on"
+                v-if="visit.selectedSale.type === 'article'"
+            >
+                <InputNumber
+                    v-model="visit.selectedSale.quantity"
+                    id="quantity"
+                    showButtons
+                    fluid
+                />
+                <label for="quantity">Quantité</label>
+            </FloatLabel>
             <FloatLabel variant="on">
                 <Textarea
                     id="notes"

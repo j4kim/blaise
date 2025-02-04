@@ -76,6 +76,7 @@ class VisitController extends Controller
         $sale->price_charged = $request->price_charged;
         $sale->label = $request->label;
         $sale->notes = $request->notes;
+        $sale->quantity = $request->quantity;
         $sale->save();
         return $visit->load('sales')->append('total');
     }
