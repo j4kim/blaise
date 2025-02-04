@@ -1,13 +1,11 @@
 import { defineStore } from "pinia";
-import { get, del, post, put } from "../api";
+import { del, post, put } from "../api";
 import { toRaw } from "vue";
+import { useClientStore } from "./client";
 
 export const useVisitStore = defineStore("visit", {
     state: () => ({
         current: null,
-        client: {},
-        showClientDetails: false,
-        showClientLastVisits: false,
         showSaleDialog: false,
         selectedSale: null,
         showDiscountDialog: false,
@@ -15,36 +13,28 @@ export const useVisitStore = defineStore("visit", {
     }),
 
     actions: {
-        async fetchClient(id) {
-            const { data, response } = await get(`/api/clients/${id}`);
-            if (!response.ok) return;
-            this.client = data;
-            this.current = this.client.currentVisit;
-            this.showClientDetails = false;
-            this.showClientLastVisits = !this.current;
-        },
         async create() {
+            const client = useClientStore();
             const { data, response } = await post(
-                `/api/visits/${this.client.id}`
+                `/api/visits/${client.selected.id}`
             );
             if (!response.ok) return;
             this.current = data;
-            this.showClientDetails = false;
-            this.showClientLastVisits = false;
+            client.hidePanels();
         },
         async validateCurrent() {
             const { response } = await post(
                 `/api/visits/${this.current.id}/validate`
             );
             if (!response.ok) return;
-            await this.fetchClient(this.client.id);
+            const client = useClientStore();
+            await client.fetchClient(client.selected.id);
         },
         async deleteCurrent() {
             const { response } = await del(`/api/visits/${this.current.id}`);
             if (!response.ok) return;
             this.current = null;
-            this.showClientDetails = false;
-            this.showClientLastVisits = true;
+            useClientStore().resetPanels();
         },
         async addService(service) {
             const { response, data } = await post(

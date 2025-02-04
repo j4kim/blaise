@@ -12,28 +12,30 @@ import dayjs from "dayjs";
 import SaleDialog from "../components/SaleDialog.vue";
 import DiscountDialog from "../components/DiscountDialog.vue";
 import VoucherPaymentDialog from "../components/VoucherPaymentDialog.vue";
+import { useClientStore } from "../stores/client";
 
 const route = useRoute();
 
 const visit = useVisitStore();
+const client = useClientStore();
 
-await visit.fetchClient(route.params.id);
+await client.fetchClient(route.params.id);
 
 onBeforeRouteUpdate((to, from) => {
     if (to.params.id !== from.params.id) {
-        visit.fetchClient(to.params.id);
+        client.fetchClient(to.params.id);
     }
 });
 
 onBeforeRouteLeave(() => (visit.current = null));
 </script>
 
-<template v-if="visit.client">
+<template v-if="client.selected">
     <div class="mt-2 mb-8 flex justify-between items-end flex-wrap gap-3">
         <div>
-            <h5 class="mb-1">{{ visit.client.title }}</h5>
+            <h5 class="mb-1">{{ client.selected.title }}</h5>
             <h2 class="text-3xl font-extralight">
-                {{ visit.client.first_name }} {{ visit.client.last_name }}
+                {{ client.selected.first_name }} {{ client.selected.last_name }}
             </h2>
         </div>
         <Button
@@ -48,44 +50,48 @@ onBeforeRouteLeave(() => (visit.current = null));
     <div class="mb-8">
         <h5
             class="mb-2 inline-block cursor-pointer hover:text-color"
-            @click="visit.showClientDetails = !visit.showClientDetails"
+            @click="client.showDetails = !client.showDetails"
             :class="{
-                'text-muted-color': !visit.showClientDetails,
+                'text-muted-color': !client.showDetails,
             }"
         >
             <i
                 class="pi pi-angle-right transition"
-                :class="{ 'rotate-90': visit.showClientDetails }"
+                :class="{ 'rotate-90': client.showDetails }"
             ></i>
             Coordonnées
         </h5>
-        <div v-if="visit.showClientDetails">
+        <div v-if="client.showDetails">
             <div class="grid lg:grid-cols-3 grid-cols-2 gap-4">
                 <dl>
                     <dt class="text-sm text-muted-color">Prénom</dt>
-                    <dd>{{ visit.client.first_name }}</dd>
+                    <dd>{{ client.selected.first_name }}</dd>
                 </dl>
                 <dl>
                     <dt class="text-sm text-muted-color">Nom</dt>
-                    <dd>{{ visit.client.last_name }}</dd>
+                    <dd>{{ client.selected.last_name }}</dd>
                 </dl>
                 <dl>
                     <dt class="text-sm text-muted-color">Date de création</dt>
                     <dd>
                         {{
-                            dayjs(visit.client.created_at).format("DD.MM.YYYY")
+                            dayjs(client.selected.created_at).format(
+                                "DD.MM.YYYY"
+                            )
                         }}
                     </dd>
                 </dl>
                 <dl>
                     <dt class="text-sm text-muted-color">Ville</dt>
-                    <dd>{{ visit.client.npa }} {{ visit.client.location }}</dd>
+                    <dd>
+                        {{ client.selected.npa }} {{ client.selected.location }}
+                    </dd>
                 </dl>
                 <dl>
                     <dt class="text-sm text-muted-color">Téléphone</dt>
-                    <dd>{{ visit.client.tel_1 }}</dd>
-                    <dd>{{ visit.client.tel_2 }}</dd>
-                    <dd>{{ visit.client.tel_3 }}</dd>
+                    <dd>{{ client.selected.tel_1 }}</dd>
+                    <dd>{{ client.selected.tel_2 }}</dd>
+                    <dd>{{ client.selected.tel_3 }}</dd>
                 </dl>
             </div>
             <div class="flex justify-end">
@@ -103,20 +109,20 @@ onBeforeRouteLeave(() => (visit.current = null));
     <div class="mb-8">
         <h5
             class="mb-2 inline-block cursor-pointer hover:text-color"
-            @click="visit.showClientLastVisits = !visit.showClientLastVisits"
+            @click="client.showLastVisits = !client.showLastVisits"
             :class="{
-                'text-muted-color': !visit.showClientLastVisits,
+                'text-muted-color': !client.showLastVisits,
             }"
         >
             <i
                 class="pi pi-angle-right transition"
-                :class="{ 'rotate-90': visit.showClientLastVisits }"
+                :class="{ 'rotate-90': client.showLastVisits }"
             ></i>
             Dernières visites
         </h5>
         <LastVisits
-            v-if="visit.showClientLastVisits"
-            :visits="visit.client.last_visits"
+            v-if="client.showLastVisits"
+            :visits="client.selected.last_visits"
         ></LastVisits>
     </div>
 
