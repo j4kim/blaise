@@ -71,6 +71,8 @@ class VisitController extends Controller
     public function updateSale(Visit $visit, Sale $sale, Request $request)
     {
         $sale->price_charged = $request->price_charged;
+        $sale->label = $request->label;
+        $sale->notes = $request->notes;
         $sale->save();
         return $visit->load('sales')->append('total');
     }

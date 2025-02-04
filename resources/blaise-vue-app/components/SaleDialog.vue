@@ -1,5 +1,12 @@
 <script setup lang="ts">
-import { Button, Dialog, InputNumber } from "primevue";
+import {
+    Button,
+    Dialog,
+    FloatLabel,
+    InputNumber,
+    InputText,
+    Textarea,
+} from "primevue";
 import { useVisitStore } from "../stores/visit";
 
 const visit = useVisitStore();
@@ -11,22 +18,38 @@ const visit = useVisitStore();
         modal
         dismissableMask
         header="Détails vente"
-        class="max-w-full"
+        class="max-w-full w-96"
     >
-        <div class="mb-8">
-            {{ visit.selectedSale.label }}
-        </div>
-        <div class="flex items-center gap-4 mb-8">
-            <label for="email" class="font-semibold w-24">Prix</label>
+        <FloatLabel class="mb-8 mt-2" variant="on">
+            <InputText
+                v-model="visit.selectedSale.label"
+                id="label"
+                fluid
+                readonly
+            />
+            <label for="label">Libellé</label>
+        </FloatLabel>
+        <FloatLabel class="mb-8" variant="on">
             <InputNumber
                 v-model="visit.selectedSale.price_charged"
+                id="price_charged"
                 mode="currency"
                 currency="CHF"
                 locale="fr-CH"
                 showButtons
                 fluid
             />
-        </div>
+            <label for="price_charged">Prix</label>
+        </FloatLabel>
+        <FloatLabel class="mb-8" variant="on">
+            <Textarea
+                id="notes"
+                v-model="visit.selectedSale.notes"
+                autoResize
+                fluid
+            />
+            <label for="notes">Notes</label>
+        </FloatLabel>
         <div class="flex justify-between">
             <Button
                 type="button"
