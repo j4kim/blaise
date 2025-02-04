@@ -40,7 +40,9 @@ function getSalesSummary(sales) {
                         </span>
                         <div v-else class="text-right">Total</div>
                     </div>
-                    <div class="ml-4">CHF&nbsp;{{ visit.billed }}</div>
+                    <div class="ml-4">
+                        CHF&nbsp;{{ visit.billed.toFixed(2) }}
+                    </div>
                 </div>
             </AccordionHeader>
             <AccordionContent>
