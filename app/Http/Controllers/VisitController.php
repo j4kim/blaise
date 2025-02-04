@@ -74,4 +74,10 @@ class VisitController extends Controller
         $sale->save();
         return $visit->load('sales')->append('total');
     }
+
+    public function deleteSale(Visit $visit, Sale $sale)
+    {
+        $sale->delete();
+        return $visit->load('sales')->append('total');
+    }
 }

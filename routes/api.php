@@ -22,6 +22,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('visits/{visit}/services/{service}', [VisitController::class, 'addService'])->name('visits.addService');
     Route::post('visits/{visit}/article/{article}', [VisitController::class, 'addArticle'])->name('visits.addArticle');
     Route::put('visits/{visit}/sale/{sale}', [VisitController::class, 'updateSale'])->name('visits.updateSale');
+    Route::delete('visits/{visit}/sale/{sale}', [VisitController::class, 'deleteSale'])->name('visits.deleteSale');
     Route::post('visits/{visit}/sale', [VisitController::class, 'addSale'])->name('visits.addSale');
     Route::get('/articles', [ArticleController::class, 'index'])->name('articles.index');
     Route::get('/services', [ServiceController::class, 'index'])->name('services.index');
