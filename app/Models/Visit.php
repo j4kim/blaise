@@ -22,7 +22,16 @@ class Visit extends Model
     protected function total(): Attribute
     {
         return new Attribute(
-            get: fn() => $this->sales->sum('price_charged'),
+            get: function () {
+                $sum = $this->sales->sum('price_charged');
+                if ($this->discount) {
+                    $sum = $sum - ($this->discount * $sum);
+                }
+                if ($this->voucher_payment) {
+                    $sum = $sum - $this->voucher_payment;
+                }
+                return round($sum, 2);
+            },
         );
     }
 }
