@@ -6,9 +6,10 @@ import {
     useRoute,
 } from "vue-router";
 import LastVisits from "../components/LastVisits.vue";
-import { Button, Dialog, InputNumber } from "primevue";
+import { Button } from "primevue";
 import { useVisitStore } from "../stores/visit";
 import dayjs from "dayjs";
+import SaleDialog from "../components/SaleDialog.vue";
 
 const route = useRoute();
 
@@ -109,41 +110,5 @@ onBeforeRouteLeave(() => (visit.current = null));
 
     <RouterView class="mb-6 md:mb-8" v-if="visit.current" />
 
-    <Dialog
-        v-model:visible="visit.showSaleDialog"
-        modal
-        dismissableMask
-        header="Détails vente"
-        class="max-w-full"
-    >
-        <div class="mb-8">
-            {{ visit.selectedSale.label }}
-        </div>
-        <div class="flex items-center gap-4 mb-8">
-            <label for="email" class="font-semibold w-24">Prix</label>
-            <InputNumber
-                v-model="visit.selectedSale.price_charged"
-                mode="currency"
-                currency="CHF"
-                locale="fr-CH"
-                showButtons
-                fluid
-            />
-        </div>
-        <div class="flex justify-between">
-            <Button
-                type="button"
-                label="Supprimer"
-                severity="danger"
-                icon="pi pi-trash"
-                variant="outlined"
-                @click="visit.deleteSelectedSale"
-            ></Button>
-            <Button
-                type="button"
-                label="Valider"
-                @click="visit.saveSelectedSale"
-            ></Button>
-        </div>
-    </Dialog>
+    <SaleDialog />
 </template>
