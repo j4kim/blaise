@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Article;
 use App\Models\Client;
+use App\Models\Sale;
 use App\Models\Service;
 use App\Models\Visit;
 use Illuminate\Http\Request;
@@ -64,6 +65,13 @@ class VisitController extends Controller
             'type' => $request->type,
             'label' => $request->label,
         ]);
+        return $visit->load('sales')->append('total');
+    }
+
+    public function updateSale(Visit $visit, Sale $sale, Request $request)
+    {
+        $sale->price_charged = $request->price_charged;
+        $sale->save();
         return $visit->load('sales')->append('total');
     }
 }

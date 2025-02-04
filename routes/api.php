@@ -3,6 +3,7 @@
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\SaleController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\VisitController;
 use Illuminate\Http\Request;
@@ -20,6 +21,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/visits/{visit}', [VisitController::class, 'destroy'])->name('visits.destroy');
     Route::post('visits/{visit}/services/{service}', [VisitController::class, 'addService'])->name('visits.addService');
     Route::post('visits/{visit}/article/{article}', [VisitController::class, 'addArticle'])->name('visits.addArticle');
+    Route::put('visits/{visit}/sale/{sale}', [VisitController::class, 'updateSale'])->name('visits.updateSale');
     Route::post('visits/{visit}/sale', [VisitController::class, 'addSale'])->name('visits.addSale');
     Route::get('/articles', [ArticleController::class, 'index'])->name('articles.index');
     Route::get('/services', [ServiceController::class, 'index'])->name('services.index');
