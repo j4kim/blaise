@@ -47,7 +47,16 @@ async function del() {
                 class="flex justify-between text-xl items-center gap-2 cursor-pointer hover:bg-surface-200 dark:hover:bg-surface-800 px-5 py-3"
             >
                 <div>{{ sale.label }}</div>
-                <div>CHF&nbsp;{{ sale.price_charged ?? 0 }}</div>
+                <div>
+                    CHF&nbsp;<span
+                        v-if="
+                            sale.base_price &&
+                            sale.price_charged != sale.base_price
+                        "
+                        class="line-through opacity-50"
+                        >{{ sale.base_price }}&nbsp;</span
+                    >{{ sale.price_charged ?? 0 }}
+                </div>
             </div>
         </div>
 

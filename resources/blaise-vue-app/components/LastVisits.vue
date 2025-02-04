@@ -52,7 +52,10 @@ function getSalesSummary(sales) {
                     <div>
                         CHF
                         <span
-                            v-if="sale.price_charged != sale.base_price"
+                            v-if="
+                                sale.base_price &&
+                                sale.price_charged != sale.base_price
+                            "
                             class="line-through opacity-50"
                         >
                             {{ sale.base_price }}
