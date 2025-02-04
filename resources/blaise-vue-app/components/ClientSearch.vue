@@ -24,6 +24,11 @@ function to(client) {
     router.push(`/clients/${client.id}`);
 }
 
+async function createFromQuery() {
+    const newClient = await store.createFromQuery();
+    to(newClient);
+}
+
 const input = useTemplateRef("input");
 
 onMounted(async () => {
@@ -37,6 +42,14 @@ function clear() {
     store.query = "";
     store.clients = [];
     input.value.$el.focus();
+}
+
+async function enter() {
+    if (store.query && store.empty) {
+        await createFromQuery();
+    } else {
+        to(store.clients[store.selected]);
+    }
 }
 </script>
 
@@ -52,7 +65,7 @@ function clear() {
                 @input="store.search"
                 @keydown.up.prevent="store.select(store.selected - 1)"
                 @keydown.down.prevent="store.select(store.selected + 1)"
-                @keydown.enter.prevent="to(store.clients[store.selected])"
+                @keydown.enter.prevent="enter"
                 @focus="focused = true"
                 @blur="focused = false"
                 ref="input"
@@ -76,6 +89,20 @@ function clear() {
             >
                 <template #content>
                     <div>{{ client.first_name }} {{ client.last_name }}</div>
+                </template>
+            </Card>
+            <Card
+                v-if="store.query && store.empty"
+                @mousedown="createFromQuery"
+                :class="[
+                    'cursor-pointer hover:!bg-emerald-500',
+                    {
+                        '!bg-emerald-400 !text-white': store.selected === 0,
+                    },
+                ]"
+            >
+                <template #content>
+                    <div>Créer client·e {{ store.query }}</div>
                 </template>
             </Card>
         </div>

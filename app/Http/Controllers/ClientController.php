@@ -35,4 +35,13 @@ class ClientController extends Controller
             ->take(5)
             ->get();
     }
+
+    public function createFromQuery(string $query)
+    {
+        $exploded = explode(" ", $query);
+        return Client::forceCreate([
+            'first_name' => ucfirst($exploded[0]),
+            'last_name' => @ucfirst($exploded[1]),
+        ]);
+    }
 }
