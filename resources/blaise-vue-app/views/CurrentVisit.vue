@@ -125,7 +125,7 @@ async function del() {
 
         <div class="flex justify-between text-3xl">
             <div>Total</div>
-            <div>CHF {{ visit.current.total ?? 0 }}</div>
+            <div>CHF {{ (visit.current.total ?? 0).toFixed(2) }}</div>
         </div>
 
         <Button @click="validate" size="large">Valider</Button>
