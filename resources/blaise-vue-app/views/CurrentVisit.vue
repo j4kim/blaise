@@ -64,14 +64,6 @@ async function del() {
 
         <div class="flex gap-2 justify-end flex-wrap">
             <Button
-                label="Notes"
-                type="button"
-                size="small"
-                icon="pi pi-comment"
-                severity="secondary"
-                variant="outlined"
-            />
-            <Button
                 label="Remise"
                 type="button"
                 size="small"
