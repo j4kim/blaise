@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { get, put } from "../api";
 import { useVisitStore } from "./visit";
-import { toRaw } from "vue";
+import { pick } from "../tools";
 
 export const useClientStore = defineStore("client", {
     state: () => ({
