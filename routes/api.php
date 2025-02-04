@@ -15,6 +15,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', fn(Request $request) => $request->user());
     Route::post('/logout', [LoginController::class, 'logout']);
     Route::get('/clients/{client}', [ClientController::class, 'show'])->name('clients.show');
+    Route::put('/clients/{client}', [ClientController::class, 'update'])->name('clients.update');
     Route::get('/clients/search/{query}', [ClientController::class, 'search'])->name('clients.search');
     Route::post('/clients/{query}', [ClientController::class, 'createFromQuery'])->name('clients.createFromQuery');
     Route::post('/visits/{client}', [VisitController::class, 'store'])->name('visits.store');

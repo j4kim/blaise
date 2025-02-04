@@ -1,12 +1,15 @@
 import { defineStore } from "pinia";
-import { get } from "../api";
+import { get, put } from "../api";
 import { useVisitStore } from "./visit";
+import { toRaw } from "vue";
 
 export const useClientStore = defineStore("client", {
     state: () => ({
         selected: {},
         showDetails: false,
         showLastVisits: false,
+        showEditDialog: false,
+        edited: {},
     }),
 
     actions: {
@@ -25,6 +28,19 @@ export const useClientStore = defineStore("client", {
         hidePanels() {
             this.showDetails = false;
             this.showLastVisits = false;
+        },
+        openEditDialog() {
+            this.edited = structuredClone(toRaw(this.selected));
+            this.showEditDialog = true;
+        },
+        async save() {
+            const { data, response } = await put(
+                `/api/clients/${this.selected.id}`,
+                this.edited
+            );
+            if (!response.ok) return;
+            this.selected = data;
+            this.showEditDialog = false;
         },
     },
 });

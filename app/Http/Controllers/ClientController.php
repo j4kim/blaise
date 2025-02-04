@@ -18,6 +18,21 @@ class ClientController extends Controller
         ];
     }
 
+    public function update(Client $client, Request $request)
+    {
+        $client->forceFill($request->only(
+            'first_name',
+            'last_name',
+            'gender',
+            'tel_1',
+            'tel_2',
+            'tel_2',
+            'npa',
+            'location',
+        ))->save();
+        return $client;
+    }
+
     public function search(Request $request, string $query)
     {
         $qb = Client::query();

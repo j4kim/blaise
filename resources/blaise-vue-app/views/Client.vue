@@ -13,6 +13,7 @@ import SaleDialog from "../components/SaleDialog.vue";
 import DiscountDialog from "../components/DiscountDialog.vue";
 import VoucherPaymentDialog from "../components/VoucherPaymentDialog.vue";
 import { useClientStore } from "../stores/client";
+import EditClientDialog from "../components/EditClientDialog.vue";
 
 const route = useRoute();
 
@@ -96,6 +97,7 @@ onBeforeRouteLeave(() => (visit.current = null));
             </div>
             <div class="flex justify-end">
                 <Button
+                    @click="client.openEditDialog"
                     label="Modifier"
                     icon="pi pi-pencil"
                     size="small"
@@ -131,4 +133,5 @@ onBeforeRouteLeave(() => (visit.current = null));
     <SaleDialog />
     <DiscountDialog />
     <VoucherPaymentDialog />
+    <EditClientDialog />
 </template>
