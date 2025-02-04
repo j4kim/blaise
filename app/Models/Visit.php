@@ -9,6 +9,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Visit extends Model
 {
+    protected function casts(): array
+    {
+        return [
+            'billed' => 'real',
+        ];
+    }
+
     public function sales(): HasMany
     {
         return $this->hasMany(Sale::class);
