@@ -101,6 +101,7 @@ async function del() {
 
         <div class="flex gap-2 justify-end flex-wrap">
             <Button
+                v-if="!visit.current.discount"
                 label="Remise"
                 type="button"
                 size="small"
@@ -109,6 +110,7 @@ async function del() {
                 variant="outlined"
             />
             <Button
+                v-if="!visit.current.voucher_payment"
                 label="Paiement par bon"
                 type="button"
                 size="small"
