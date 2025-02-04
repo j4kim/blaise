@@ -50,8 +50,9 @@ const visit = useVisitStore();
                     locale="fr-CH"
                     showButtons
                     fluid
+                    :step="visit.selectedSale.type === 'voucher' ? 10 : 1"
                 />
-                <label for="price_charged">Prix</label>
+                <label for="price_charged">Prix facturé</label>
             </FloatLabel>
             <FloatLabel
                 variant="on"
