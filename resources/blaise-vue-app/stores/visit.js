@@ -64,7 +64,8 @@ export const useVisitStore = defineStore("visit", {
                 { type, label, price_charged: 50 }
             );
             if (!response.ok) return;
-            this.current = data;
+            this.current = data.visit;
+            this.openSaleDialog(data.sale);
         },
         openSaleDialog(sale) {
             this.selectedSale = structuredClone(toRaw(sale));

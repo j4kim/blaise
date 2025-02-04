@@ -60,12 +60,15 @@ class VisitController extends Controller
 
     public function addSale(Visit $visit, Request $request)
     {
-        $visit->sales()->forceCreate([
+        $sale = $visit->sales()->forceCreate([
             'price_charged' => $request->price_charged,
             'type' => $request->type,
             'label' => $request->label,
         ]);
-        return $visit->load('sales')->append('total');
+        return [
+            'visit' => $visit->load('sales')->append('total'),
+            'sale' => $sale,
+        ];
     }
 
     public function updateSale(Visit $visit, Sale $sale, Request $request)
