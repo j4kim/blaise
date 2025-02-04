@@ -17,6 +17,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/clients/{client}', [ClientController::class, 'show'])->name('clients.show');
     Route::get('/clients/search/{query}', [ClientController::class, 'search'])->name('clients.search');
     Route::post('/visits/{client}', [VisitController::class, 'store'])->name('visits.store');
+    Route::put('/visits/{visit}', [VisitController::class, 'update'])->name('visits.update');
     Route::post('/visits/{visit}/validate', [VisitController::class, 'validate'])->name('visits.validate');
     Route::delete('/visits/{visit}', [VisitController::class, 'destroy'])->name('visits.destroy');
     Route::post('visits/{visit}/services/{service}', [VisitController::class, 'addService'])->name('visits.addService');

@@ -18,6 +18,14 @@ class VisitController extends Controller
         ])->fresh();
     }
 
+    public function update(Visit $visit, Request $request)
+    {
+        $visit->discount = $request->discount;
+        $visit->voucher_payment = $request->voucher_payment;
+        $visit->save();
+        return $visit->load('sales')->append('total');
+    }
+
     public function validate(Visit $visit)
     {
         $visit->billed = $visit->total;
