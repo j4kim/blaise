@@ -44,7 +44,7 @@ class ClientController extends Controller
 
     public function createFromQuery(string $query)
     {
-        $exploded = explode(" ", $query);
+        $exploded = explode(" ", $query, 2);
         return Client::forceCreate([
             'first_name' => ucfirst($exploded[0]),
             'last_name' => @ucfirst($exploded[1]),
