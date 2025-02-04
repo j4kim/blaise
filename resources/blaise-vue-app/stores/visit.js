@@ -88,5 +88,21 @@ export const useVisitStore = defineStore("visit", {
             this.current = data;
             this.showSaleDialog = false;
         },
+        async updateCurrent() {
+            const { response, data } = await put(
+                `/api/visits/${this.current.id}`,
+                this.current
+            );
+            if (!response.ok) return;
+            this.current = data;
+        },
+        async addDiscount() {
+            this.current.discount = 0.1;
+            await this.updateCurrent();
+        },
+        async addVoucherPayment() {
+            this.current.voucher_payment = 50;
+            await this.updateCurrent();
+        },
     },
 });
