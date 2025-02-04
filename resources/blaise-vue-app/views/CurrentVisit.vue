@@ -44,7 +44,7 @@ async function del() {
             <div
                 v-for="sale in visit.current.sales"
                 @click="visit.openSaleDialog(sale)"
-                class="flex justify-between text-xl items-center gap-2 cursor-pointer hover:bg-surface-200 dark:hover:bg-surface-800 px-5 py-3 rounded"
+                class="flex justify-between text-xl items-center gap-2 cursor-pointer hover:bg-surface-200 dark:hover:bg-surface-800 px-5 py-3"
             >
                 <div>{{ sale.label }}</div>
                 <div>CHF&nbsp;{{ sale.price_charged ?? 0 }}</div>

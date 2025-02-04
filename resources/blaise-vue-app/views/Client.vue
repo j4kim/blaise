@@ -130,7 +130,15 @@ onBeforeRouteLeave(() => (visit.current = null));
                 fluid
             />
         </div>
-        <div class="flex justify-end gap-2">
+        <div class="flex justify-between">
+            <Button
+                type="button"
+                label="Supprimer"
+                severity="danger"
+                icon="pi pi-trash"
+                variant="outlined"
+                @click="visit.deleteSelectedSale"
+            ></Button>
             <Button
                 type="button"
                 label="Valider"

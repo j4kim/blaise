@@ -79,5 +79,13 @@ export const useVisitStore = defineStore("visit", {
             this.current = data;
             this.showSaleDialog = false;
         },
+        async deleteSelectedSale() {
+            const { response, data } = await del(
+                `/api/visits/${this.current.id}/sale/${this.selectedSale.id}`
+            );
+            if (!response.ok) return;
+            this.current = data;
+            this.showSaleDialog = false;
+        },
     },
 });
