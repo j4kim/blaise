@@ -59,34 +59,44 @@ onBeforeRouteLeave(() => (visit.current = null));
             ></i>
             Coordonnées
         </h5>
-        <div
-            v-if="visit.showClientDetails"
-            class="grid lg:grid-cols-3 grid-cols-2 gap-4"
-        >
-            <dl>
-                <dt class="text-sm text-muted-color">Prénom</dt>
-                <dd>{{ visit.client.first_name }}</dd>
-            </dl>
-            <dl>
-                <dt class="text-sm text-muted-color">Nom</dt>
-                <dd>{{ visit.client.last_name }}</dd>
-            </dl>
-            <dl>
-                <dt class="text-sm text-muted-color">Date de création</dt>
-                <dd>
-                    {{ dayjs(visit.client.created_at).format("DD.MM.YYYY") }}
-                </dd>
-            </dl>
-            <dl>
-                <dt class="text-sm text-muted-color">Ville</dt>
-                <dd>{{ visit.client.npa }} {{ visit.client.location }}</dd>
-            </dl>
-            <dl>
-                <dt class="text-sm text-muted-color">Téléphone</dt>
-                <dd>{{ visit.client.tel_1 }}</dd>
-                <dd>{{ visit.client.tel_2 }}</dd>
-                <dd>{{ visit.client.tel_3 }}</dd>
-            </dl>
+        <div v-if="visit.showClientDetails">
+            <div class="grid lg:grid-cols-3 grid-cols-2 gap-4">
+                <dl>
+                    <dt class="text-sm text-muted-color">Prénom</dt>
+                    <dd>{{ visit.client.first_name }}</dd>
+                </dl>
+                <dl>
+                    <dt class="text-sm text-muted-color">Nom</dt>
+                    <dd>{{ visit.client.last_name }}</dd>
+                </dl>
+                <dl>
+                    <dt class="text-sm text-muted-color">Date de création</dt>
+                    <dd>
+                        {{
+                            dayjs(visit.client.created_at).format("DD.MM.YYYY")
+                        }}
+                    </dd>
+                </dl>
+                <dl>
+                    <dt class="text-sm text-muted-color">Ville</dt>
+                    <dd>{{ visit.client.npa }} {{ visit.client.location }}</dd>
+                </dl>
+                <dl>
+                    <dt class="text-sm text-muted-color">Téléphone</dt>
+                    <dd>{{ visit.client.tel_1 }}</dd>
+                    <dd>{{ visit.client.tel_2 }}</dd>
+                    <dd>{{ visit.client.tel_3 }}</dd>
+                </dl>
+            </div>
+            <div class="flex justify-end">
+                <Button
+                    label="Modifier"
+                    icon="pi pi-pencil"
+                    size="small"
+                    variant="text"
+                    severity="secondary"
+                ></Button>
+            </div>
         </div>
     </div>
 
