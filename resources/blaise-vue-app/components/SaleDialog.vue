@@ -8,8 +8,20 @@ import {
     Textarea,
 } from "primevue";
 import { useVisitStore } from "../stores/visit";
+import { watch } from "vue";
 
 const visit = useVisitStore();
+
+watch(
+    () => visit.selectedSale?.quantity,
+    (newQty, oldQty) => {
+        if (!newQty || !oldQty) return;
+        const unitBasePrice = visit.selectedSale.base_price / oldQty;
+        const unitPriceCharged = visit.selectedSale.price_charged / oldQty;
+        visit.selectedSale.base_price = unitBasePrice * newQty;
+        visit.selectedSale.price_charged = unitPriceCharged * newQty;
+    }
+);
 </script>
 
 <template>
@@ -63,6 +75,7 @@ const visit = useVisitStore();
                     id="quantity"
                     showButtons
                     fluid
+                    :min="1"
                 />
                 <label for="quantity">Quantité</label>
             </FloatLabel>

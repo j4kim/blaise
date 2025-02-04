@@ -77,6 +77,7 @@ class VisitController extends Controller
         $sale->label = $request->label;
         $sale->notes = $request->notes;
         if ($sale->type === 'article') {
+            $sale->base_price = $request->base_price;
             $sale->quantity = $request->quantity;
         }
         $sale->save();
