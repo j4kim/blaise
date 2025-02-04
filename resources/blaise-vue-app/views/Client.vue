@@ -10,6 +10,7 @@ import { Button } from "primevue";
 import { useVisitStore } from "../stores/visit";
 import dayjs from "dayjs";
 import SaleDialog from "../components/SaleDialog.vue";
+import DiscountDialog from "../components/DiscountDialog.vue";
 
 const route = useRoute();
 
@@ -111,4 +112,5 @@ onBeforeRouteLeave(() => (visit.current = null));
     <RouterView class="mb-6 md:mb-8" v-if="visit.current" />
 
     <SaleDialog />
+    <DiscountDialog />
 </template>

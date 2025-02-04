@@ -10,6 +10,7 @@ export const useVisitStore = defineStore("visit", {
         showClientLastVisits: false,
         showSaleDialog: false,
         selectedSale: null,
+        showDiscountDialog: false,
     }),
 
     actions: {
@@ -95,9 +96,15 @@ export const useVisitStore = defineStore("visit", {
             );
             if (!response.ok) return;
             this.current = data;
+            this.showDiscountDialog = false;
         },
         async addDiscount() {
             this.current.discount = 0.1;
+            await this.updateCurrent();
+            this.showDiscountDialog = true;
+        },
+        async removeDiscount() {
+            this.current.discount = null;
             await this.updateCurrent();
         },
         async addVoucherPayment() {
