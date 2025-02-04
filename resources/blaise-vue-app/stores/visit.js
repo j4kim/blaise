@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { get, del, post } from "../api";
+import { get, del, post, put } from "../api";
 import { toRaw } from "vue";
 
 export const useVisitStore = defineStore("visit", {
@@ -69,6 +69,15 @@ export const useVisitStore = defineStore("visit", {
         openSaleDialog(sale) {
             this.selectedSale = structuredClone(toRaw(sale));
             this.showSaleDialog = true;
+        },
+        async saveSelectedSale() {
+            const { response, data } = await put(
+                `/api/visits/${this.current.id}/sale/${this.selectedSale.id}`,
+                this.selectedSale
+            );
+            if (!response.ok) return;
+            this.current = data;
+            this.showSaleDialog = false;
         },
     },
 });

@@ -133,8 +133,8 @@ onBeforeRouteLeave(() => (visit.current = null));
         <div class="flex justify-end gap-2">
             <Button
                 type="button"
-                label="Save"
-                @click="visit.showSaleDialog = false"
+                label="Valider"
+                @click="visit.saveSelectedSale"
             ></Button>
         </div>
     </Dialog>
