@@ -30,7 +30,17 @@ export const useClientStore = defineStore("client", {
             this.showLastVisits = false;
         },
         openEditDialog() {
-            this.edited = structuredClone(toRaw(this.selected));
+            this.edited = pick(
+                this.selected,
+                "first_name",
+                "last_name",
+                "gender",
+                "tel_1",
+                "tel_2",
+                "tel_3",
+                "npa",
+                "location"
+            );
             this.showEditDialog = true;
         },
         async save() {
