@@ -1,7 +1,13 @@
 <script setup>
 import { RouterLink } from "vue-router";
 
-const links = [{ title: "Profil", to: "/admin/profile" }];
+const links = [
+    { title: "Profil", to: "/admin/profile" },
+    { title: "Clients", to: "/admin/clients" },
+    { title: "Services", to: "/admin/services" },
+    { title: "Articles", to: "/admin/articles" },
+    { title: "Compta", to: "/admin/compta" },
+];
 </script>
 
 <template>
