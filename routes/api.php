@@ -3,7 +3,6 @@
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\LoginController;
-use App\Http\Controllers\SaleController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\VisitController;
 use Illuminate\Http\Request;
@@ -15,6 +14,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', fn(Request $request) => $request->user());
     Route::post('/logout', [LoginController::class, 'logout']);
     Route::put('/update-password', [LoginController::class, 'updatePassword']);
+    Route::get('/clients', [ClientController::class, 'index'])->name('clients.index');
     Route::get('/clients/{client}', [ClientController::class, 'show'])->name('clients.show');
     Route::put('/clients/{client}', [ClientController::class, 'update'])->name('clients.update');
     Route::get('/clients/search/{query}', [ClientController::class, 'search'])->name('clients.search');

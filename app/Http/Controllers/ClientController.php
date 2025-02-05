@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 
 class ClientController extends Controller
 {
+    public function index()
+    {
+        return Client::withTrashed()->withCount('visits')->get();
+    }
+
     public function show(Client $client)
     {
         $client->load('lastVisits.sales')->append('title');
