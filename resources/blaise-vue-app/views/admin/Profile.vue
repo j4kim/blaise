@@ -46,6 +46,8 @@ async function updatePassword() {
 </script>
 
 <template>
+    <h2 class="text-3xl font-extralight mt-4">Profil</h2>
+
     <form @submit.prevent="logout" class="my-8">
         <Card>
             <template #title>Déconnexion</template>
