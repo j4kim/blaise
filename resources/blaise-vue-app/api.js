@@ -26,7 +26,7 @@ export async function request(uri, options = {}) {
             router.push("/login");
         }
     } else if (response.status === 419) {
-        if (confirm(`Erreur interne (${data.message}) Recharger la page ?`)) {
+        if (confirm(`Session expriée. Recharger la page ?`)) {
             location.reload();
         }
     }
