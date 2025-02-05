@@ -38,7 +38,7 @@ const routes = [
         path: "/admin",
         component: Admin,
         meta: { hideFooter: true },
-        redirect: "admin/profile",
+        redirect: "/admin/profile",
         children: [
             {
                 path: "profile",
