@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\Password;
 
 class LoginController extends Controller
 {
@@ -38,5 +40,21 @@ class LoginController extends Controller
         $request->session()->regenerateToken();
 
         return ["message" => "Success", "new_token" => csrf_token()];
+    }
+
+    public function updatePassword(Request $request)
+    {
+        $request->validate([
+            'password' => ['required', 'string', 'current_password:web'],
+            'newPassword' => ['required', 'confirmed', Password::min(8)],
+        ], [
+            'password.current_password' => 'The provided password does not match your current password.',
+        ]);
+
+        $request->user()->forceFill([
+            'password' => Hash::make($request->newPassword),
+        ])->save();
+
+        return ["message" => "Success"];
     }
 }
