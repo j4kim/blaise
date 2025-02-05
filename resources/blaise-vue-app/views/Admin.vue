@@ -22,15 +22,19 @@ async function submit() {
 </script>
 
 <template>
-    <form @submit.prevent="submit">
-        <p>
-            Vous êtes connecté·e en tant que {{ user.name }} (
-            {{ user.email }} )
-        </p>
-        <Button
-            type="submit"
-            severity="secondary"
-            label="Se déconnecter"
-        ></Button>
-    </form>
+    <div
+        class="sm:mx-auto lg:max-w-screen-md xl:max-w-screen-lg px-2 py-4 h-full"
+    >
+        <form @submit.prevent="submit">
+            <p>
+                Vous êtes connecté·e en tant que {{ user.name }} (
+                {{ user.email }} )
+            </p>
+            <Button
+                type="submit"
+                severity="secondary"
+                label="Se déconnecter"
+            ></Button>
+        </form>
+    </div>
 </template>

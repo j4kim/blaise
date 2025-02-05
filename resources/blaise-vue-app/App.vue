@@ -3,18 +3,14 @@ import { Button } from "primevue";
 import ClientSearch from "./components/ClientSearch.vue";
 import { useVisitStore } from "./stores/visit";
 import CurrentVisit from "./sidebars/CurrentVisit.vue";
+import AdminBar from "./sidebars/AdminBar.vue";
 
 const visit = useVisitStore();
 </script>
 
 <template>
-    <div
-        class="min-h-dvh md:h-dvh flex md:flex-row dark:bg-surface-900"
-        :class="{
-            'flex-col': visit.current,
-        }"
-    >
-        <main class="flex flex-col w-full overflow-auto">
+    <div class="min-h-dvh h-dvh flex md:flex-row flex-col">
+        <main class="flex flex-col w-full md:overflow-auto grow">
             <header
                 v-if="!$route.meta.hideHeader"
                 class="flex justify-between px-3 py-2 bg-surface-100 dark:bg-surface-950 items-center"
@@ -25,11 +21,9 @@ const visit = useVisitStore();
                 <ClientSearch size="small" class="w-52" />
             </header>
             <div class="h-full w-full overflow-auto">
-                <div class="sm:max-w-screen-md sm:mx-auto px-2 py-4 h-full">
-                    <Suspense>
-                        <RouterView />
-                    </Suspense>
-                </div>
+                <Suspense>
+                    <RouterView />
+                </Suspense>
             </div>
             <footer
                 v-if="!$route.meta.hideFooter"
@@ -49,5 +43,6 @@ const visit = useVisitStore();
             </footer>
         </main>
         <CurrentVisit v-if="visit.current" />
+        <AdminBar v-if="$route.path.startsWith('/admin')" />
     </div>
 </template>

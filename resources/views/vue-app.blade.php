@@ -21,7 +21,7 @@
             @vite('resources/blaise-vue-app/app.js')
         @endif
     </head>
-    <body data-csrf="{{ csrf_token() }}" data-user="{{ auth()->id() }}">
+    <body data-csrf="{{ csrf_token() }}" data-user="{{ auth()->id() }}" class="dark:bg-surface-900">
         <div id="app"></div>
     </body>
 </html>
