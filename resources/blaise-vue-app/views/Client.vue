@@ -9,11 +9,11 @@ import LastVisits from "../components/LastVisits.vue";
 import { Button } from "primevue";
 import { useVisitStore } from "../stores/visit";
 import dayjs from "dayjs";
-import SaleDialog from "../components/SaleDialog.vue";
-import DiscountDialog from "../components/DiscountDialog.vue";
-import VoucherPaymentDialog from "../components/VoucherPaymentDialog.vue";
+import SaleDialog from "../dialogs/SaleDialog.vue";
+import DiscountDialog from "../dialogs/DiscountDialog.vue";
+import VoucherPaymentDialog from "../dialogs/VoucherPaymentDialog.vue";
 import { useClientStore } from "../stores/client";
-import EditClientDialog from "../components/EditClientDialog.vue";
+import EditClientDialog from "../dialogs/EditClientDialog.vue";
 
 const route = useRoute();
 

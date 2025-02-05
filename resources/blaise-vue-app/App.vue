@@ -2,7 +2,7 @@
 import { Button } from "primevue";
 import ClientSearch from "./components/ClientSearch.vue";
 import { useVisitStore } from "./stores/visit";
-import CurrentVisit from "./views/CurrentVisit.vue";
+import CurrentVisit from "./sidebars/CurrentVisit.vue";
 
 const visit = useVisitStore();
 </script>
