@@ -8,6 +8,10 @@ import Saleables from "./views/Saleables.vue";
 import AddService from "./views/AddService.vue";
 import AddArticle from "./views/AddArticle.vue";
 import Profile from "./views/admin/Profile.vue";
+import Clients from "./views/admin/Clients.vue";
+import Services from "./views/admin/Services.vue";
+import Articles from "./views/admin/Articles.vue";
+import Compta from "./views/admin/Compta.vue";
 
 const routes = [
     { path: "/", component: Home, meta: { hideHeader: true } },
@@ -43,6 +47,22 @@ const routes = [
             {
                 path: "profile",
                 component: Profile,
+            },
+            {
+                path: "clients",
+                component: Clients,
+            },
+            {
+                path: "services",
+                component: Services,
+            },
+            {
+                path: "articles",
+                component: Articles,
+            },
+            {
+                path: "compta",
+                component: Compta,
             },
         ],
     },

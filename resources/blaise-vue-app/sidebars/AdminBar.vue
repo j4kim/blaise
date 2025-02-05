@@ -21,7 +21,7 @@ const links = [
                 v-for="{ to, title } in links"
                 :to="to"
                 class="block cursor-pointer hover:bg-surface-200 dark:hover:bg-surface-800 px-5 py-3 sm:text-lg"
-                exactActiveClass="font-bold text-primary"
+                activeClass="font-bold text-primary"
             >
                 {{ title }}
             </RouterLink>
