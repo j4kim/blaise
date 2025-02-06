@@ -11,6 +11,17 @@ use Illuminate\Http\Request;
 
 class VisitController extends Controller
 {
+    public function currents()
+    {
+        $query = Visit::with('client')->whereNull('billed');
+        $slice = [];
+        $count = $query->count();
+        if ($count) {
+            $slice = $query->orderBy('visit_date')->take(3)->get();
+        }
+        return compact('slice', 'count');
+    }
+
     public function store(Client $client)
     {
         return $client->visits()->forceCreate([
