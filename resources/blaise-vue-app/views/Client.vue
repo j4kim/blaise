@@ -132,12 +132,12 @@ onBeforeRouteLeave(() => (visit.current = null));
                 :visits="client.selected.last_visits"
             ></LastVisits>
         </div>
+
+        <RouterView class="mb-6 md:mb-8" v-if="visit.current" />
+
+        <SaleDialog />
+        <DiscountDialog />
+        <VoucherPaymentDialog />
+        <EditClientDialog />
     </div>
-
-    <RouterView class="mb-6 md:mb-8" v-if="visit.current" />
-
-    <SaleDialog />
-    <DiscountDialog />
-    <VoucherPaymentDialog />
-    <EditClientDialog />
 </template>
