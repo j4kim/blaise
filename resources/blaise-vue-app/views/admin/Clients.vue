@@ -19,6 +19,13 @@ fetchClients();
 function formatDate(isoDate) {
     return dayjs(isoDate).format("DD.MM.YY");
 }
+
+function formatTel(row) {
+    return ["tel_1", "tel_2", "tel_3"]
+        .map((name) => row[name])
+        .filter((v) => v)
+        .join(", ");
+}
 </script>
 
 <template>
@@ -34,18 +41,27 @@ function formatDate(isoDate) {
             :rowClass="(row) => (row.deleted_at ? 'opacity-50' : '')"
         >
             <Column field="id" header="ID"></Column>
-            <Column field="updated_at" header="Mise à jour">
-                <template #body="slotProps" class="yolo">
+            <Column
+                field="updated_at"
+                header="Mise à jour"
+                bodyClass="tabular-nums"
+            >
+                <template #body="slotProps">
                     {{ formatDate(slotProps.data.updated_at) }}
                 </template>
             </Column>
             <Column field="first_name" header="Prénom"></Column>
             <Column field="last_name" header="Nom"></Column>
-            <Column field="tel_1" header="Tel 1"></Column>
-            <Column field="tel_2" header="Tel 2"></Column>
-            <Column field="tel_3" header="Tel 3"></Column>
-            <Column field="npa" header="NPA"></Column>
-            <Column field="location" header="Ville"></Column>
+            <Column header="Tel" bodyClass="min-w-44">
+                <template #body="{ data }">
+                    {{ formatTel(data) }}
+                </template>
+            </Column>
+            <Column header="Ville" bodyClass="min-w-32">
+                <template #body="{ data }">
+                    {{ data.npa }} {{ data.location }}
+                </template>
+            </Column>
             <Column field="gender" header="Genre"></Column>
             <Column field="visits_count" header="Visites"></Column>
         </DataTable>
