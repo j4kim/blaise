@@ -1,14 +1,16 @@
 <script setup>
-import { Column, DataTable } from "primevue";
+import { Column, DataTable, Paginator } from "primevue";
 import { reactive } from "vue";
 import { get } from "../../api";
 
-const clients = reactive({ rows: [] });
+const state = reactive({ page: {}, loading: false });
 
-async function fetchClients() {
-    const { data, response } = await get("/api/clients");
+async function fetchClients(page = 1) {
+    state.loading = true;
+    const { data, response } = await get(`/api/clients?page=${page}`);
+    state.loading = false;
     if (!response.ok) return;
-    clients.rows = data.data;
+    state.page = data;
 }
 
 fetchClients();
@@ -16,9 +18,15 @@ fetchClients();
 
 <template>
     <div class="flex flex-col h-full">
-        <h2 class="text-3xl font-extralight mt-4">Clients</h2>
+        <header class="text-xl font-extralight py-2 px-4">Clients</header>
 
-        <DataTable :value="clients.rows" paginator :rows="5">
+        <DataTable
+            :value="state.page.data"
+            scrollable
+            scrollHeight="100%"
+            class="grow overflow-auto"
+            :loading="state.loading"
+        >
             <Column field="id" header="ID"></Column>
             <Column field="created_at" header="Création"></Column>
             <Column field="updated_at" header="Modification"></Column>
@@ -33,5 +41,12 @@ fetchClients();
             <Column field="gender" header="Genre"></Column>
             <Column field="visits_count" header="Visites"></Column>
         </DataTable>
+
+        <Paginator
+            :rows="state.page.per_page"
+            :totalRecords="state.page.total"
+            :first="state.page.from - 1"
+            @page="fetchClients($event.page + 1)"
+        ></Paginator>
     </div>
 </template>
