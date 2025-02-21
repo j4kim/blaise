@@ -12,6 +12,10 @@ import Services from "./views/admin/Services.vue";
 import Articles from "./views/admin/Articles.vue";
 import Compta from "./views/admin/Compta.vue";
 
+function adminHook(to) {
+    localStorage["last-admin-path"] = to.path;
+}
+
 const routes = [
     { path: "/", component: Home, meta: { hideHeader: true } },
     {
@@ -40,27 +44,32 @@ const routes = [
     {
         path: "/admin",
         meta: { hideFooter: true },
-        redirect: "/admin/profile",
+        redirect: () => localStorage["last-admin-path"] ?? "/admin/profile",
         children: [
             {
                 path: "profile",
                 component: Profile,
+                beforeEnter: adminHook,
             },
             {
                 path: "clients",
                 component: Clients,
+                beforeEnter: adminHook,
             },
             {
                 path: "services",
                 component: Services,
+                beforeEnter: adminHook,
             },
             {
                 path: "articles",
                 component: Articles,
+                beforeEnter: adminHook,
             },
             {
                 path: "compta",
                 component: Compta,
+                beforeEnter: adminHook,
             },
         ],
     },
