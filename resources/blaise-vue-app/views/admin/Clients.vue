@@ -31,6 +31,7 @@ function formatDate(isoDate) {
             scrollHeight="100%"
             class="grow overflow-auto"
             :loading="state.loading"
+            :rowClass="(row) => (row.deleted_at ? 'opacity-50' : '')"
         >
             <Column field="id" header="ID"></Column>
             <Column field="updated_at" header="Mise à jour">
