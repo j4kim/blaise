@@ -32,14 +32,11 @@ const visit = useVisitStore();
                     hidden: visit.current,
                 }"
             >
-                <Button
-                    @click="$router.push('/admin')"
-                    variant="text"
-                    severity="secondary"
-                    size="small"
-                >
-                    Administration
-                </Button>
+                <RouterLink to="/admin">
+                    <Button variant="text" severity="secondary" size="small">
+                        Administration
+                    </Button>
+                </RouterLink>
             </footer>
         </main>
         <CurrentVisit v-if="visit.current" />
