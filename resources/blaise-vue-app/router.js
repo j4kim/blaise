@@ -1,7 +1,6 @@
 import { createWebHashHistory, createRouter } from "vue-router";
 
 import Home from "./views/Home.vue";
-import Admin from "./views/admin/Admin.vue";
 import Client from "./views/Client.vue";
 import Login from "./views/Login.vue";
 import Saleables from "./views/Saleables.vue";
@@ -40,7 +39,6 @@ const routes = [
     },
     {
         path: "/admin",
-        component: Admin,
         meta: { hideFooter: true },
         redirect: "/admin/profile",
         children: [
