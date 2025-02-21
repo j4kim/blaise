@@ -2,6 +2,7 @@
 import { Column, DataTable, Paginator } from "primevue";
 import { reactive } from "vue";
 import { get } from "../../api";
+import dayjs from "dayjs";
 
 const state = reactive({ page: {}, loading: false });
 
@@ -14,6 +15,10 @@ async function fetchClients(page = 1) {
 }
 
 fetchClients();
+
+function formatDate(isoDate) {
+    return dayjs(isoDate).format("DD.MM.YY");
+}
 </script>
 
 <template>
@@ -28,9 +33,11 @@ fetchClients();
             :loading="state.loading"
         >
             <Column field="id" header="ID"></Column>
-            <Column field="created_at" header="Création"></Column>
-            <Column field="updated_at" header="Modification"></Column>
-            <Column field="deleted_at" header="Suppression"></Column>
+            <Column field="updated_at" header="Mise à jour">
+                <template #body="slotProps" class="yolo">
+                    {{ formatDate(slotProps.data.updated_at) }}
+                </template>
+            </Column>
             <Column field="first_name" header="Prénom"></Column>
             <Column field="last_name" header="Nom"></Column>
             <Column field="tel_1" header="Tel 1"></Column>
