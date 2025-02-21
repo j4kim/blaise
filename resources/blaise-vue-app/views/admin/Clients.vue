@@ -17,7 +17,8 @@ async function fetchClients(page = 1) {
 fetchClients();
 
 function formatDate(isoDate) {
-    return dayjs(isoDate).format("DD.MM.YY");
+    const date = dayjs(isoDate);
+    return date.isValid() ? date.format("DD.MM.YY") : isoDate;
 }
 
 function formatTel(row) {
