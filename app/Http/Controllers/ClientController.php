@@ -10,7 +10,7 @@ class ClientController extends Controller
 {
     public function index()
     {
-        return Client::withTrashed()->withCount('visits')->get();
+        return Client::withTrashed()->withCount('visits')->paginate();
     }
 
     public function show(Client $client)

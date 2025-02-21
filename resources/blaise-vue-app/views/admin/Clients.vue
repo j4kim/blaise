@@ -8,7 +8,7 @@ const clients = reactive({ rows: [] });
 async function fetchClients() {
     const { data, response } = await get("/api/clients");
     if (!response.ok) return;
-    clients.rows = data;
+    clients.rows = data.data;
 }
 
 fetchClients();
