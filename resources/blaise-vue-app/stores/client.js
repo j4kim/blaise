@@ -8,7 +8,6 @@ export const useClientStore = defineStore("client", {
         selected: {},
         showDetails: false,
         showLastVisits: false,
-        showEditDialog: false,
         edited: {},
     }),
 
@@ -29,28 +28,13 @@ export const useClientStore = defineStore("client", {
             this.showDetails = false;
             this.showLastVisits = false;
         },
-        openEditDialog() {
-            this.edited = pick(
-                this.selected,
-                "first_name",
-                "last_name",
-                "gender",
-                "tel_1",
-                "tel_2",
-                "tel_3",
-                "npa",
-                "location"
-            );
-            this.showEditDialog = true;
-        },
-        async save() {
+        async save(edited) {
             const { data, response } = await put(
                 `/api/clients/${this.selected.id}`,
-                this.edited
+                edited
             );
             if (!response.ok) return;
             this.selected = data;
-            this.showEditDialog = false;
         },
     },
 });

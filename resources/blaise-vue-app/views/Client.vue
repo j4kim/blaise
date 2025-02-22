@@ -8,12 +8,11 @@ import {
 import LastVisits from "../components/LastVisits.vue";
 import { Button } from "primevue";
 import { useVisitStore } from "../stores/visit";
-import dayjs from "dayjs";
 import SaleDialog from "../dialogs/SaleDialog.vue";
 import DiscountDialog from "../dialogs/DiscountDialog.vue";
 import VoucherPaymentDialog from "../dialogs/VoucherPaymentDialog.vue";
 import { useClientStore } from "../stores/client";
-import EditClientDialog from "../dialogs/EditClientDialog.vue";
+import ClientDetails from "../components/ClientDetails.vue";
 
 const route = useRoute();
 
@@ -64,53 +63,11 @@ onBeforeRouteLeave(() => (visit.current = null));
                 ></i>
                 Coordonnées
             </h5>
-            <div v-if="client.showDetails">
-                <div class="grid lg:grid-cols-3 grid-cols-2 gap-4">
-                    <dl>
-                        <dt class="text-sm text-muted-color">Prénom</dt>
-                        <dd>{{ client.selected.first_name }}</dd>
-                    </dl>
-                    <dl>
-                        <dt class="text-sm text-muted-color">Nom</dt>
-                        <dd>{{ client.selected.last_name }}</dd>
-                    </dl>
-                    <dl>
-                        <dt class="text-sm text-muted-color">
-                            Date de création
-                        </dt>
-                        <dd>
-                            {{
-                                dayjs(client.selected.created_at).format(
-                                    "DD.MM.YYYY"
-                                )
-                            }}
-                        </dd>
-                    </dl>
-                    <dl>
-                        <dt class="text-sm text-muted-color">Ville</dt>
-                        <dd>
-                            {{ client.selected.npa }}
-                            {{ client.selected.location }}
-                        </dd>
-                    </dl>
-                    <dl>
-                        <dt class="text-sm text-muted-color">Téléphone</dt>
-                        <dd>{{ client.selected.tel_1 }}</dd>
-                        <dd>{{ client.selected.tel_2 }}</dd>
-                        <dd>{{ client.selected.tel_3 }}</dd>
-                    </dl>
-                </div>
-                <div class="flex justify-end">
-                    <Button
-                        @click="client.openEditDialog"
-                        label="Modifier"
-                        icon="pi pi-pencil"
-                        size="small"
-                        variant="text"
-                        severity="secondary"
-                    ></Button>
-                </div>
-            </div>
+            <ClientDetails
+                v-if="client.showDetails"
+                :client="client.selected"
+                @save="client.save"
+            ></ClientDetails>
         </div>
 
         <div class="mb-8">
@@ -138,6 +95,5 @@ onBeforeRouteLeave(() => (visit.current = null));
         <SaleDialog />
         <DiscountDialog />
         <VoucherPaymentDialog />
-        <EditClientDialog />
     </div>
 </template>
