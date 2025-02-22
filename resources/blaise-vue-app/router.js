@@ -11,6 +11,7 @@ import Clients from "./views/admin/Clients.vue";
 import Services from "./views/admin/Services.vue";
 import Articles from "./views/admin/Articles.vue";
 import Compta from "./views/admin/Compta.vue";
+import ClientData from "./views/admin/ClientData.vue";
 
 function adminHook(to) {
     localStorage["last-admin-path"] = to.path;
@@ -53,8 +54,17 @@ const routes = [
             },
             {
                 path: "clients",
-                component: Clients,
                 beforeEnter: adminHook,
+                children: [
+                    {
+                        path: "",
+                        component: Clients,
+                    },
+                    {
+                        path: ":clientId",
+                        component: ClientData,
+                    },
+                ],
             },
             {
                 path: "services",

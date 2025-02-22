@@ -80,6 +80,8 @@ function sort(e) {
             :rowClass="(row) => (row.deleted_at ? 'opacity-50' : '')"
             lazy
             @sort="sort"
+            @row-click="({ data }) => $router.push(`/admin/clients/${data.id}`)"
+            selectionMode="single"
         >
             <Column field="id" header="ID" sortable></Column>
             <Column
