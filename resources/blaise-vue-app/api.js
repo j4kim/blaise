@@ -34,7 +34,9 @@ export async function request(uri, options = {}) {
     return { data, response };
 }
 
-export const get = request;
+export async function get(uri, params = {}) {
+    return await request(`${uri}?${new URLSearchParams(params)}`);
+}
 
 export async function post(uri, data) {
     return await request(uri, { body: JSON.stringify(data), method: "POST" });

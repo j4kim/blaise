@@ -8,7 +8,7 @@ const state = reactive({ page: {}, loading: false });
 
 async function fetchClients(page = 1) {
     state.loading = true;
-    const { data, response } = await get(`/api/clients?page=${page}`);
+    const { data, response } = await get("/api/clients", { page });
     state.loading = false;
     if (!response.ok) return;
     state.page = data;
