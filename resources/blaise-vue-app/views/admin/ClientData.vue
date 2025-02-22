@@ -44,7 +44,14 @@ async function save(edited) {
             </span>
         </header>
         <div class="py-2 px-3">
-            <ClientDetails :client="state.client" @save="save"></ClientDetails>
+            <ClientDetails :client="state.client" @save="save">
+                <dl>
+                    <dt class="text-sm text-muted-color">Genre</dt>
+                    <dd>
+                        {{ ["Femme", "Homme"][state.client.gender] }}
+                    </dd>
+                </dl>
+            </ClientDetails>
         </div>
     </div>
 </template>

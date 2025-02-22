@@ -108,7 +108,7 @@ function sort(e) {
             </Column>
             <Column field="gender" header="Genre" sortable>
                 <template #body="{ data }">
-                    {{ data.gender == 1 ? "H" : "F" }}
+                    {{ ["F", "H"][data.gender] }}
                 </template>
             </Column>
             <Column field="visits_count" header="Visites" sortable></Column>

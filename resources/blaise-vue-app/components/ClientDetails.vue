@@ -66,6 +66,7 @@ function save(data) {
                 <dd>{{ client.tel_2 }}</dd>
                 <dd>{{ client.tel_3 }}</dd>
             </dl>
+            <slot></slot>
         </div>
         <div class="flex justify-end">
             <Button
