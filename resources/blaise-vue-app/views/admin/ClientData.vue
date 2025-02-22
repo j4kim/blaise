@@ -1,7 +1,8 @@
 <script setup>
 import { reactive } from "vue";
 import { RouterLink, useRoute } from "vue-router";
-import { get } from "../../api";
+import { get, put } from "../../api";
+import ClientDetails from "../../components/ClientDetails.vue";
 
 const route = useRoute();
 
@@ -14,6 +15,15 @@ async function fetchClient(id) {
 }
 
 fetchClient(route.params.clientId);
+
+async function save(edited) {
+    const { data, response } = await put(
+        `/api/clients/${route.params.clientId}`,
+        edited
+    );
+    if (!response.ok) return;
+    state.client = data;
+}
 </script>
 
 <template>
@@ -33,5 +43,8 @@ fetchClient(route.params.clientId);
                 {{ state.client.first_name }} {{ state.client.last_name }}
             </span>
         </header>
+        <div class="py-2 px-3">
+            <ClientDetails :client="state.client" @save="save"></ClientDetails>
+        </div>
     </div>
 </template>
