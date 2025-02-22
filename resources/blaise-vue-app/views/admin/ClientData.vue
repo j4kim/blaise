@@ -3,7 +3,7 @@ import { reactive } from "vue";
 import { RouterLink, useRoute } from "vue-router";
 import { get, put } from "../../api";
 import ClientDetails from "../../components/ClientDetails.vue";
-import { Message } from "primevue";
+import { Button, Message } from "primevue";
 import dayjs from "dayjs";
 
 const route = useRoute();
@@ -58,7 +58,7 @@ async function save(edited) {
             <ClientDetails
                 :client="state.client"
                 @save="save"
-                :disableBtn="state.client.deleted_at"
+                :disableBtn="!!state.client.deleted_at"
             >
                 <dl>
                     <dt class="text-sm text-muted-color">Genre</dt>
@@ -67,6 +67,17 @@ async function save(edited) {
                     </dd>
                 </dl>
             </ClientDetails>
+        </div>
+        <div class="py-2 px-3">
+            <RouterLink :to="`/clients/${state.client.id}`">
+                <Button
+                    size="small"
+                    variant="outlined"
+                    :disabled="state.client.deleted_at"
+                >
+                    Vers ticket
+                </Button>
+            </RouterLink>
         </div>
     </div>
 </template>
