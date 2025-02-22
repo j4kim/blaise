@@ -62,7 +62,11 @@ function formatTel(row) {
                     {{ data.npa }} {{ data.location }}
                 </template>
             </Column>
-            <Column field="gender" header="Genre"></Column>
+            <Column field="gender" header="Genre">
+                <template #body="{ data }">
+                    {{ data.gender == 1 ? "H" : "F" }}
+                </template>
+            </Column>
             <Column field="visits_count" header="Visites"></Column>
         </DataTable>
 
