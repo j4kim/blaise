@@ -16,6 +16,7 @@
     },
     "dependencies": {
         "@primevue/themes": "^4.2.5",
+        "@vueuse/core": "^12.7.0",
         "dayjs": "^1.11.13",
         "pinia": "^2.3.0",
         "primeicons": "^7.0.0",
