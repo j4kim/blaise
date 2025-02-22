@@ -87,7 +87,7 @@ async function save(edited) {
             </RouterLink>
         </div>
         <div class="py-2 px-3">
-            <h2 class="text-xl font-extralight">Toutes les visites</h2>
+            <h2 class="text-xl font-extralight mb-2">Toutes les visites</h2>
             <DataTable
                 :value="state.visits"
                 paginator
@@ -101,6 +101,8 @@ async function save(edited) {
                 selectionMode="single"
                 paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink"
                 currentPageReportTemplate="visites {first} à {last} sur {totalRecords}"
+                stateStorage="session"
+                :stateKey="`${$route.params.clientId}-visits`"
             >
                 <Column
                     field="id"
