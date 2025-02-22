@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -38,5 +39,18 @@ class Client extends Model
     public function getCurrentVisit(): ?Visit
     {
         return $this->visits()->with('sales')->whereNull('billed')->first()?->append('total');
+    }
+
+    public function scopeSearch(Builder $builder, string $query)
+    {
+        $words = explode(" ", $query);
+        foreach ($words as $word) {
+            $builder->where(
+                function (Builder $qb) use ($word) {
+                    $qb->where("first_name", "like", "$word%")
+                        ->orWhere("last_name", "like", "$word%");
+                }
+            );
+        }
     }
 }

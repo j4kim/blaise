@@ -34,17 +34,8 @@ class ClientController extends Controller
 
     public function search(Request $request, string $query)
     {
-        $qb = Client::query();
-        $words = explode(" ", $query);
-        foreach ($words as $word) {
-            $qb->where(
-                function (Builder $qb) use ($word) {
-                    $qb->where("first_name", "like", "$word%")
-                        ->orWhere("last_name", "like", "$word%");
-                }
-            );
-        }
-        return $qb->orderBy('updated_at', 'desc')
+        return Client::search($query)
+            ->orderBy('updated_at', 'desc')
             ->select("id", "first_name", "last_name")
             ->take(5)
             ->get();
