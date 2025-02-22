@@ -1,20 +1,20 @@
 <script setup>
 import { Column, DataTable, Paginator } from "primevue";
-import { reactive } from "vue";
+import { reactive, watch } from "vue";
 import { get } from "../../api";
 import dayjs from "dayjs";
 
-const state = reactive({ paginator: {}, loading: false });
+const state = reactive({ paginator: {}, loading: false, params: { page: 1 } });
 
-async function fetchClients(page = 1) {
+async function fetchClients() {
     state.loading = true;
-    const { data, response } = await get("/api/clients", { page });
+    const { data, response } = await get("/api/clients", state.params);
     state.loading = false;
     if (!response.ok) return;
     state.paginator = data;
 }
 
-fetchClients();
+watch(state.params, fetchClients, { immediate: true });
 
 function formatDate(isoDate) {
     const date = dayjs(isoDate);
@@ -74,7 +74,7 @@ function formatTel(row) {
             :rows="state.paginator.per_page"
             :totalRecords="state.paginator.total"
             :first="state.paginator.from - 1"
-            @page="fetchClients($event.page + 1)"
+            @page="state.params.page = $event.page + 1"
         >
             <template #start>
                 <span class="text-sm w-20">
