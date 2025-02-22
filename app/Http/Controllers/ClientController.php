@@ -8,9 +8,13 @@ use Illuminate\Http\Request;
 
 class ClientController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return Client::withTrashed()->withCount('visits')->paginate();
+        $query = Client::withTrashed()->withCount('visits');
+        if ($request->sortField) {
+            $query->orderBy($request->sortField, $request->sortOrder);
+        }
+        return $query->paginate();
     }
 
     public function show(Client $client)

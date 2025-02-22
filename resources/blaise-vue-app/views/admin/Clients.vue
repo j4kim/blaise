@@ -27,6 +27,12 @@ function formatTel(row) {
         .filter((v) => v)
         .join(", ");
 }
+
+function sort(e) {
+    state.params.sortField = e.sortField;
+    state.params.sortOrder = e.sortOrder === 1 ? "asc" : "desc";
+    state.params.page = 1;
+}
 </script>
 
 <template>
@@ -39,35 +45,38 @@ function formatTel(row) {
             scrollHeight="100%"
             class="grow overflow-auto"
             :rowClass="(row) => (row.deleted_at ? 'opacity-50' : '')"
+            lazy
+            @sort="sort"
         >
-            <Column field="id" header="ID"></Column>
+            <Column field="id" header="ID" sortable></Column>
             <Column
                 field="updated_at"
                 header="Mise à jour"
                 bodyClass="tabular-nums"
+                sortable
             >
                 <template #body="slotProps">
                     {{ formatDate(slotProps.data.updated_at) }}
                 </template>
             </Column>
-            <Column field="first_name" header="Prénom"></Column>
-            <Column field="last_name" header="Nom"></Column>
+            <Column field="first_name" header="Prénom" sortable></Column>
+            <Column field="last_name" header="Nom" sortable></Column>
             <Column header="Tel" bodyClass="min-w-44">
                 <template #body="{ data }">
                     {{ formatTel(data) }}
                 </template>
             </Column>
-            <Column header="Ville" bodyClass="min-w-32">
+            <Column field="npa" header="Ville" bodyClass="min-w-32" sortable>
                 <template #body="{ data }">
                     {{ data.npa }} {{ data.location }}
                 </template>
             </Column>
-            <Column field="gender" header="Genre">
+            <Column field="gender" header="Genre" sortable>
                 <template #body="{ data }">
                     {{ data.gender == 1 ? "H" : "F" }}
                 </template>
             </Column>
-            <Column field="visits_count" header="Visites"></Column>
+            <Column field="visits_count" header="Visites" sortable></Column>
         </DataTable>
 
         <Paginator
