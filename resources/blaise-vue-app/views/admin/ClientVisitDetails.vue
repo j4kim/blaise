@@ -1,7 +1,20 @@
 <script setup>
+import { reactive } from "vue";
 import { useRoute } from "vue-router";
+import { get } from "../../api";
+import dayjs from "dayjs";
 
 const route = useRoute();
+
+const state = reactive({ visit: {} });
+
+async function fetchVisit(id) {
+    const { data, response } = await get(`/api/admin/visits/${id}`);
+    if (!response.ok) return;
+    state.visit = data;
+}
+
+fetchVisit(route.params.visitId);
 </script>
 
 <template>
@@ -17,7 +30,8 @@ const route = useRoute();
                 class="pi pi-chevron-right opacity-50"
                 style="font-size: 0.7rem"
             ></i>
-            Visite {{ route.params.visitId }}
+            Visite du
+            {{ dayjs(state.visit.visit_date).format("DD.MM.YYYY HH:mm") }}
         </h2>
     </div>
 </template>

@@ -109,4 +109,11 @@ class VisitController extends Controller
         $sale->delete();
         return $visit->load('sales')->append('total');
     }
+
+    // admin
+
+    public function show(Visit $visit)
+    {
+        return $visit->load('sales')->append('total');
+    }
 }
