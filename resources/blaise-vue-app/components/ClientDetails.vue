@@ -7,6 +7,7 @@ import { pick } from "../tools";
 
 const props = defineProps({
     client: Object,
+    disableBtn: Boolean,
 });
 
 const emits = defineEmits(["save"]);
@@ -71,6 +72,7 @@ function save(data) {
         <div class="flex justify-end">
             <Button
                 @click="openEditDialog"
+                :disabled="disableBtn"
                 label="Modifier"
                 icon="pi pi-pencil"
                 size="small"

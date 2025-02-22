@@ -56,6 +56,6 @@ class ClientController extends Controller
 
     public function details(Client $client)
     {
-        return $client;
+        return $client->append('title');
     }
 }

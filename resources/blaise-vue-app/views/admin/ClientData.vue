@@ -3,6 +3,8 @@ import { reactive } from "vue";
 import { RouterLink, useRoute } from "vue-router";
 import { get, put } from "../../api";
 import ClientDetails from "../../components/ClientDetails.vue";
+import { Message } from "primevue";
+import dayjs from "dayjs";
 
 const route = useRoute();
 
@@ -43,8 +45,21 @@ async function save(edited) {
                 {{ state.client.first_name }} {{ state.client.last_name }}
             </span>
         </header>
+        <div class="py-2 px-3" v-if="state.client.deleted_at">
+            <Message severity="warn">
+                {{ state.client.title }} supprimé<span
+                    v-if="state.client.gender == 0"
+                    >e</span
+                >
+                le {{ dayjs(state.client.deleted_at).format("DD.MM.YYYY") }}
+            </Message>
+        </div>
         <div class="py-2 px-3">
-            <ClientDetails :client="state.client" @save="save">
+            <ClientDetails
+                :client="state.client"
+                @save="save"
+                :disableBtn="state.client.deleted_at"
+            >
                 <dl>
                     <dt class="text-sm text-muted-color">Genre</dt>
                     <dd>
