@@ -1,5 +1,19 @@
 <script setup>
-import { RouterLink } from "vue-router";
+import { reactive } from "vue";
+import { RouterLink, useRoute } from "vue-router";
+import { get } from "../../api";
+
+const route = useRoute();
+
+const state = reactive({ client: {} });
+
+async function fetchClient(id) {
+    const { data, response } = await get(`/api/admin/clients/${id}`);
+    if (!response.ok) return;
+    state.client = data;
+}
+
+fetchClient(route.params.clientId);
 </script>
 
 <template>
@@ -16,7 +30,7 @@ import { RouterLink } from "vue-router";
                     class="pi pi-chevron-right opacity-50"
                     style="font-size: 0.7rem"
                 ></i>
-                {{ $route.params.clientId }}
+                {{ state.client.first_name }} {{ state.client.last_name }}
             </span>
         </header>
     </div>

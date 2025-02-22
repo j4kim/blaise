@@ -31,4 +31,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/visits/{visit}/sale', [VisitController::class, 'addSale'])->name('visits.addSale');
     Route::get('/articles', [ArticleController::class, 'index'])->name('articles.index');
     Route::get('/services', [ServiceController::class, 'index'])->name('services.index');
+    Route::get('/admin/clients/{client}', [ClientController::class, 'details'])->withTrashed()->name('clients.details');
 });

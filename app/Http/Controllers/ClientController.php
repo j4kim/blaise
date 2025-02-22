@@ -51,4 +51,11 @@ class ClientController extends Controller
             'last_name' => @ucfirst($exploded[1]),
         ]);
     }
+
+    // Admin routes
+
+    public function details(Client $client)
+    {
+        return $client;
+    }
 }
