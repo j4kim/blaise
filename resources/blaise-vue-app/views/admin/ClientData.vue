@@ -18,7 +18,7 @@ fetchClient(route.params.clientId);
 
 <template>
     <div class="flex flex-col h-full">
-        <header class="py-2 px-4 flex justify-between flex-wrap">
+        <header class="py-2 px-3 flex justify-between flex-wrap">
             <span class="text-xl font-extralight">
                 <RouterLink
                     to="/admin/clients"
