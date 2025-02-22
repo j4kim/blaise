@@ -1,10 +1,24 @@
 <script setup>
-import { Column, DataTable, Paginator } from "primevue";
-import { reactive, watch } from "vue";
+import {
+    Column,
+    DataTable,
+    IconField,
+    InputIcon,
+    InputText,
+    Paginator,
+} from "primevue";
+import { reactive, ref, watch } from "vue";
 import { get } from "../../api";
 import dayjs from "dayjs";
+import { watchDebounced } from "@vueuse/core";
 
-const state = reactive({ paginator: {}, loading: false, params: { page: 1 } });
+const state = reactive({
+    paginator: {},
+    loading: false,
+    params: { page: 1 },
+});
+
+const filter = ref("");
 
 async function fetchClients() {
     state.loading = true;
@@ -15,6 +29,10 @@ async function fetchClients() {
 }
 
 watch(state.params, fetchClients, { immediate: true });
+
+watchDebounced(filter, (v) => (state.params.filter = v), {
+    debounce: 500,
+});
 
 function formatDate(isoDate) {
     const date = dayjs(isoDate);
@@ -37,7 +55,22 @@ function sort(e) {
 
 <template>
     <div class="flex flex-col h-full">
-        <header class="text-xl font-extralight py-2 px-4">Clients</header>
+        <header class="py-2 px-4 flex justify-between flex-wrap">
+            <span class="text-xl font-extralight">Clients</span>
+
+            <IconField>
+                <InputIcon>
+                    <i class="pi pi-search" />
+                </InputIcon>
+                <InputText
+                    class="w-60"
+                    size="small"
+                    v-model="filter"
+                    placeholder="Filtrer par nom ou prénom"
+                    variant="filled"
+                />
+            </IconField>
+        </header>
 
         <DataTable
             :value="state.paginator.data"

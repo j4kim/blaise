@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
-use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 class ClientController extends Controller
@@ -13,6 +12,9 @@ class ClientController extends Controller
         $query = Client::withTrashed()->withCount('visits');
         if ($request->sortField) {
             $query->orderBy($request->sortField, $request->sortOrder);
+        }
+        if ($request->filter) {
+            $query->search($request->filter);
         }
         return $query->paginate();
     }
