@@ -4,14 +4,14 @@ import { reactive } from "vue";
 import { get } from "../../api";
 import dayjs from "dayjs";
 
-const state = reactive({ page: {}, loading: false });
+const state = reactive({ paginator: {}, loading: false });
 
 async function fetchClients(page = 1) {
     state.loading = true;
     const { data, response } = await get("/api/clients", { page });
     state.loading = false;
     if (!response.ok) return;
-    state.page = data;
+    state.paginator = data;
 }
 
 fetchClients();
@@ -34,7 +34,7 @@ function formatTel(row) {
         <header class="text-xl font-extralight py-2 px-4">Clients</header>
 
         <DataTable
-            :value="state.page.data"
+            :value="state.paginator.data"
             scrollable
             scrollHeight="100%"
             class="grow overflow-auto"
@@ -71,13 +71,15 @@ function formatTel(row) {
         </DataTable>
 
         <Paginator
-            :rows="state.page.per_page"
-            :totalRecords="state.page.total"
-            :first="state.page.from - 1"
+            :rows="state.paginator.per_page"
+            :totalRecords="state.paginator.total"
+            :first="state.paginator.from - 1"
             @page="fetchClients($event.page + 1)"
         >
             <template #start>
-                <span class="text-sm w-20">Total: {{ state.page.total }}</span>
+                <span class="text-sm w-20">
+                    Total: {{ state.paginator.total }}
+                </span>
             </template>
             <template #end>
                 <div class="w-20 text-right">
