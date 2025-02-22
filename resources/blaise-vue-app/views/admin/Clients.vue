@@ -38,7 +38,6 @@ function formatTel(row) {
             scrollable
             scrollHeight="100%"
             class="grow overflow-auto"
-            :loading="state.loading"
             :rowClass="(row) => (row.deleted_at ? 'opacity-50' : '')"
         >
             <Column field="id" header="ID"></Column>
@@ -72,6 +71,15 @@ function formatTel(row) {
             :totalRecords="state.page.total"
             :first="state.page.from - 1"
             @page="fetchClients($event.page + 1)"
-        ></Paginator>
+        >
+            <template #start>
+                <span class="text-sm w-20">Total: {{ state.page.total }}</span>
+            </template>
+            <template #end>
+                <div class="w-20 text-right">
+                    <i class="pi pi-spin pi-spinner" v-if="state.loading"></i>
+                </div>
+            </template>
+        </Paginator>
     </div>
 </template>
