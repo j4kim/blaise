@@ -44,6 +44,16 @@ async function save(edited) {
                 ></i>
                 {{ state.client.first_name }} {{ state.client.last_name }}
             </h2>
+
+            <RouterLink :to="`/clients/${state.client.id}`">
+                <Button
+                    size="small"
+                    variant="outlined"
+                    :disabled="state.client.deleted_at"
+                    icon="pi pi-arrow-up-right"
+                    label="Vers ticket"
+                ></Button>
+            </RouterLink>
         </header>
         <div class="py-2 px-3" v-if="state.client.deleted_at">
             <Message severity="warn">
@@ -67,17 +77,6 @@ async function save(edited) {
                     </dd>
                 </dl>
             </ClientDetails>
-        </div>
-        <div class="py-2 px-3">
-            <RouterLink :to="`/clients/${state.client.id}`">
-                <Button
-                    size="small"
-                    variant="outlined"
-                    :disabled="state.client.deleted_at"
-                >
-                    Vers ticket
-                </Button>
-            </RouterLink>
         </div>
         <RouterView></RouterView>
     </div>
