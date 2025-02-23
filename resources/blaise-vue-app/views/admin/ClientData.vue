@@ -69,14 +69,7 @@ async function save(edited) {
                 :client="state.client"
                 @save="save"
                 :disableBtn="!!state.client.deleted_at"
-            >
-                <dl>
-                    <dt class="text-sm text-muted-color">Genre</dt>
-                    <dd>
-                        {{ ["Femme", "Homme"][state.client.gender] }}
-                    </dd>
-                </dl>
-            </ClientDetails>
+            />
         </div>
         <RouterView></RouterView>
     </div>
