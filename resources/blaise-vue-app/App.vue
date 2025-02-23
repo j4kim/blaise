@@ -22,7 +22,11 @@ const visit = useVisitStore();
             </header>
             <div class="h-full w-full overflow-auto">
                 <Suspense>
-                    <RouterView />
+                    <RouterView v-slot="{ Component }">
+                        <KeepAlive>
+                            <component :is="Component" />
+                        </KeepAlive>
+                    </RouterView>
                 </Suspense>
             </div>
             <footer
