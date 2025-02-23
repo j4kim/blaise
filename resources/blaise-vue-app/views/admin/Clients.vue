@@ -127,7 +127,16 @@ function sort(e) {
             @row-click="({ data }) => $router.push(`/admin/clients/${data.id}`)"
             selectionMode="single"
         >
-            <Column field="id" header="ID" sortable></Column>
+            <Column
+                field="created_at"
+                header="Création"
+                bodyClass="tabular-nums"
+                sortable
+            >
+                <template #body="slotProps">
+                    {{ formatDate(slotProps.data.created_at) }}
+                </template>
+            </Column>
             <Column
                 field="updated_at"
                 header="Mise à jour"
@@ -140,16 +149,6 @@ function sort(e) {
             </Column>
             <Column field="first_name" header="Prénom" sortable></Column>
             <Column field="last_name" header="Nom" sortable></Column>
-            <Column header="Tel" bodyClass="min-w-44">
-                <template #body="{ data }">
-                    {{ formatTel(data) }}
-                </template>
-            </Column>
-            <Column field="npa" header="Ville" bodyClass="min-w-32" sortable>
-                <template #body="{ data }">
-                    {{ data.npa }} {{ data.location }}
-                </template>
-            </Column>
             <Column field="gender" header="Genre" sortable>
                 <template #body="{ data }">
                     {{ ["F", "H"][data.gender] }}
