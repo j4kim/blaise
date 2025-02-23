@@ -54,13 +54,6 @@ function formatDate(isoDate) {
     return date.isValid() ? date.format("DD.MM.YY") : isoDate;
 }
 
-function formatTel(row) {
-    return ["tel_1", "tel_2", "tel_3"]
-        .map((name) => row[name])
-        .filter((v) => v)
-        .join(", ");
-}
-
 function sort(e) {
     state.params.sortField = e.sortField;
     state.params.sortOrder = e.sortOrder === 1 ? "asc" : "desc";
