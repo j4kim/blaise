@@ -21,7 +21,13 @@ const router = useRouter();
 const state = reactive({
     paginator: {},
     loading: false,
-    params: { page: 1, search: "", filter: "active" },
+    params: {
+        page: 1,
+        search: "",
+        filter: "active",
+        sortField: "updated_at",
+        sortOrder: "desc",
+    },
 });
 
 const search = ref("");
@@ -119,6 +125,8 @@ function sort(e) {
             @sort="sort"
             @row-click="({ data }) => $router.push(`/admin/clients/${data.id}`)"
             selectionMode="single"
+            sortField="updated_at"
+            :sortOrder="-1"
         >
             <Column
                 field="created_at"
