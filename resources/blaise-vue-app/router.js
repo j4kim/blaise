@@ -56,7 +56,9 @@ const routes = [
             },
             {
                 path: "clients",
-                beforeEnter: adminHook,
+                beforeEnter() {
+                    localStorage["last-admin-path"] = "/admin/clients";
+                },
                 children: [
                     {
                         path: "",
