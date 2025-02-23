@@ -7,12 +7,14 @@ import PrimeVue from "primevue/config";
 import router from "./router";
 import theme from "./theme";
 import { useSaleablesStore } from "./stores/saleables";
+import ConfirmationService from "primevue/confirmationservice";
 
 const pinia = createPinia();
 
 const app = createApp(App);
 
 app.use(PrimeVue, { theme });
+app.use(ConfirmationService);
 
 app.use(router);
 

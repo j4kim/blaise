@@ -1,10 +1,12 @@
 <script setup>
 import { onActivated, reactive } from "vue";
 import { RouterLink, RouterView, useRoute } from "vue-router";
-import { get, put } from "../../api";
+import { del, get, put } from "../../api";
 import ClientDetails from "../../components/ClientDetails.vue";
-import { Button, Message } from "primevue";
+import { Button, Message, useConfirm } from "primevue";
 import dayjs from "dayjs";
+
+const confirm = useConfirm();
 
 const route = useRoute();
 
@@ -25,6 +27,31 @@ async function save(edited) {
     );
     if (!response.ok) return;
     state.client = data;
+}
+
+async function deleteClient() {
+    const { data, response } = await del(
+        `/api/admin/clients/${state.client.id}`
+    );
+    if (!response.ok) return;
+    state.client = data;
+}
+
+function confirmDelete() {
+    confirm.require({
+        message: `Voulez-vous vraiment supprimer ${state.client.first_name} ${state.client.last_name} ?`,
+        header: "Suppression",
+        icon: "pi pi-info-circle",
+        rejectProps: {
+            label: "Annuler",
+            severity: "secondary",
+        },
+        acceptProps: {
+            label: "Oui, supprimer",
+            severity: "danger",
+        },
+        accept: deleteClient,
+    });
 }
 </script>
 
@@ -69,7 +96,19 @@ async function save(edited) {
                 :client="state.client"
                 @save="save"
                 :disableBtn="!!state.client.deleted_at"
-            />
+            >
+                <template #buttons>
+                    <Button
+                        :disabled="!!state.client.deleted_at"
+                        @click="confirmDelete"
+                        label="Supprimer"
+                        icon="pi pi-trash"
+                        size="small"
+                        variant="text"
+                        severity="danger"
+                    ></Button>
+                </template>
+            </ClientDetails>
         </div>
         <RouterView></RouterView>
     </div>

@@ -1,5 +1,5 @@
 <script setup>
-import { Button } from "primevue";
+import { Button, ConfirmDialog } from "primevue";
 import ClientSearch from "./components/ClientSearch.vue";
 import { useVisitStore } from "./stores/visit";
 import CurrentVisit from "./sidebars/CurrentVisit.vue";
@@ -45,5 +45,6 @@ const visit = useVisitStore();
         </main>
         <CurrentVisit v-if="visit.current" />
         <AdminBar v-if="$route.path.startsWith('/admin')" />
+        <ConfirmDialog></ConfirmDialog>
     </div>
 </template>

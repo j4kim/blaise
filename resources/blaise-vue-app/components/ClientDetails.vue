@@ -61,7 +61,8 @@ function save(data) {
                 { label: 'Genre', value: ['Femme', 'Homme'][client.gender] },
             ]"
         />
-        <div class="flex justify-end">
+        <div class="flex justify-end gap-2">
+            <slot name="buttons"></slot>
             <Button
                 @click="openEditDialog"
                 :disabled="disableBtn"

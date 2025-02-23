@@ -72,4 +72,10 @@ class ClientController extends Controller
             ->orderBy('id', 'desc')
             ->get();
     }
+
+    public function delete(Client $client)
+    {
+        $client->delete();
+        return $client->fresh()->append('title');
+    }
 }
