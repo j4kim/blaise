@@ -106,6 +106,17 @@ function formatDate(isoDate) {
                     {{ formatDate(slotProps.data.updated_at) }}
                 </template>
             </Column>
+            <Column
+                v-if="store.queryParams.filter === 'trashed'"
+                field="deleted_at"
+                header="Suppression"
+                bodyClass="tabular-nums"
+                sortable
+            >
+                <template #body="slotProps">
+                    {{ formatDate(slotProps.data.deleted_at) }}
+                </template>
+            </Column>
             <Column field="first_name" header="Prénom" sortable></Column>
             <Column field="last_name" header="Nom" sortable></Column>
             <Column field="gender" header="Genre" sortable>
