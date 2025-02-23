@@ -67,6 +67,9 @@ class ClientController extends Controller
 
     public function visits(int $client)
     {
-        return Visit::where('client_id', $client)->orderBy('id', 'desc')->get();
+        return Visit::where('client_id', $client)
+            ->whereNotNull('billed')
+            ->orderBy('id', 'desc')
+            ->get();
     }
 }
