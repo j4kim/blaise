@@ -13,16 +13,13 @@ import DiscountDialog from "../dialogs/DiscountDialog.vue";
 import VoucherPaymentDialog from "../dialogs/VoucherPaymentDialog.vue";
 import { useClientStore } from "../stores/client";
 import ClientDetails from "../components/ClientDetails.vue";
-import { onActivated } from "vue";
 
 const route = useRoute();
 
 const visit = useVisitStore();
 const client = useClientStore();
 
-onActivated(async () => {
-    await client.fetchClient(route.params.id);
-});
+client.fetchClient(route.params.id);
 
 onBeforeRouteUpdate((to, from) => {
     if (to.params.id !== from.params.id) {
