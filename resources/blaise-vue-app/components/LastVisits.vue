@@ -5,8 +5,10 @@ import {
     AccordionContent,
     AccordionHeader,
     AccordionPanel,
+    Button,
 } from "primevue";
 import { ref } from "vue";
+import { RouterLink } from "vue-router";
 
 defineProps({
     visits: Array,
@@ -83,6 +85,18 @@ function getSalesSummary(sales) {
                 >
                     <div>Paiement par bon cadeau</div>
                     <div>- CHF {{ visit.voucher_payment }}</div>
+                </div>
+                <div>
+                    <RouterLink
+                        :to="`/admin/clients/${visit.client_id}/visit/${visit.id}`"
+                    >
+                        <Button
+                            label="Détails"
+                            size="small"
+                            variant="text"
+                            severity="secondary"
+                        ></Button>
+                    </RouterLink>
                 </div>
             </AccordionContent>
         </AccordionPanel>
