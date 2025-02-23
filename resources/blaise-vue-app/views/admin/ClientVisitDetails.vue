@@ -3,6 +3,7 @@ import { reactive } from "vue";
 import { useRoute } from "vue-router";
 import { get } from "../../api";
 import dayjs from "dayjs";
+import Attributes from "../../components/Attributes.vue";
 
 const route = useRoute();
 
@@ -33,5 +34,10 @@ fetchVisit(route.params.visitId);
             Visite du
             {{ dayjs(state.visit.visit_date).format("DD.MM.YYYY HH:mm") }}
         </h2>
+        <Attributes
+            :attributes="[
+                { label: 'Prix facturé', value: `CHF ${state.visit.billed}` },
+            ]"
+        ></Attributes>
     </div>
 </template>
