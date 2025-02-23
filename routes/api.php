@@ -14,7 +14,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', fn(Request $request) => $request->user());
     Route::post('/logout', [LoginController::class, 'logout']);
     Route::put('/update-password', [LoginController::class, 'updatePassword']);
-    Route::get('/clients', [ClientController::class, 'index'])->name('clients.index');
     Route::get('/clients/{client}', [ClientController::class, 'show'])->name('clients.show');
     Route::put('/clients/{client}', [ClientController::class, 'update'])->name('clients.update');
     Route::get('/clients/search/{query}', [ClientController::class, 'search'])->name('clients.search');
@@ -31,6 +30,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/visits/{visit}/sale', [VisitController::class, 'addSale'])->name('visits.addSale');
     Route::get('/articles', [ArticleController::class, 'index'])->name('articles.index');
     Route::get('/services', [ServiceController::class, 'index'])->name('services.index');
+    Route::get('/admin/clients', [ClientController::class, 'index'])->name('clients.index');
     Route::get('/admin/clients/{client}', [ClientController::class, 'details'])->withTrashed()->name('clients.details');
     Route::get('/admin/clients/{client}/visits', [ClientController::class, 'visits'])->name('clients.visits');
     Route::get('/admin/visits/{visit}', [VisitController::class, 'show'])->name('visits.show');

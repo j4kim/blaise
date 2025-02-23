@@ -22,7 +22,7 @@ const filter = ref("");
 
 async function fetchClients() {
     state.loading = true;
-    const { data, response } = await get("/api/clients", state.params);
+    const { data, response } = await get("/api/admin/clients", state.params);
     state.loading = false;
     if (!response.ok) return;
     state.paginator = data;

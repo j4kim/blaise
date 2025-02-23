@@ -8,18 +8,6 @@ use Illuminate\Http\Request;
 
 class ClientController extends Controller
 {
-    public function index(Request $request)
-    {
-        $query = Client::withTrashed()->withCount('visits');
-        if ($request->sortField) {
-            $query->orderBy($request->sortField, $request->sortOrder);
-        }
-        if ($request->filter) {
-            $query->search($request->filter);
-        }
-        return $query->paginate();
-    }
-
     public function show(Client $client)
     {
         $client->load('lastVisits.sales')->append('title');
@@ -54,6 +42,18 @@ class ClientController extends Controller
     }
 
     // Admin routes
+
+    public function index(Request $request)
+    {
+        $query = Client::withTrashed()->withCount('visits');
+        if ($request->sortField) {
+            $query->orderBy($request->sortField, $request->sortOrder);
+        }
+        if ($request->filter) {
+            $query->search($request->filter);
+        }
+        return $query->paginate();
+    }
 
     public function details(Client $client)
     {
