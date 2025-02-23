@@ -4,6 +4,8 @@ import { useRoute } from "vue-router";
 import { get } from "../../api";
 import dayjs from "dayjs";
 import Attributes from "../../components/Attributes.vue";
+import Attribute from "../../components/Attribute.vue";
+import { Column, DataTable } from "primevue";
 
 const route = useRoute();
 
@@ -36,8 +38,31 @@ fetchVisit(route.params.visitId);
         </h2>
         <Attributes
             :attributes="[
-                { label: 'Prix facturé', value: `CHF ${state.visit.billed}` },
+                { label: 'Total facturé', value: `CHF ${state.visit.billed}` },
             ]"
-        ></Attributes>
+        >
+            <template #extra>
+                <Attribute
+                    v-if="state.visit.discount"
+                    label="Remise"
+                    :value="`- ${state.visit.discount * 100} %`"
+                />
+                <Attribute
+                    v-if="state.visit.voucher_payment"
+                    label="Remise"
+                    :value="`- CHF ${state.visit.voucher_payment}`"
+                />
+            </template>
+        </Attributes>
+
+        <div class="text-sm text-muted-color my-2">Ventes</div>
+
+        <DataTable :value="state.visit.sales" size="small">
+            <Column field="label" , header="Libellé"></Column>
+            <Column field="type" , header="Type"></Column>
+            <Column field="notes" , header="Notes"></Column>
+            <Column field="base_price" , header="Prix de base"></Column>
+            <Column field="price_charged" , header="Prix facturé"></Column>
+        </DataTable>
     </div>
 </template>
