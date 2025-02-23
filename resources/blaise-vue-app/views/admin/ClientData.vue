@@ -34,12 +34,12 @@ async function save(edited) {
             <h2 class="text-xl font-extralight">
                 <RouterLink
                     to="/admin/clients"
-                    class="opacity-50 hover:opacity-100"
+                    class="text-muted-color hover:text-color"
                 >
                     Clients
                 </RouterLink>
                 <i
-                    class="pi pi-chevron-right opacity-50"
+                    class="pi pi-chevron-right text-muted-color"
                     style="font-size: 0.7rem"
                 ></i>
                 {{ state.client.first_name }} {{ state.client.last_name }}

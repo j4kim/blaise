@@ -65,7 +65,7 @@ function getSalesSummary(sales) {
                                 sale.base_price &&
                                 sale.price_charged != sale.base_price
                             "
-                            class="line-through opacity-50"
+                            class="line-through text-muted-color"
                         >
                             {{ sale.base_price }}
                         </span>

@@ -23,12 +23,12 @@ fetchVisit(route.params.visitId);
         <h2 class="text-xl font-extralight mb-2">
             <RouterLink
                 :to="`/admin/clients/${route.params.clientId}`"
-                class="opacity-50 hover:opacity-100"
+                class="text-muted-color hover:text-color"
             >
                 Toutes les visites
             </RouterLink>
             <i
-                class="pi pi-chevron-right opacity-50"
+                class="pi pi-chevron-right text-muted-color"
                 style="font-size: 0.7rem"
             ></i>
             Visite du

@@ -92,7 +92,7 @@ function sort(e) {
             scrollable
             scrollHeight="100%"
             class="grow overflow-auto"
-            :rowClass="(row) => (row.deleted_at ? 'opacity-50' : '')"
+            :rowClass="(row) => (row.deleted_at ? '!text-muted-color' : '')"
             lazy
             @sort="sort"
             @row-click="({ data }) => $router.push(`/admin/clients/${data.id}`)"
