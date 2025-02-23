@@ -36,6 +36,7 @@ fetchVisits(route.params.clientId);
             currentPageReportTemplate="visites {first} à {last} sur {totalRecords}"
             stateStorage="session"
             :stateKey="`${$route.params.clientId}-visits`"
+            :alwaysShowPaginator="false"
         >
             <Column
                 field="created_at"
