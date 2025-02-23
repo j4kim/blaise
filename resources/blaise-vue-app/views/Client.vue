@@ -14,13 +14,16 @@ import DiscountDialog from "../dialogs/DiscountDialog.vue";
 import VoucherPaymentDialog from "../dialogs/VoucherPaymentDialog.vue";
 import { useClientStore } from "../stores/client";
 import ClientDetails from "../components/ClientDetails.vue";
+import { onActivated } from "vue";
 
 const route = useRoute();
 
 const visit = useVisitStore();
 const client = useClientStore();
 
-await client.fetchClient(route.params.id);
+onActivated(async () => {
+    await client.fetchClient(route.params.id);
+});
 
 onBeforeRouteUpdate((to, from) => {
     if (to.params.id !== from.params.id) {
@@ -31,8 +34,11 @@ onBeforeRouteUpdate((to, from) => {
 onBeforeRouteLeave(() => (visit.current = null));
 </script>
 
-<template v-if="client.selected">
-    <div class="sm:max-w-screen-md sm:mx-auto px-2 py-4 h-full">
+<template>
+    <div
+        class="sm:max-w-screen-md sm:mx-auto px-2 py-4 h-full"
+        v-if="client.selected"
+    >
         <div class="mt-2 mb-8 flex justify-between items-end flex-wrap gap-3">
             <div>
                 <h5 class="mb-1">{{ client.selected.title }}</h5>

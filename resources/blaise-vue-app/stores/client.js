@@ -1,11 +1,10 @@
 import { defineStore } from "pinia";
 import { get, put } from "../api";
 import { useVisitStore } from "./visit";
-import { pick } from "../tools";
 
 export const useClientStore = defineStore("client", {
     state: () => ({
-        selected: {},
+        selected: null,
         showDetails: false,
         showLastVisits: false,
         edited: {},
@@ -13,6 +12,7 @@ export const useClientStore = defineStore("client", {
 
     actions: {
         async fetchClient(id) {
+            this.selected = null;
             const { data, response } = await get(`/api/clients/${id}`);
             if (!response.ok) return;
             this.selected = data;
