@@ -127,6 +127,7 @@ function sort(e) {
             selectionMode="single"
             sortField="updated_at"
             :sortOrder="-1"
+            :loading="state.loading"
         >
             <Column
                 field="created_at"
@@ -163,17 +164,8 @@ function sort(e) {
             :totalRecords="state.paginator.total"
             :first="state.paginator.from - 1"
             @page="state.params.page = $event.page + 1"
-        >
-            <template #start>
-                <span class="text-sm w-20">
-                    Total: {{ state.paginator.total }}
-                </span>
-            </template>
-            <template #end>
-                <div class="w-20 text-right">
-                    <i class="pi pi-spin pi-spinner" v-if="state.loading"></i>
-                </div>
-            </template>
-        </Paginator>
+            template="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink"
+            currentPageReportTemplate="clients {first} à {last} sur {totalRecords}"
+        />
     </div>
 </template>
