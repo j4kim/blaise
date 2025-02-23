@@ -6,6 +6,7 @@ import {
     InputIcon,
     InputText,
     Paginator,
+    SelectButton,
 } from "primevue";
 import { reactive, ref, watch } from "vue";
 import { get } from "../../api";
@@ -15,7 +16,7 @@ import { watchDebounced } from "@vueuse/core";
 const state = reactive({
     paginator: {},
     loading: false,
-    params: { page: 1 },
+    params: { page: 1, search: "", filter: "active" },
 });
 
 const search = ref("");
@@ -55,8 +56,22 @@ function sort(e) {
 
 <template>
     <div class="flex flex-col h-full">
-        <header class="py-2 px-3 flex justify-between flex-wrap">
+        <header class="py-2 px-3 flex gap-3 justify-between flex-wrap">
             <span class="text-xl font-extralight">Clients</span>
+
+            <div class="grow"></div>
+
+            <SelectButton
+                v-model="state.params.filter"
+                :options="[
+                    { value: 'all', label: 'Tous' },
+                    { value: 'active', label: 'Actifs' },
+                    { value: 'trashed', label: 'Supprimés' },
+                ]"
+                optionValue="value"
+                optionLabel="label"
+                size="small"
+            />
 
             <IconField>
                 <InputIcon>

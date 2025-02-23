@@ -45,12 +45,17 @@ class ClientController extends Controller
 
     public function index(Request $request)
     {
-        $query = Client::withTrashed()->withCount('visits');
+        $query = Client::withCount('visits');
         if ($request->sortField) {
             $query->orderBy($request->sortField, $request->sortOrder);
         }
         if ($request->search) {
             $query->search($request->search);
+        }
+        if ($request->filter === 'trashed') {
+            $query->onlyTrashed();
+        } else if ($request->filter === 'all') {
+            $query->withTrashed();
         }
         return $query->paginate();
     }
