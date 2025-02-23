@@ -10,7 +10,7 @@ const confirm = useConfirm();
 
 const route = useRoute();
 
-const state = reactive({ client: {} });
+const state = reactive({ client: null, error: "" });
 
 async function fetchClient(id) {
     const { data, response } = await get(`/api/admin/clients/${id}`);
@@ -56,7 +56,7 @@ function confirmDelete() {
 </script>
 
 <template>
-    <div class="flex flex-col h-full">
+    <div class="flex flex-col h-full" v-if="state.client">
         <header class="py-2 px-3 flex justify-between flex-wrap">
             <h2 class="text-xl font-extralight">
                 <RouterLink
