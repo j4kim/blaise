@@ -11,7 +11,7 @@ import { ref } from "vue";
 import { RouterLink } from "vue-router";
 
 defineProps({
-    visits: Array,
+    client: Object,
 });
 
 const selected = ref(null);
@@ -27,7 +27,7 @@ function getSalesSummary(sales) {
 <template>
     <Accordion v-model:value="selected" expand-icon=" " collapse-icon=" ">
         <AccordionPanel
-            v-for="visit in visits"
+            v-for="visit in client.last_visits"
             :key="visit.id"
             :value="visit.id"
         >
@@ -101,4 +101,13 @@ function getSalesSummary(sales) {
             </AccordionContent>
         </AccordionPanel>
     </Accordion>
+    <RouterLink :to="`/admin/clients/${client.id}`">
+        <Button
+            class="mt-2"
+            label="Toutes les visites"
+            size="small"
+            variant="text"
+            severity="secondary"
+        ></Button>
+    </RouterLink>
 </template>

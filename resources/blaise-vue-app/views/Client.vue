@@ -2,7 +2,6 @@
 import {
     onBeforeRouteLeave,
     onBeforeRouteUpdate,
-    RouterLink,
     RouterView,
     useRoute,
 } from "vue-router";
@@ -93,17 +92,8 @@ onBeforeRouteLeave(() => (visit.current = null));
             </h5>
             <LastVisits
                 v-if="client.showLastVisits"
-                :visits="client.selected.last_visits"
+                :client="client.selected"
             ></LastVisits>
-            <RouterLink :to="`/admin/clients/${client.selected.id}`">
-                <Button
-                    class="mt-2"
-                    label="Toutes les visites"
-                    size="small"
-                    variant="text"
-                    severity="secondary"
-                ></Button>
-            </RouterLink>
         </div>
 
         <RouterView class="mb-6 md:mb-8" v-if="visit.current" />
