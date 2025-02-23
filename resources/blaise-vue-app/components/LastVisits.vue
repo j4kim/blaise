@@ -86,7 +86,7 @@ function getSalesSummary(sales) {
                     <div>Paiement par bon cadeau</div>
                     <div>- CHF {{ visit.voucher_payment }}</div>
                 </div>
-                <div>
+                <div class="text-center">
                     <RouterLink
                         :to="`/admin/clients/${visit.client_id}/visit/${visit.id}`"
                     >
