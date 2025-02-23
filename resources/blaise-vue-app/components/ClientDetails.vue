@@ -48,7 +48,10 @@ function save(data) {
                     label: 'Date de création',
                     value: dayjs(client.created_at).format('DD.MM.YYYY'),
                 },
-                { label: 'Ville', value: client.npa + ' ' + client.location },
+                {
+                    label: 'Ville',
+                    value: [client.npa, client.location].join(' '),
+                },
                 {
                     label: 'Téléphone',
                     value: [client.tel_1, client.tel_2, client.tel_3]
