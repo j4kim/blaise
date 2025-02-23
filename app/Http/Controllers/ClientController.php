@@ -73,6 +73,11 @@ class ClientController extends Controller
             ->get();
     }
 
+    public function store(Request $request)
+    {
+        return Client::forceCreate($request->all());
+    }
+
     public function delete(Client $client)
     {
         $client->delete();

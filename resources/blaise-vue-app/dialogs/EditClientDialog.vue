@@ -10,6 +10,14 @@ import {
 
 const props = defineProps({
     edited: Object,
+    header: {
+        type: String,
+        default: "Modification des coordonnées",
+    },
+    btn: {
+        type: String,
+        default: "Sauver",
+    },
 });
 </script>
 
@@ -17,7 +25,7 @@ const props = defineProps({
     <Dialog
         modal
         dismissableMask
-        header="Modification des coordonnées"
+        :header="header"
         class="w--min-full sm:max-w-screen-sm w-full"
     >
         <form
@@ -80,7 +88,7 @@ const props = defineProps({
 
             <div class="flex justify-between">
                 <div class="grow"></div>
-                <Button type="submit" label="Sauver"></Button>
+                <Button type="submit" :label="btn"></Button>
             </div>
         </form>
     </Dialog>

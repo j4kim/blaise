@@ -1,5 +1,6 @@
 <script setup>
 import {
+    Button,
     Column,
     DataTable,
     IconField,
@@ -9,9 +10,13 @@ import {
     SelectButton,
 } from "primevue";
 import { reactive, ref, watch } from "vue";
-import { get } from "../../api";
+import { get, post } from "../../api";
 import dayjs from "dayjs";
 import { watchDebounced } from "@vueuse/core";
+import EditClientDialog from "../../dialogs/EditClientDialog.vue";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 
 const state = reactive({
     paginator: {},
@@ -21,12 +26,21 @@ const state = reactive({
 
 const search = ref("");
 
+const showAddDialog = ref(false);
+
 async function fetchClients() {
     state.loading = true;
     const { data, response } = await get("/api/admin/clients", state.params);
     state.loading = false;
     if (!response.ok) return;
     state.paginator = data;
+}
+
+async function create(client) {
+    const { data, response } = await post("/api/admin/clients", client);
+    if (!response.ok) return;
+    showAddDialog.value = false;
+    router.push(`/admin/clients/${data.id}`);
 }
 
 watch(state.params, fetchClients, { immediate: true });
@@ -61,6 +75,21 @@ function sort(e) {
 
             <div class="grow"></div>
 
+            <Button
+                label="Ajouter"
+                size="small"
+                variant="text"
+                icon="pi pi-user-plus"
+                @click="showAddDialog = true"
+            />
+            <EditClientDialog
+                header="Ajouter un·e client·e"
+                btn="Créer"
+                v-model:visible="showAddDialog"
+                :edited="{}"
+                @save="create"
+            />
+
             <SelectButton
                 v-model="state.params.filter"
                 :options="[
@@ -78,7 +107,7 @@ function sort(e) {
                     <i class="pi pi-search" />
                 </InputIcon>
                 <InputText
-                    class="w-60"
+                    class="w-56"
                     size="small"
                     v-model="search"
                     placeholder="Filtrer par nom ou prénom"
