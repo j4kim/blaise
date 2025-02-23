@@ -18,7 +18,7 @@ const state = reactive({
     params: { page: 1 },
 });
 
-const filter = ref("");
+const search = ref("");
 
 async function fetchClients() {
     state.loading = true;
@@ -30,7 +30,7 @@ async function fetchClients() {
 
 watch(state.params, fetchClients, { immediate: true });
 
-watchDebounced(filter, (v) => (state.params.filter = v), {
+watchDebounced(search, (v) => (state.params.search = v), {
     debounce: 500,
 });
 
@@ -65,7 +65,7 @@ function sort(e) {
                 <InputText
                     class="w-60"
                     size="small"
-                    v-model="filter"
+                    v-model="search"
                     placeholder="Filtrer par nom ou prénom"
                     variant="filled"
                 />

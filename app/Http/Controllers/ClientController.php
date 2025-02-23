@@ -49,8 +49,8 @@ class ClientController extends Controller
         if ($request->sortField) {
             $query->orderBy($request->sortField, $request->sortOrder);
         }
-        if ($request->filter) {
-            $query->search($request->filter);
+        if ($request->search) {
+            $query->search($request->search);
         }
         return $query->paginate();
     }
