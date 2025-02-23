@@ -1,5 +1,5 @@
 <script setup>
-import { onActivated, reactive } from "vue";
+import { reactive } from "vue";
 import { RouterLink, RouterView, useRoute } from "vue-router";
 import { del, get, put } from "../../api";
 import ClientDetails from "../../components/ClientDetails.vue";
@@ -18,7 +18,7 @@ async function fetchClient(id) {
     state.client = data;
 }
 
-onActivated(() => fetchClient(route.params.clientId));
+fetchClient(route.params.clientId);
 
 async function save(edited) {
     const { data, response } = await put(

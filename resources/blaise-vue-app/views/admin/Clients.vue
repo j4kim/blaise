@@ -9,61 +9,17 @@ import {
     Paginator,
     SelectButton,
 } from "primevue";
-import { reactive, ref, watch } from "vue";
-import { get, post } from "../../api";
 import dayjs from "dayjs";
-import { watchDebounced } from "@vueuse/core";
 import EditClientDialog from "../../dialogs/EditClientDialog.vue";
-import { useRouter } from "vue-router";
+import { useAdminClientsStore } from "../../stores/admin/clients";
 
-const router = useRouter();
+const store = useAdminClientsStore();
 
-const state = reactive({
-    paginator: {},
-    loading: false,
-    params: {
-        page: 1,
-        search: "",
-        filter: "active",
-        sortField: "updated_at",
-        sortOrder: "desc",
-    },
-});
-
-const search = ref("");
-
-const showAddDialog = ref(false);
-
-async function fetchClients() {
-    state.loading = true;
-    const { data, response } = await get("/api/admin/clients", state.params);
-    state.loading = false;
-    if (!response.ok) return;
-    state.paginator = data;
-}
-
-async function create(client) {
-    const { data, response } = await post("/api/admin/clients", client);
-    if (!response.ok) return;
-    showAddDialog.value = false;
-    router.push(`/admin/clients/${data.id}`);
-}
-
-watch(state.params, fetchClients, { immediate: true });
-
-watchDebounced(search, (v) => (state.params.search = v), {
-    debounce: 500,
-});
+store.fetchClients();
 
 function formatDate(isoDate) {
     const date = dayjs(isoDate);
     return date.isValid() ? date.format("DD.MM.YY") : isoDate;
-}
-
-function sort(e) {
-    state.params.sortField = e.sortField;
-    state.params.sortOrder = e.sortOrder === 1 ? "asc" : "desc";
-    state.params.page = 1;
 }
 </script>
 
@@ -79,18 +35,19 @@ function sort(e) {
                 size="small"
                 variant="text"
                 icon="pi pi-user-plus"
-                @click="showAddDialog = true"
+                @click="store.showAddDialog = true"
             />
             <EditClientDialog
                 header="Ajouter un·e client·e"
                 btn="Créer"
-                v-model:visible="showAddDialog"
+                v-model:visible="store.showAddDialog"
                 :edited="{}"
-                @save="create"
+                @save="store.create"
             />
 
             <SelectButton
-                v-model="state.params.filter"
+                v-model="store.queryParams.filter"
+                @change="() => (store.queryParams.page = 1)"
                 :options="[
                     { value: 'all', label: 'Tous' },
                     { value: 'active', label: 'Actifs' },
@@ -108,7 +65,7 @@ function sort(e) {
                 <InputText
                     class="w-56"
                     size="small"
-                    v-model="search"
+                    v-model="store.search"
                     placeholder="Filtrer par nom ou prénom"
                     variant="filled"
                 />
@@ -116,18 +73,18 @@ function sort(e) {
         </header>
 
         <DataTable
-            :value="state.paginator.data"
+            :value="store.paginator.data"
             scrollable
             scrollHeight="100%"
             class="grow overflow-auto"
             :rowClass="(row) => (row.deleted_at ? '!text-muted-color' : '')"
             lazy
-            @sort="sort"
+            @sort="store.sort"
             @row-click="({ data }) => $router.push(`/admin/clients/${data.id}`)"
             selectionMode="single"
             sortField="updated_at"
             :sortOrder="-1"
-            :loading="state.loading"
+            :loading="store.loading"
         >
             <Column
                 field="created_at"
@@ -160,10 +117,10 @@ function sort(e) {
         </DataTable>
 
         <Paginator
-            :rows="state.paginator.per_page"
-            :totalRecords="state.paginator.total"
-            :first="state.paginator.from - 1"
-            @page="state.params.page = $event.page + 1"
+            :rows="store.paginator.per_page"
+            :totalRecords="store.paginator.total"
+            :first="store.paginator.from - 1"
+            @page="store.queryParams.page = $event.page + 1"
             template="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink"
             currentPageReportTemplate="clients {first} à {last} sur {totalRecords}"
         />
