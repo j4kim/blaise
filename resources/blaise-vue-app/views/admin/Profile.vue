@@ -46,7 +46,7 @@ async function updatePassword() {
 </script>
 
 <template>
-    <div class="px-2 py-4 h-full sm:max-w-screen-md sm:mx-auto">
+    <div class="px-2 py-4 sm:max-w-screen-md sm:mx-auto">
         <h2 class="text-3xl font-extralight mt-4">Profil</h2>
 
         <form @submit.prevent="logout" class="my-8">
