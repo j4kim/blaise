@@ -4,7 +4,7 @@ import EditClientDialog from "../dialogs/EditClientDialog.vue";
 import dayjs from "dayjs";
 import { ref } from "vue";
 import { pick } from "../tools";
-import Attribute from "./Attribute.vue";
+import Attributes from "./Attributes.vue";
 
 const props = defineProps({
     client: Object,
@@ -40,31 +40,24 @@ function save(data) {
 
 <template>
     <div>
-        <div class="grid lg:grid-cols-3 grid-cols-2 gap-4">
-            <Attribute label="Prénom" :value="client.first_name" />
-            <Attribute label="Nom" :value="client.last_name" />
-            <Attribute
-                label="Date de création"
-                :value="dayjs(client.created_at).format('DD.MM.YYYY')"
-            />
-            <Attribute
-                label="Ville"
-                :value="client.npa + ' ' + client.location"
-            />
-            <Attribute
-                label="Téléphone"
-                :value="
-                    [client.tel_1, client.tel_2, client.tel_3]
+        <Attributes
+            :attributes="[
+                { label: 'Prénom', value: client.first_name },
+                { label: 'Nom', value: client.last_name },
+                {
+                    label: 'Date de création',
+                    value: dayjs(client.created_at).format('DD.MM.YYYY'),
+                },
+                { label: 'Ville', value: client.npa + ' ' + client.location },
+                {
+                    label: 'Téléphone',
+                    value: [client.tel_1, client.tel_2, client.tel_3]
                         .filter((t) => t)
-                        .join('<br>')
-                "
-            />
-            <Attribute
-                label="Gender"
-                :value="['Femme', 'Homme'][client.gender]"
-            />
-            <slot name="extra"></slot>
-        </div>
+                        .join('<br>'),
+                },
+                { label: 'Genre', value: ['Femme', 'Homme'][client.gender] },
+            ]"
+        />
         <div class="flex justify-end">
             <Button
                 @click="openEditDialog"
