@@ -15,7 +15,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [LoginController::class, 'logout']);
     Route::put('/update-password', [LoginController::class, 'updatePassword']);
     Route::get('/clients/{client}', [ClientController::class, 'show'])->name('clients.show');
-    Route::put('/clients/{client}', [ClientController::class, 'update'])->name('clients.update');
+    Route::put('/clients/{client}', [ClientController::class, 'update'])->withTrashed()->name('clients.update');
     Route::get('/clients/search/{query}', [ClientController::class, 'search'])->name('clients.search');
     Route::post('/clients/{query}', [ClientController::class, 'createFromQuery'])->name('clients.createFromQuery');
     Route::get('/visits/currents', [VisitController::class, 'currents'])->name('visits.currents');

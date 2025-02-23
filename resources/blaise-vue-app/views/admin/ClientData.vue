@@ -99,6 +99,15 @@ function confirmDelete() {
             >
                 <template #buttons>
                     <Button
+                        v-if="state.client.deleted_at"
+                        @click="save({ deleted_at: null })"
+                        label="Restaurer"
+                        icon="pi pi-refresh"
+                        size="small"
+                        variant="text"
+                        severity="secondary"
+                    ></Button>
+                    <Button
                         :disabled="!!state.client.deleted_at"
                         @click="confirmDelete"
                         label="Supprimer"
