@@ -37,8 +37,6 @@ fetchVisits(route.params.clientId);
             stateStorage="session"
             :stateKey="`${$route.params.clientId}-visits`"
         >
-            <Column field="id" header="ID" sortable bodyClass="tabular-nums">
-            </Column>
             <Column
                 field="created_at"
                 header="Date de la visite"
