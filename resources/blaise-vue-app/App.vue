@@ -41,6 +41,6 @@ const visit = useVisitStore();
         </main>
         <CurrentVisit v-if="visit.current" />
         <AdminBar v-if="$route.path.startsWith('/admin')" />
-        <ConfirmDialog></ConfirmDialog>
+        <ConfirmDialog class="sm:w-1/2 xl:w-1/3"></ConfirmDialog>
     </div>
 </template>

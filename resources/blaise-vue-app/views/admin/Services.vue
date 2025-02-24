@@ -18,6 +18,7 @@ const store = useServicesStore();
         >
             <Column field="label" header="Catégorie" sortable></Column>
             <Column field="sort_order" header="Ordre" sortable></Column>
+            <Column field="services.length" header="Services" sortable></Column>
             <Column class="w-32">
                 <template #body="{ data }">
                     <Button

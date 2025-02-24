@@ -46,7 +46,7 @@ export const useServicesStore = defineStore("services", () => {
 
     function confirmCatDelete(category) {
         confirm.require({
-            message: `Voulez-vous vraiment supprimer la catégorie ${category.label} ?`,
+            message: `Voulez-vous vraiment supprimer la catégorie ${category.label} ? Cette catégorie contient ${category.services.length} services.`,
             header: "Suppression",
             icon: "pi pi-info-circle",
             rejectProps: {
