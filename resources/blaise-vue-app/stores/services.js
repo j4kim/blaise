@@ -61,7 +61,13 @@ export const useServicesStore = defineStore("services", () => {
         const id = edited.value.id;
         const { data, response } = await put(
             `/api/admin/services/${id}`,
-            pick(edited.value, "label", "sort_order", "price")
+            pick(
+                edited.value,
+                "label",
+                "sort_order",
+                "price",
+                "service_category_id"
+            )
         );
         if (!response.ok) return;
         await fetch();

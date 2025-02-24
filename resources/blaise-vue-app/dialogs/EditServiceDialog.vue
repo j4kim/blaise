@@ -1,5 +1,15 @@
 <script setup>
-import { Button, Dialog, FloatLabel, InputNumber, InputText } from "primevue";
+import {
+    Button,
+    Dialog,
+    FloatLabel,
+    InputNumber,
+    InputText,
+    Select,
+} from "primevue";
+import { useServicesStore } from "../stores/services";
+
+const store = useServicesStore();
 
 const props = defineProps({
     edited: Object,
@@ -21,6 +31,17 @@ const props = defineProps({
             @submit.prevent="$emit('save', edited)"
         >
             <div class="grid grid-cols-12 gap-4 mt-2">
+                <FloatLabel class="col-span-12" variant="on">
+                    <Select
+                        v-model="edited.service_category_id"
+                        :options="store.categories"
+                        optionLabel="label"
+                        optionValue="id"
+                        id="category"
+                        fluid
+                    />
+                    <label for="category">Catégorie</label>
+                </FloatLabel>
                 <FloatLabel class="col-span-12" variant="on">
                     <InputText v-model="edited.label" id="label" fluid />
                     <label for="label">Libellé</label>
