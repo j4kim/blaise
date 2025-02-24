@@ -17,11 +17,19 @@ const store = useSaleablesStore();
                 </template>
             </Column>
             <Column field="sort_order" header="Ordre"></Column>
-            <Column>
+            <Column class="w-32">
                 <template #body>
                     <Button
                         icon="pi pi-pencil"
-                        aria-label="Filter"
+                        aria-label="Modifier"
+                        size="small"
+                        variant="text"
+                        rounded
+                        severity="secondary"
+                    />
+                    <Button
+                        icon="pi pi-trash"
+                        aria-label="Supprimer"
                         size="small"
                         variant="text"
                         rounded
