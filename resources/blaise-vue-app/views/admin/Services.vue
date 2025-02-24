@@ -1,7 +1,7 @@
 <script setup>
 import { Button, Column, DataTable } from "primevue";
 import { useServicesStore } from "../../stores/services";
-import EditServiceDialog from "../../dialogs/EditServiceCatDialog.vue";
+import EditServiceCatDialog from "../../dialogs/EditServiceCatDialog.vue";
 
 const store = useServicesStore();
 </script>
@@ -15,7 +15,9 @@ const store = useServicesStore();
             :value="store.categories"
             sortField="sort_order"
             :sortOrder="1"
+            :expandedRows="[]"
         >
+            <Column expander />
             <Column field="label" header="Catégorie" sortable></Column>
             <Column field="sort_order" header="Ordre" sortable></Column>
             <Column field="services.length" header="Services" sortable></Column>
@@ -41,8 +43,49 @@ const store = useServicesStore();
                     />
                 </template>
             </Column>
+            <template #expansion="{ data }">
+                <DataTable
+                    :value="data.services"
+                    sortField="sort_order"
+                    :sortOrder="1"
+                    class="p-4"
+                >
+                    <template #empty>
+                        Aucun service dans cette catégorie.
+                    </template>
+                    <Column field="label" header="Service" sortable></Column>
+                    <Column field="sort_order" header="Ordre" sortable></Column>
+                    <Column field="price" header="Prix" sortable>
+                        <template #body="{ data }">
+                            CHF {{ data.price }}
+                        </template>
+                    </Column>
+                    <Column class="w-32">
+                        <template #body="{ data }">
+                            <Button
+                                icon="pi pi-pencil"
+                                aria-label="Modifier"
+                                size="small"
+                                variant="text"
+                                rounded
+                                severity="secondary"
+                                @click="console.log('update', data)"
+                            />
+                            <Button
+                                icon="pi pi-trash"
+                                aria-label="Supprimer"
+                                size="small"
+                                variant="text"
+                                rounded
+                                severity="secondary"
+                                @click="console.log('delete', data)"
+                            />
+                        </template>
+                    </Column>
+                </DataTable>
+            </template>
         </DataTable>
-        <EditServiceDialog
+        <EditServiceCatDialog
             v-model:visible="store.showCatEditDialog"
             :edited="store.editedCat"
             header="Modifier"
