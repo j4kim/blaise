@@ -22,11 +22,10 @@ export const useServicesStore = defineStore("services", () => {
         showCatEditDialog.value = true;
     }
 
-    async function updateCat() {
-        const id = edited.value.id;
+    async function updateCat(category) {
         const { data, response } = await put(
-            `/api/admin/service-categories/${id}`,
-            pick(edited.value, "label", "sort_order")
+            `/api/admin/service-categories/${category.id}`,
+            pick(category, "label", "sort_order")
         );
         if (!response.ok) return;
         await fetch();
@@ -57,17 +56,10 @@ export const useServicesStore = defineStore("services", () => {
         showServiceEditDialog.value = true;
     }
 
-    async function updateService() {
-        const id = edited.value.id;
+    async function updateService(service) {
         const { data, response } = await put(
-            `/api/admin/services/${id}`,
-            pick(
-                edited.value,
-                "label",
-                "sort_order",
-                "price",
-                "service_category_id"
-            )
+            `/api/admin/services/${service.id}`,
+            pick(service, "label", "sort_order", "price", "service_category_id")
         );
         if (!response.ok) return;
         await fetch();
