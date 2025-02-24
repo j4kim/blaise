@@ -76,6 +76,29 @@ export const useServicesStore = defineStore("services", () => {
         showServiceEditDialog.value = false;
     }
 
+    async function deleteService(id) {
+        const { data, response } = await del(`/api/admin/services/${id}`);
+        if (!response.ok) return;
+        await fetch();
+    }
+
+    function confirmServiceDelete(service) {
+        confirm.require({
+            message: `Voulez-vous vraiment supprimer le service ${service.label} ?`,
+            header: "Suppression",
+            icon: "pi pi-info-circle",
+            rejectProps: {
+                label: "Annuler",
+                severity: "secondary",
+            },
+            acceptProps: {
+                label: "Oui, supprimer",
+                severity: "danger",
+            },
+            accept: () => deleteService(service.id),
+        });
+    }
+
     return {
         categories,
         expandedRows,
@@ -88,5 +111,6 @@ export const useServicesStore = defineStore("services", () => {
         showServiceEditDialog,
         openServiceEditDialog,
         updateService,
+        confirmServiceDelete,
     };
 });

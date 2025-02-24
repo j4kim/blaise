@@ -73,7 +73,7 @@ const store = useServicesStore();
                                 variant="text"
                                 rounded
                                 severity="secondary"
-                                @click="console.log('delete', data)"
+                                @click="store.confirmServiceDelete(data)"
                             />
                         </template>
                     </Column>
