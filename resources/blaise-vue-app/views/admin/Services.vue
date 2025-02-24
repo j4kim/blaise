@@ -3,6 +3,7 @@ import { Button, Column, DataTable } from "primevue";
 import { useServicesStore } from "../../stores/services";
 import EditServiceCatDialog from "../../dialogs/EditServiceCatDialog.vue";
 import EditServiceDialog from "../../dialogs/EditServiceDialog.vue";
+import { confirmDelete } from "../../tools";
 
 const store = useServicesStore();
 </script>
@@ -38,7 +39,13 @@ const store = useServicesStore();
                         variant="text"
                         rounded
                         severity="secondary"
-                        @click="store.confirmCatDelete(data)"
+                        @click="
+                            confirmDelete(
+                                $confirm,
+                                `Voulez-vous vraiment supprimer la catégorie ${data.label} ? Cette catégorie contient ${data.services.length} services.`,
+                                () => store.deleteCategory(data.id)
+                            )
+                        "
                         :disabled="data.id === 4"
                     />
                 </template>
@@ -73,7 +80,13 @@ const store = useServicesStore();
                                 variant="text"
                                 rounded
                                 severity="secondary"
-                                @click="store.confirmServiceDelete(data)"
+                                @click="
+                                    confirmDelete(
+                                        $confirm,
+                                        `Voulez-vous vraiment supprimer le service ${data.label} ?`,
+                                        () => store.deleteService(data.id)
+                                    )
+                                "
                             />
                         </template>
                     </Column>

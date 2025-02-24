@@ -12,3 +12,20 @@ export function formatDate(isoDate, time = false) {
         ? date.format("DD.MM.YYYY" + (time ? " HH:mm" : ""))
         : isoDate;
 }
+
+export function confirmDelete(confirmService, message, accept) {
+    return confirmService.require({
+        message,
+        header: "Suppression",
+        icon: "pi pi-info-circle",
+        rejectProps: {
+            label: "Annuler",
+            severity: "secondary",
+        },
+        acceptProps: {
+            label: "Oui, supprimer",
+            severity: "danger",
+        },
+        accept,
+    });
+}

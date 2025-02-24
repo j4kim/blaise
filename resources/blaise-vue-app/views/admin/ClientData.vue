@@ -3,10 +3,8 @@ import { reactive } from "vue";
 import { RouterLink, RouterView, useRoute } from "vue-router";
 import { del, get, put } from "../../api";
 import ClientDetails from "../../components/ClientDetails.vue";
-import { Button, Message, useConfirm } from "primevue";
-import { formatDate } from "../../tools";
-
-const confirm = useConfirm();
+import { Button, Message } from "primevue";
+import { confirmDelete, formatDate } from "../../tools";
 
 const route = useRoute();
 
@@ -35,23 +33,6 @@ async function deleteClient() {
     );
     if (!response.ok) return;
     state.client = data;
-}
-
-function confirmDelete() {
-    confirm.require({
-        message: `Voulez-vous vraiment supprimer ${state.client.first_name} ${state.client.last_name} ?`,
-        header: "Suppression",
-        icon: "pi pi-info-circle",
-        rejectProps: {
-            label: "Annuler",
-            severity: "secondary",
-        },
-        acceptProps: {
-            label: "Oui, supprimer",
-            severity: "danger",
-        },
-        accept: deleteClient,
-    });
 }
 </script>
 
@@ -109,7 +90,13 @@ function confirmDelete() {
                     ></Button>
                     <Button
                         :disabled="!!state.client.deleted_at"
-                        @click="confirmDelete"
+                        @click="
+                            confirmDelete(
+                                $confirm,
+                                `Voulez-vous vraiment supprimer ${state.client.first_name} ${state.client.last_name} ?`,
+                                deleteClient
+                            )
+                        "
                         label="Supprimer"
                         icon="pi pi-trash"
                         size="small"

@@ -2,10 +2,8 @@ import { defineStore } from "pinia";
 import { ref, toRaw } from "vue";
 import { del, get, put } from "../api";
 import { pick } from "../tools";
-import { useConfirm } from "primevue";
 
 export const useServicesStore = defineStore("services", () => {
-    const confirm = useConfirm();
     const categories = ref([]);
     const expandedRows = ref([]);
     const showCatEditDialog = ref(false);
@@ -43,23 +41,6 @@ export const useServicesStore = defineStore("services", () => {
         categories.value.splice(index, 1);
     }
 
-    function confirmCatDelete(category) {
-        confirm.require({
-            message: `Voulez-vous vraiment supprimer la catégorie ${category.label} ? Cette catégorie contient ${category.services.length} services.`,
-            header: "Suppression",
-            icon: "pi pi-info-circle",
-            rejectProps: {
-                label: "Annuler",
-                severity: "secondary",
-            },
-            acceptProps: {
-                label: "Oui, supprimer",
-                severity: "danger",
-            },
-            accept: () => deleteCategory(category.id),
-        });
-    }
-
     function openServiceEditDialog(service) {
         edited.value = structuredClone(toRaw(service));
         showServiceEditDialog.value = true;
@@ -82,23 +63,6 @@ export const useServicesStore = defineStore("services", () => {
         await fetch();
     }
 
-    function confirmServiceDelete(service) {
-        confirm.require({
-            message: `Voulez-vous vraiment supprimer le service ${service.label} ?`,
-            header: "Suppression",
-            icon: "pi pi-info-circle",
-            rejectProps: {
-                label: "Annuler",
-                severity: "secondary",
-            },
-            acceptProps: {
-                label: "Oui, supprimer",
-                severity: "danger",
-            },
-            accept: () => deleteService(service.id),
-        });
-    }
-
     return {
         categories,
         expandedRows,
@@ -107,10 +71,10 @@ export const useServicesStore = defineStore("services", () => {
         openCatEditDialog,
         edited,
         updateCat,
-        confirmCatDelete,
+        deleteCategory,
         showServiceEditDialog,
         openServiceEditDialog,
         updateService,
-        confirmServiceDelete,
+        deleteService,
     };
 });
