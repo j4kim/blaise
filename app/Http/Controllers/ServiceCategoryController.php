@@ -12,4 +12,10 @@ class ServiceCategoryController extends Controller
         $category->forceFill($request->all())->update();
         return $category;
     }
+
+    public function delete(ServiceCategory $category)
+    {
+        $category->delete();
+        return $category;
+    }
 }

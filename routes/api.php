@@ -38,4 +38,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/admin/clients/{client}/visits', [ClientController::class, 'visits'])->name('clients.visits');
     Route::get('/admin/visits/{visit}', [VisitController::class, 'show'])->name('visits.show');
     Route::put('/admin/service-categories/{category}', [ServiceCategoryController::class, 'update'])->name('service-categories.update');
+    Route::delete('/admin/service-categories/{category}', [ServiceCategoryController::class, 'delete'])->name('service-categories.delete');
 });

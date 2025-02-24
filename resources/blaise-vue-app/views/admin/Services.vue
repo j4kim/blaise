@@ -36,6 +36,7 @@ const store = useServicesStore();
                         variant="text"
                         rounded
                         severity="secondary"
+                        @click="store.confirmCatDelete(data)"
                     />
                 </template>
             </Column>

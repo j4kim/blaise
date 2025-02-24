@@ -1,7 +1,8 @@
 import { defineStore } from "pinia";
 import { ref, toRaw } from "vue";
-import { get, put } from "../api";
+import { del, get, put } from "../api";
 import { pick } from "../tools";
+import { useConfirm } from "primevue";
 
 export const useServicesStore = defineStore("services", () => {
     const categories = ref([]);
@@ -32,6 +33,34 @@ export const useServicesStore = defineStore("services", () => {
         showCatEditDialog.value = false;
     }
 
+    const confirm = useConfirm();
+
+    async function deleteCategory(id) {
+        const { data, response } = await del(
+            `/api/admin/service-categories/${id}`
+        );
+        if (!response.ok) return;
+        const index = categories.value.findIndex((c) => c.id === id);
+        categories.value.splice(index, 1);
+    }
+
+    function confirmCatDelete(category) {
+        confirm.require({
+            message: `Voulez-vous vraiment supprimer la catégorie ${category.label} ?`,
+            header: "Suppression",
+            icon: "pi pi-info-circle",
+            rejectProps: {
+                label: "Annuler",
+                severity: "secondary",
+            },
+            acceptProps: {
+                label: "Oui, supprimer",
+                severity: "danger",
+            },
+            accept: () => deleteCategory(category.id),
+        });
+    }
+
     return {
         categories,
         fetch,
@@ -39,5 +68,6 @@ export const useServicesStore = defineStore("services", () => {
         openCatEditDialog,
         editedCat,
         updateCat,
+        confirmCatDelete,
     };
 });
