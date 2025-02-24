@@ -1,6 +1,7 @@
 <script setup>
 import { Button, Column, DataTable } from "primevue";
 import { useServicesStore } from "../../stores/services";
+import EditServiceDialog from "../../dialogs/EditServiceCatDialog.vue";
 
 const store = useServicesStore();
 </script>
@@ -14,7 +15,7 @@ const store = useServicesStore();
             <Column field="label" header="Catégorie"></Column>
             <Column field="sort_order" header="Ordre"></Column>
             <Column class="w-32">
-                <template #body>
+                <template #body="{ data }">
                     <Button
                         icon="pi pi-pencil"
                         aria-label="Modifier"
@@ -22,6 +23,7 @@ const store = useServicesStore();
                         variant="text"
                         rounded
                         severity="secondary"
+                        @click="store.openCatEditDialog(data)"
                     />
                     <Button
                         icon="pi pi-trash"
@@ -34,5 +36,11 @@ const store = useServicesStore();
                 </template>
             </Column>
         </DataTable>
+        <EditServiceDialog
+            v-model:visible="store.showCatEditDialog"
+            :edited="store.editedCat"
+            header="Modifier"
+            @save="store.updateCat"
+        />
     </div>
 </template>
