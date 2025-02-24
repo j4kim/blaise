@@ -1,9 +1,8 @@
 <script setup>
 import { Button } from "primevue";
 import EditClientDialog from "../dialogs/EditClientDialog.vue";
-import dayjs from "dayjs";
 import { ref } from "vue";
-import { pick } from "../tools";
+import { formatDate, pick } from "../tools";
 import Attributes from "./Attributes.vue";
 
 const props = defineProps({
@@ -46,7 +45,7 @@ function save(data) {
                 { label: 'Nom', value: client.last_name },
                 {
                     label: 'Date de création',
-                    value: dayjs(client.created_at).format('DD.MM.YYYY'),
+                    value: formatDate(client.created_at),
                 },
                 {
                     label: 'Ville',

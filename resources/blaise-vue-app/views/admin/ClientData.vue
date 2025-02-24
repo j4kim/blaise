@@ -4,7 +4,7 @@ import { RouterLink, RouterView, useRoute } from "vue-router";
 import { del, get, put } from "../../api";
 import ClientDetails from "../../components/ClientDetails.vue";
 import { Button, Message, useConfirm } from "primevue";
-import dayjs from "dayjs";
+import { formatDate } from "../../tools";
 
 const confirm = useConfirm();
 
@@ -88,7 +88,7 @@ function confirmDelete() {
                     v-if="state.client.gender == 0"
                     >e</span
                 >
-                le {{ dayjs(state.client.deleted_at).format("DD.MM.YYYY") }}
+                le {{ formatDate(state.client.deleted_at) }}
             </Message>
         </div>
         <div class="py-2 px-3">

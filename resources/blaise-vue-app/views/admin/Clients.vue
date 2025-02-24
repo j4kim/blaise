@@ -9,18 +9,13 @@ import {
     Paginator,
     SelectButton,
 } from "primevue";
-import dayjs from "dayjs";
 import EditClientDialog from "../../dialogs/EditClientDialog.vue";
 import { useAdminClientsStore } from "../../stores/admin/clients";
+import { formatDate } from "../../tools";
 
 const store = useAdminClientsStore();
 
 store.fetchClients();
-
-function formatDate(isoDate) {
-    const date = dayjs(isoDate);
-    return date.isValid() ? date.format("DD.MM.YY") : isoDate;
-}
 </script>
 
 <template>

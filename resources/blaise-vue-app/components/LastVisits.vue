@@ -1,5 +1,4 @@
 <script setup>
-import dayjs from "dayjs";
 import {
     Accordion,
     AccordionContent,
@@ -9,6 +8,7 @@ import {
 } from "primevue";
 import { ref } from "vue";
 import { RouterLink } from "vue-router";
+import { formatDate } from "../tools";
 
 defineProps({
     client: Object,
@@ -34,7 +34,7 @@ function getSalesSummary(sales) {
             <AccordionHeader>
                 <div class="flex justify-between w-full">
                     <div class="w-28 shrink-0">
-                        {{ dayjs(visit.visit_date).format("DD.MM.YYYY") }}
+                        {{ formatDate(visit.visit_date) }}
                     </div>
                     <div class="w-full truncate">
                         <span v-if="visit.id != selected">

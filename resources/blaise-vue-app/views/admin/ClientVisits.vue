@@ -3,7 +3,7 @@ import { reactive } from "vue";
 import { useRoute } from "vue-router";
 import { get } from "../../api";
 import { Column, DataTable } from "primevue";
-import dayjs from "dayjs";
+import { formatDate } from "../../tools";
 
 const route = useRoute();
 
@@ -45,7 +45,7 @@ fetchVisits(route.params.clientId);
                 bodyClass="tabular-nums"
             >
                 <template #body="{ data }">
-                    {{ dayjs(data.visit_date).format("DD.MM.YYYY HH:mm") }}
+                    {{ formatDate(data.visit_date, true) }}
                 </template>
             </Column>
             <Column field="billed" header="Total CHF" sortable> </Column>

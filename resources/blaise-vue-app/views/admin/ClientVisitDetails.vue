@@ -2,10 +2,10 @@
 import { reactive } from "vue";
 import { useRoute } from "vue-router";
 import { get } from "../../api";
-import dayjs from "dayjs";
 import Attributes from "../../components/Attributes.vue";
 import Attribute from "../../components/Attribute.vue";
 import { Column, DataTable } from "primevue";
+import { formatDate } from "../../tools";
 
 const route = useRoute();
 
@@ -34,7 +34,7 @@ fetchVisit(route.params.visitId);
                 style="font-size: 0.7rem"
             ></i>
             Visite du
-            {{ dayjs(state.visit.visit_date).format("DD.MM.YYYY HH:mm") }}
+            {{ formatDate(state.visit.visit_date, true) }}
         </h2>
         <Attributes
             :attributes="[

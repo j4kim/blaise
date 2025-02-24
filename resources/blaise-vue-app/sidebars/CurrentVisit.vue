@@ -1,7 +1,7 @@
 <script setup>
 import { Button } from "primevue";
-import dayjs from "dayjs";
 import { useVisitStore } from "../stores/visit";
+import { formatDate } from "../tools";
 
 const visit = useVisitStore();
 
@@ -36,7 +36,7 @@ async function del() {
             <h2 class="text-3xl font-extralight mb-1">Ticket en cours</h2>
             <h5 class="text-muted-color text-sm">
                 Visite du
-                {{ dayjs(visit.current.visit_date).format("DD.MM.YYYY HH:mm") }}
+                {{ formatDate(visit.current.visit_date, true) }}
             </h5>
         </div>
 
