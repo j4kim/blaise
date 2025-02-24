@@ -9,7 +9,7 @@ class ServiceCategoryController extends Controller
 {
     public function update(ServiceCategory $category, Request $request)
     {
-        $category->forceFill($request->all())->update();
+        $category->forceFill($request->all())->save();
         return $category;
     }
 
