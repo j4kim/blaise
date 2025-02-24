@@ -13,14 +13,12 @@ const store = useServicesStore();
         </header>
         <DataTable
             :value="store.categories"
-            sortField="sort_order"
-            :sortOrder="1"
             v-model:expandedRows="store.expandedRows"
         >
             <Column expander />
-            <Column field="label" header="Catégorie" sortable></Column>
-            <Column field="sort_order" header="Ordre" sortable></Column>
-            <Column field="services.length" header="Services" sortable></Column>
+            <Column field="label" header="Catégorie"></Column>
+            <Column field="sort_order" header="Ordre"></Column>
+            <Column field="services.length" header="Services"></Column>
             <Column class="w-32">
                 <template #body="{ data }">
                     <Button
@@ -44,18 +42,13 @@ const store = useServicesStore();
                 </template>
             </Column>
             <template #expansion="{ data }">
-                <DataTable
-                    :value="data.services"
-                    sortField="sort_order"
-                    :sortOrder="1"
-                    class="p-4"
-                >
+                <DataTable :value="data.services" class="p-4" size="small">
                     <template #empty>
                         Aucun service dans cette catégorie.
                     </template>
-                    <Column field="label" header="Service" sortable></Column>
-                    <Column field="sort_order" header="Ordre" sortable></Column>
-                    <Column field="price" header="Prix" sortable>
+                    <Column field="label" header="Service"></Column>
+                    <Column field="sort_order" header="Ordre"></Column>
+                    <Column field="price" header="Prix">
                         <template #body="{ data }">
                             CHF {{ data.price }}
                         </template>

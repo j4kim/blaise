@@ -29,8 +29,7 @@ export const useServicesStore = defineStore("services", () => {
             pick(editedCat.value, "label", "sort_order")
         );
         if (!response.ok) return;
-        const index = categories.value.findIndex((c) => c.id === id);
-        categories.value.splice(index, 1, data);
+        await fetch();
         showCatEditDialog.value = false;
     }
 
