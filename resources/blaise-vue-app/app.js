@@ -5,6 +5,7 @@ import { createPinia } from "pinia";
 import App from "./App.vue";
 import PrimeVue from "primevue/config";
 import ConfirmationService from "primevue/confirmationservice";
+import primelocale from "primelocale/fr.json";
 import theme from "./theme";
 import router from "./router";
 import { useArticlesStore } from "./stores/articles";
@@ -14,7 +15,7 @@ const pinia = createPinia();
 
 const app = createApp(App);
 
-app.use(PrimeVue, { theme });
+app.use(PrimeVue, { theme, locale: primelocale.fr });
 app.use(ConfirmationService);
 
 app.use(router);
