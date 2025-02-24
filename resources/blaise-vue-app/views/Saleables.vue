@@ -1,9 +1,9 @@
 <script setup>
 import { Button } from "primevue";
-import { useSaleablesStore } from "../stores/saleables";
 import { useVisitStore } from "../stores/visit";
+import { useServicesStore } from "../stores/services";
 
-const saleables = useSaleablesStore();
+const servicesStore = useServicesStore();
 
 const visit = useVisitStore();
 </script>
@@ -24,7 +24,7 @@ const visit = useVisitStore();
                 size="large"
             />
             <Button
-                v-for="cat in saleables.serviceCategories"
+                v-for="cat in servicesStore.categories"
                 :label="cat.label"
                 @click="
                     $router.replace(

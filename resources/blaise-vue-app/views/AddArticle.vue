@@ -8,12 +8,12 @@ import {
     InputText,
     Message,
 } from "primevue";
-import { useSaleablesStore } from "../stores/saleables";
+import { useArticlesStore } from "../stores/articles";
 import { useRoute, useRouter } from "vue-router";
 import { useVisitStore } from "../stores/visit";
 import { computed, reactive } from "vue";
 
-const saleables = useSaleablesStore();
+const store = useArticlesStore();
 const visit = useVisitStore();
 
 const router = useRouter();
@@ -27,7 +27,7 @@ const state = reactive({
 
 const filtered = computed(() => {
     const parts = state.search.split(" ");
-    return saleables.articles.filter((a) =>
+    return store.articles.filter((a) =>
         parts.every((part) => a.searchText.includes(part))
     );
 });
@@ -35,7 +35,7 @@ const filtered = computed(() => {
 async function find() {
     state.message = "";
     if (!state.barcode.length) return;
-    const article = saleables.articles.find((a) => a.barcode == state.barcode);
+    const article = store.articles.find((a) => a.barcode == state.barcode);
     if (!article) {
         state.message = "Article inconnu";
         return;

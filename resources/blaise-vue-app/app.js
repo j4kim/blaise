@@ -4,10 +4,11 @@ import { createApp } from "vue";
 import { createPinia } from "pinia";
 import App from "./App.vue";
 import PrimeVue from "primevue/config";
-import router from "./router";
-import theme from "./theme";
-import { useSaleablesStore } from "./stores/saleables";
 import ConfirmationService from "primevue/confirmationservice";
+import theme from "./theme";
+import router from "./router";
+import { useArticlesStore } from "./stores/articles";
+import { useServicesStore } from "./stores/services";
 
 const pinia = createPinia();
 
@@ -23,9 +24,8 @@ app.use(pinia);
 app.mount("#app");
 
 if (document.body.dataset.user) {
-    const saleables = useSaleablesStore();
-    saleables.fetchArticles();
-    saleables.fetchServices();
+    useArticlesStore().fetchArticles();
+    useServicesStore().fetch();
 } else {
     router.push("/login");
 }

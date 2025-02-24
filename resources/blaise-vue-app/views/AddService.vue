@@ -1,18 +1,18 @@
 <script setup>
 import { Button } from "primevue";
-import { useSaleablesStore } from "../stores/saleables";
 import { useRoute, useRouter } from "vue-router";
 import { computed } from "vue";
 import { useVisitStore } from "../stores/visit";
+import { useServicesStore } from "../stores/services";
 
-const saleables = useSaleablesStore();
+const store = useServicesStore();
 const visit = useVisitStore();
 
 const route = useRoute();
 const router = useRouter();
 
 const category = computed(() =>
-    saleables.serviceCategories.find((c) => c.id == route.params.catId)
+    store.categories.find((c) => c.id == route.params.catId)
 );
 
 async function add(service) {
