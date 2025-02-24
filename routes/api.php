@@ -37,6 +37,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/admin/clients/{client}', [ClientController::class, 'delete'])->withTrashed()->name('clients.delete');
     Route::get('/admin/clients/{client}/visits', [ClientController::class, 'visits'])->name('clients.visits');
     Route::get('/admin/visits/{visit}', [VisitController::class, 'show'])->name('visits.show');
+    Route::post('/admin/service-categories', [ServiceCategoryController::class, 'store'])->name('service-categories.store');
     Route::put('/admin/service-categories/{category}', [ServiceCategoryController::class, 'update'])->name('service-categories.update');
     Route::delete('/admin/service-categories/{category}', [ServiceCategoryController::class, 'delete'])->name('service-categories.delete');
     Route::put('/admin/services/{service}', [ServiceController::class, 'update'])->name('services.update');

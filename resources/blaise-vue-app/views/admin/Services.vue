@@ -12,6 +12,16 @@ const store = useServicesStore();
     <div class="flex flex-col h-full">
         <header class="py-2 px-3 flex gap-3 justify-between flex-wrap">
             <span class="text-xl font-extralight">Services</span>
+
+            <div class="grow"></div>
+
+            <Button
+                label="Ajouter catégorie"
+                size="small"
+                variant="text"
+                icon="pi pi-plus"
+                @click="store.showCatCreateDialog = true"
+            />
         </header>
         <DataTable
             :value="store.categories"
@@ -98,6 +108,13 @@ const store = useServicesStore();
             :edited="store.edited"
             header="Modifier catégorie"
             @save="store.updateCat"
+        />
+        <EditServiceCatDialog
+            header="Ajouter une catégorie"
+            btn="Créer"
+            v-model:visible="store.showCatCreateDialog"
+            :edited="{}"
+            @save="store.createCat"
         />
         <EditServiceDialog
             v-model:visible="store.showServiceEditDialog"

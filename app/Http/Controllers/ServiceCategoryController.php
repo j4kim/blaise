@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 
 class ServiceCategoryController extends Controller
 {
+    public function store(Request $request)
+    {
+        return ServiceCategory::forceCreate($request->all());
+    }
+
     public function update(ServiceCategory $category, Request $request)
     {
         $category->forceFill($request->all())->save();

@@ -1,12 +1,13 @@
 import { defineStore } from "pinia";
 import { ref, toRaw } from "vue";
-import { del, get, put } from "../api";
+import { del, get, post, put } from "../api";
 import { pick } from "../tools";
 
 export const useServicesStore = defineStore("services", () => {
     const categories = ref([]);
     const expandedRows = ref([]);
     const showCatEditDialog = ref(false);
+    const showCatCreateDialog = ref(false);
     const showServiceEditDialog = ref(false);
     const edited = ref({});
 
@@ -30,6 +31,16 @@ export const useServicesStore = defineStore("services", () => {
         if (!response.ok) return;
         await fetch();
         showCatEditDialog.value = false;
+    }
+
+    async function createCat(category) {
+        const { data, response } = await post(
+            `/api/admin/service-categories`,
+            category
+        );
+        if (!response.ok) return;
+        await fetch();
+        showCatCreateDialog.value = false;
     }
 
     async function deleteCategory(id) {
@@ -68,9 +79,11 @@ export const useServicesStore = defineStore("services", () => {
         expandedRows,
         fetch,
         showCatEditDialog,
+        showCatCreateDialog,
         openCatEditDialog,
         edited,
         updateCat,
+        createCat,
         deleteCategory,
         showServiceEditDialog,
         openServiceEditDialog,
