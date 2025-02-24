@@ -15,7 +15,7 @@ const store = useServicesStore();
             :value="store.categories"
             sortField="sort_order"
             :sortOrder="1"
-            :expandedRows="[]"
+            v-model:expandedRows="store.expandedRows"
         >
             <Column expander />
             <Column field="label" header="Catégorie" sortable></Column>

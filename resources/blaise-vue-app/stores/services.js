@@ -6,6 +6,7 @@ import { useConfirm } from "primevue";
 
 export const useServicesStore = defineStore("services", () => {
     const categories = ref([]);
+    const expandedRows = ref([]);
 
     async function fetch() {
         const { data, response } = await get("/api/services");
@@ -63,6 +64,7 @@ export const useServicesStore = defineStore("services", () => {
 
     return {
         categories,
+        expandedRows,
         fetch,
         showCatEditDialog,
         openCatEditDialog,
