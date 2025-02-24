@@ -13,6 +13,11 @@ class ServiceController extends Controller
         return ServiceCategory::with('services')->orderBy('sort_order')->get();
     }
 
+    public function store(Request $request)
+    {
+        return Service::forceCreate($request->all());
+    }
+
     public function update(Service $service, Request $request)
     {
         $service->forceFill($request->all())->save();

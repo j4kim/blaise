@@ -9,6 +9,7 @@ export const useServicesStore = defineStore("services", () => {
     const showCatEditDialog = ref(false);
     const showCatCreateDialog = ref(false);
     const showServiceEditDialog = ref(false);
+    const showServiceCreateDialog = ref(false);
     const edited = ref({});
 
     async function fetch() {
@@ -66,6 +67,13 @@ export const useServicesStore = defineStore("services", () => {
         showServiceEditDialog.value = false;
     }
 
+    async function createService(service) {
+        const { data, response } = await post(`/api/admin/services`, service);
+        if (!response.ok) return;
+        await fetch();
+        showServiceCreateDialog.value = false;
+    }
+
     async function deleteService(id) {
         const { data, response } = await del(`/api/admin/services/${id}`);
         if (!response.ok) return;
@@ -75,17 +83,19 @@ export const useServicesStore = defineStore("services", () => {
     return {
         categories,
         expandedRows,
-        fetch,
         showCatEditDialog,
         showCatCreateDialog,
-        openCatEditDialog,
+        showServiceCreateDialog,
+        showServiceEditDialog,
         edited,
+        fetch,
+        openCatEditDialog,
         updateCat,
         createCat,
         deleteCategory,
-        showServiceEditDialog,
         openServiceEditDialog,
         updateService,
         deleteService,
+        createService,
     };
 });

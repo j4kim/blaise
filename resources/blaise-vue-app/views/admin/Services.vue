@@ -61,46 +61,60 @@ const store = useServicesStore();
                 </template>
             </Column>
             <template #expansion="{ data }">
-                <DataTable :value="data.services" class="p-4" size="small">
-                    <template #empty>
-                        Aucun service dans cette catégorie.
-                    </template>
-                    <Column field="label" header="Service"></Column>
-                    <Column field="sort_order" header="Ordre"></Column>
-                    <Column field="price" header="Prix">
-                        <template #body="{ data }">
-                            CHF {{ data.price }}
+                <div class="p-4">
+                    <div class="flex justify-end">
+                        <Button
+                            label="Ajouter service"
+                            size="small"
+                            variant="text"
+                            icon="pi pi-plus"
+                            @click="
+                                store.edited = { service_category_id: data.id };
+                                store.showServiceCreateDialog = true;
+                            "
+                        />
+                    </div>
+                    <DataTable :value="data.services" size="small">
+                        <template #empty>
+                            Aucun service dans cette catégorie.
                         </template>
-                    </Column>
-                    <Column class="w-32">
-                        <template #body="{ data }">
-                            <Button
-                                icon="pi pi-pencil"
-                                aria-label="Modifier"
-                                size="small"
-                                variant="text"
-                                rounded
-                                severity="secondary"
-                                @click="store.openServiceEditDialog(data)"
-                            />
-                            <Button
-                                icon="pi pi-trash"
-                                aria-label="Supprimer"
-                                size="small"
-                                variant="text"
-                                rounded
-                                severity="secondary"
-                                @click="
-                                    confirmDelete(
-                                        $confirm,
-                                        `Voulez-vous vraiment supprimer le service ${data.label} ?`,
-                                        () => store.deleteService(data.id)
-                                    )
-                                "
-                            />
-                        </template>
-                    </Column>
-                </DataTable>
+                        <Column field="label" header="Service"></Column>
+                        <Column field="sort_order" header="Ordre"></Column>
+                        <Column field="price" header="Prix">
+                            <template #body="{ data }">
+                                CHF {{ data.price }}
+                            </template>
+                        </Column>
+                        <Column class="w-32">
+                            <template #body="{ data }">
+                                <Button
+                                    icon="pi pi-pencil"
+                                    aria-label="Modifier"
+                                    size="small"
+                                    variant="text"
+                                    rounded
+                                    severity="secondary"
+                                    @click="store.openServiceEditDialog(data)"
+                                />
+                                <Button
+                                    icon="pi pi-trash"
+                                    aria-label="Supprimer"
+                                    size="small"
+                                    variant="text"
+                                    rounded
+                                    severity="secondary"
+                                    @click="
+                                        confirmDelete(
+                                            $confirm,
+                                            `Voulez-vous vraiment supprimer le service ${data.label} ?`,
+                                            () => store.deleteService(data.id)
+                                        )
+                                    "
+                                />
+                            </template>
+                        </Column>
+                    </DataTable>
+                </div>
             </template>
         </DataTable>
         <EditServiceCatDialog
@@ -121,6 +135,12 @@ const store = useServicesStore();
             header="Modifier service"
             :edited="store.edited"
             @save="store.updateService"
+        />
+        <EditServiceDialog
+            v-model:visible="store.showServiceCreateDialog"
+            header="Modifier service"
+            :edited="store.edited"
+            @save="store.createService"
         />
     </div>
 </template>

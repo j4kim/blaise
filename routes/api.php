@@ -40,6 +40,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/admin/service-categories', [ServiceCategoryController::class, 'store'])->name('service-categories.store');
     Route::put('/admin/service-categories/{category}', [ServiceCategoryController::class, 'update'])->name('service-categories.update');
     Route::delete('/admin/service-categories/{category}', [ServiceCategoryController::class, 'delete'])->name('service-categories.delete');
+    Route::post('/admin/services', [ServiceController::class, 'store'])->name('services.store');
     Route::put('/admin/services/{service}', [ServiceController::class, 'update'])->name('services.update');
     Route::delete('/admin/services/{service}', [ServiceController::class, 'delete'])->name('services.delete');
 });
