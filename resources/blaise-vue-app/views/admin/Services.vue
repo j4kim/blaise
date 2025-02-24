@@ -2,6 +2,7 @@
 import { Button, Column, DataTable } from "primevue";
 import { useServicesStore } from "../../stores/services";
 import EditServiceCatDialog from "../../dialogs/EditServiceCatDialog.vue";
+import EditServiceDialog from "../../dialogs/EditServiceDialog.vue";
 
 const store = useServicesStore();
 </script>
@@ -62,7 +63,7 @@ const store = useServicesStore();
                                 variant="text"
                                 rounded
                                 severity="secondary"
-                                @click="console.log('update', data)"
+                                @click="store.openServiceEditDialog(data)"
                             />
                             <Button
                                 icon="pi pi-trash"
@@ -80,9 +81,15 @@ const store = useServicesStore();
         </DataTable>
         <EditServiceCatDialog
             v-model:visible="store.showCatEditDialog"
-            :edited="store.editedCat"
-            header="Modifier"
+            :edited="store.edited"
+            header="Modifier catégorie"
             @save="store.updateCat"
+        />
+        <EditServiceDialog
+            v-model:visible="store.showServiceEditDialog"
+            header="Modifier service"
+            :edited="store.edited"
+            @save="store.updateService"
         />
     </div>
 </template>

@@ -5,8 +5,12 @@ import { pick } from "../tools";
 import { useConfirm } from "primevue";
 
 export const useServicesStore = defineStore("services", () => {
+    const confirm = useConfirm();
     const categories = ref([]);
     const expandedRows = ref([]);
+    const showCatEditDialog = ref(false);
+    const showServiceEditDialog = ref(false);
+    const edited = ref({});
 
     async function fetch() {
         const { data, response } = await get("/api/services");
@@ -14,26 +18,21 @@ export const useServicesStore = defineStore("services", () => {
         categories.value = data;
     }
 
-    const showCatEditDialog = ref(false);
-    const editedCat = ref({});
-
-    function openCatEditDialog(service) {
-        editedCat.value = structuredClone(toRaw(service));
+    function openCatEditDialog(category) {
+        edited.value = structuredClone(toRaw(category));
         showCatEditDialog.value = true;
     }
 
     async function updateCat() {
-        const id = editedCat.value.id;
+        const id = edited.value.id;
         const { data, response } = await put(
             `/api/admin/service-categories/${id}`,
-            pick(editedCat.value, "label", "sort_order")
+            pick(edited.value, "label", "sort_order")
         );
         if (!response.ok) return;
         await fetch();
         showCatEditDialog.value = false;
     }
-
-    const confirm = useConfirm();
 
     async function deleteCategory(id) {
         const { data, response } = await del(
@@ -61,14 +60,33 @@ export const useServicesStore = defineStore("services", () => {
         });
     }
 
+    function openServiceEditDialog(service) {
+        edited.value = structuredClone(toRaw(service));
+        showServiceEditDialog.value = true;
+    }
+
+    async function updateService() {
+        const id = edited.value.id;
+        const { data, response } = await put(
+            `/api/admin/services/${id}`,
+            pick(edited.value, "label", "sort_order", "price")
+        );
+        if (!response.ok) return;
+        await fetch();
+        showServiceEditDialog.value = false;
+    }
+
     return {
         categories,
         expandedRows,
         fetch,
         showCatEditDialog,
         openCatEditDialog,
-        editedCat,
+        edited,
         updateCat,
         confirmCatDelete,
+        showServiceEditDialog,
+        openServiceEditDialog,
+        updateService,
     };
 });
