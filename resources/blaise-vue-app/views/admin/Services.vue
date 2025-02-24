@@ -39,6 +39,7 @@ const store = useServicesStore();
                         rounded
                         severity="secondary"
                         @click="store.confirmCatDelete(data)"
+                        :disabled="data.id === 4"
                     />
                 </template>
             </Column>
