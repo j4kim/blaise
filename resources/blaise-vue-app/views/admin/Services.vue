@@ -1,8 +1,8 @@
 <script setup>
-import { Button, Column, DataTable, InputText } from "primevue";
+import { Button, Column, DataTable } from "primevue";
 import { useSaleablesStore } from "../../stores/saleables";
 
-const store = useSaleablesStore();
+const saleables = useSaleablesStore();
 </script>
 
 <template>
@@ -10,12 +10,8 @@ const store = useSaleablesStore();
         <header class="py-2 px-3 flex gap-3 justify-between flex-wrap">
             <span class="text-xl font-extralight">Services</span>
         </header>
-        <DataTable :value="store.serviceCategories">
-            <Column field="label" header="Catégorie">
-                <template #editor="{ data, field }">
-                    <InputText v-model="data.label" autofocus fluid></InputText>
-                </template>
-            </Column>
+        <DataTable :value="saleables.serviceCategories">
+            <Column field="label" header="Catégorie"></Column>
             <Column field="sort_order" header="Ordre"></Column>
             <Column class="w-32">
                 <template #body>
