@@ -11,9 +11,13 @@ const store = useServicesStore();
         <header class="py-2 px-3 flex gap-3 justify-between flex-wrap">
             <span class="text-xl font-extralight">Services</span>
         </header>
-        <DataTable :value="store.categories">
-            <Column field="label" header="Catégorie"></Column>
-            <Column field="sort_order" header="Ordre"></Column>
+        <DataTable
+            :value="store.categories"
+            sortField="sort_order"
+            :sortOrder="1"
+        >
+            <Column field="label" header="Catégorie" sortable></Column>
+            <Column field="sort_order" header="Ordre" sortable></Column>
             <Column class="w-32">
                 <template #body="{ data }">
                     <Button
