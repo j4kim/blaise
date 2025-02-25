@@ -4,6 +4,8 @@ import { get } from "../api";
 export const useArticlesStore = defineStore("articles", {
     state: () => ({
         articles: [],
+        brands: [],
+        lines: [],
     }),
 
     actions: {
@@ -19,10 +21,22 @@ export const useArticlesStore = defineStore("articles", {
                 .join(" ");
             return article;
         },
-        async fetchArticles() {
-            const { data, response } = await get("/api/articles");
-            if (response.ok) {
-                this.articles = data.map((a) => this.prepareArticle(a));
+        async fetch() {
+            const [articles, brands, lines] = await Promise.all([
+                get("/api/articles"),
+                get("/api/admin/articles/brands"),
+                get("/api/admin/articles/lines"),
+            ]);
+            if (articles.response.ok) {
+                this.articles = articles.data.map((a) =>
+                    this.prepareArticle(a)
+                );
+            }
+            if (brands.response.ok) {
+                this.brands = brands.data;
+            }
+            if (lines.response.ok) {
+                this.lines = lines.data;
             }
         },
     },

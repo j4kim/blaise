@@ -25,7 +25,7 @@ app.use(pinia);
 app.mount("#app");
 
 if (document.body.dataset.user) {
-    useArticlesStore().fetchArticles();
+    useArticlesStore().fetch();
     useServicesStore().fetch();
 } else {
     router.push("/login");
