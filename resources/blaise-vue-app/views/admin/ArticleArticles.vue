@@ -59,12 +59,11 @@ const store = useArticlesStore();
             </Column>
             <Column field="sort_order" header="Ordre" sortable></Column>
             <Column field="barcode" header="Code-barres" sortable></Column>
-            <Column
-                field="label"
-                header="Nom"
-                sortable
-                bodyClass="min-w-80"
-            ></Column>
+            <Column field="label" header="Nom" sortable>
+                <template #body="{ data }">
+                    <div class="w-60 text-sm">{{ data.label }}</div>
+                </template>
+            </Column>
             <Column field="brand.name" header="Marque" sortable></Column>
             <Column field="line.name" header="Gamme" sortable></Column>
             <Column field="catalog_price" header="Prix cat." sortable>
