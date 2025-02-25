@@ -1,5 +1,5 @@
 <script setup>
-import { DatePicker, FloatLabel } from "primevue";
+import { Button, Card, DatePicker, FloatLabel } from "primevue";
 import { useAdminFinanceStore } from "../../stores/admin/finance";
 
 const store = useAdminFinanceStore();
@@ -12,7 +12,10 @@ const store = useAdminFinanceStore();
         </header>
         <div class="py-2 px-3">
             <h3>Bilan financier par période</h3>
-            <div class="flex gap-2 my-2">
+            <form
+                class="my-2 grid lg:grid-cols-3 grid-cols-2 gap-3"
+                @submit.prevent="store.computeRevenue"
+            >
                 <FloatLabel variant="on">
                     <DatePicker
                         v-model="store.dateFrom"
@@ -21,6 +24,9 @@ const store = useAdminFinanceStore();
                         iconDisplay="input"
                         showButtonBar
                         :maxDate="store.dateTo"
+                        fluid
+                        dateFormat="dd.mm.yy"
+                        pt:pcInputText:root:required
                     />
                     <label for="date-from">Depuis le</label>
                 </FloatLabel>
@@ -32,9 +38,36 @@ const store = useAdminFinanceStore();
                         iconDisplay="input"
                         showButtonBar
                         :minDate="store.dateFrom"
+                        fluid
+                        dateFormat="dd.mm.yy"
+                        required
+                        pt:pcInputText:root:required
                     />
                     <label for="date-to">Jusqu'au</label>
                 </FloatLabel>
+                <Button
+                    class="col-span-2 lg:col-auto"
+                    label="Calculer"
+                    type="submit"
+                ></Button>
+            </form>
+            <div class="my-2 grid grid-cols-2 gap-3" v-if="store.result">
+                <Card
+                    pt:content:class="text-4xl text-center py-8 text-primary tabular-nums"
+                >
+                    <template #title>Nombre de visites</template>
+                    <template #content>
+                        {{ store.result.visits_count.toLocaleString() }}
+                    </template>
+                </Card>
+                <Card
+                    pt:content:class="text-4xl text-center py-8 text-primary tabular-nums"
+                >
+                    <template #title>Chiffre d'affaire</template>
+                    <template #content>
+                        CHF {{ store.result.total_billed.toLocaleString() }}
+                    </template>
+                </Card>
             </div>
         </div>
     </div>

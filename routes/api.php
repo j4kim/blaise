@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\FinanceController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ServiceCategoryController;
 use App\Http\Controllers\ServiceController;
@@ -43,4 +44,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/admin/services', [ServiceController::class, 'store'])->name('services.store');
     Route::put('/admin/services/{service}', [ServiceController::class, 'update'])->name('services.update');
     Route::delete('/admin/services/{service}', [ServiceController::class, 'delete'])->name('services.delete');
+    Route::get('/admin/finance/compute-revenue', [FinanceController::class, 'computeRevenue'])->name('visits.compute-revenue');
 });
