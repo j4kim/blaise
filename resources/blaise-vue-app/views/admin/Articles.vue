@@ -1,10 +1,7 @@
 <script setup>
-import { useArticlesStore } from "../../stores/articles";
 import ArticleArticles from "./ArticleArticles.vue";
 import ArticleBrands from "./ArticleBrands.vue";
 import ArticleLines from "./ArticleLines.vue";
-
-const store = useArticlesStore();
 </script>
 
 <template>
