@@ -10,6 +10,7 @@ import {
 import { useArticlesStore } from "../../stores/articles";
 import { confirmDelete, formatDate } from "../../tools";
 import { ref } from "vue";
+import EditBrandDialog from "../../dialogs/EditBrandDialog.vue";
 
 const store = useArticlesStore();
 
@@ -36,6 +37,13 @@ const search = ref("");
         >
             <template #header>
                 <div class="flex justify-end gap-3">
+                    <Button
+                        label="Ajouter"
+                        size="small"
+                        variant="text"
+                        icon="pi pi-plus"
+                        @click="store.showAddBrandDialog = true"
+                    />
                     <IconField>
                         <InputIcon>
                             <i class="pi pi-search" />
@@ -90,5 +98,12 @@ const search = ref("");
                 </template>
             </Column>
         </DataTable>
+        <EditBrandDialog
+            header="Ajouter marque"
+            btn="Créer"
+            v-model:visible="store.showAddBrandDialog"
+            :edited="{}"
+            @save="store.createBrand"
+        />
     </div>
 </template>

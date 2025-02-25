@@ -9,6 +9,7 @@ export const useArticlesStore = defineStore("articles", {
         brands: [],
         lines: [],
         showArticleDialog: false,
+        showAddBrandDialog: false,
         edited: {},
         articleFilter: "",
         articleDialogHeader: "",
@@ -111,6 +112,15 @@ export const useArticlesStore = defineStore("articles", {
             );
             if (!response.ok) return;
             await this.fetch();
+        },
+        async createBrand(brand) {
+            const { data, response } = await post(
+                `/api/admin/articles/brands`,
+                brand
+            );
+            if (!response.ok) return;
+            await this.fetch();
+            this.showAddBrandDialog = false;
         },
     },
 });

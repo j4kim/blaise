@@ -52,4 +52,9 @@ class ArticleController extends Controller
         $line->delete();
         return $line;
     }
+
+    public function createBrand(Request $request)
+    {
+        return Brand::forceCreate($request->all());
+    }
 }
