@@ -23,4 +23,16 @@ class ArticleController extends Controller
     {
         return Line::withCount('articles')->orderBy('name')->get();
     }
+
+    public function updateArticle(Article $article, Request $request)
+    {
+        $article->forceFill($request->all())->save();
+        return $article;
+    }
+
+    public function deleteArticle(Article $article)
+    {
+        $article->delete();
+        return $article;
+    }
 }

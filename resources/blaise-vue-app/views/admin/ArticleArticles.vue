@@ -1,17 +1,14 @@
 <script setup>
-import { Column, DataTable } from "primevue";
+import { Button, Column, DataTable } from "primevue";
 import { useArticlesStore } from "../../stores/articles";
-import { formatDate } from "../../tools";
+import { confirmDelete, formatDate } from "../../tools";
+import EditArticleDialog from "../../dialogs/EditArticleDialog.vue";
 
 const store = useArticlesStore();
 </script>
 
 <template>
     <div>
-        <header class="py-2 px-3 flex gap-3 justify-between flex-wrap">
-            <span class="text-xl font-extralight">Articles</span>
-        </header>
-
         <DataTable
             :value="store.articles"
             paginator
@@ -32,7 +29,7 @@ const store = useArticlesStore();
                 </template>
             </Column>
             <Column field="sort_order" header="Ordre" sortable></Column>
-            <Column field="barcode" header="Code barre" sortable></Column>
+            <Column field="barcode" header="Code-barres" sortable></Column>
             <Column
                 field="label"
                 header="Nom"
@@ -41,9 +38,48 @@ const store = useArticlesStore();
             ></Column>
             <Column field="brand.name" header="Marque" sortable></Column>
             <Column field="line.name" header="Gamme" sortable></Column>
-            <Column field="catalog_price" header="Prix cat." sortable></Column>
+            <Column field="catalog_price" header="Prix cat." sortable>
+                <template #body="{ data }">
+                    {{ data.catalog_price.toFixed(2) }}
+                </template>
+            </Column>
             <Column field="retail_price" header="Prix" sortable></Column>
             <Column field="sales_count" header="Ventes" sortable></Column>
+            <Column>
+                <template #body="{ data }">
+                    <div class="w-20">
+                        <Button
+                            icon="pi pi-pencil"
+                            aria-label="Modifier"
+                            size="small"
+                            variant="text"
+                            rounded
+                            severity="secondary"
+                            @click="store.openArticleEditDialog(data)"
+                        />
+                        <Button
+                            icon="pi pi-trash"
+                            aria-label="Supprimer"
+                            size="small"
+                            variant="text"
+                            rounded
+                            severity="secondary"
+                            @click="
+                                confirmDelete(
+                                    $confirm,
+                                    `Voulez-vous vraiment supprimer l'article ${data.label} ?`,
+                                    () => store.deleteArticle(data.id)
+                                )
+                            "
+                        />
+                    </div>
+                </template>
+            </Column>
         </DataTable>
+        <EditArticleDialog
+            v-model:visible="store.showArticleDialog"
+            :edited="store.edited"
+            @save="store.updateArticle"
+        />
     </div>
 </template>

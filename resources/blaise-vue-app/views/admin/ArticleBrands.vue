@@ -8,14 +8,10 @@ const store = useArticlesStore();
 
 <template>
     <div>
-        <header class="py-2 px-3 flex gap-3 justify-between flex-wrap">
-            <span class="text-xl font-extralight">Marques</span>
-        </header>
-
         <DataTable
             :value="store.brands"
             paginator
-            :rows="5"
+            :rows="10"
             paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink"
             currentPageReportTemplate="marques {first} à {last} sur {totalRecords}"
             :alwaysShowPaginator="false"
