@@ -4,8 +4,8 @@ import { get } from "../../api";
 import dayjs from "dayjs";
 
 export const useAdminFinanceStore = defineStore("admin-finance", () => {
-    const dateFrom = ref(new Date());
-    const dateTo = ref(new Date());
+    const dateFrom = ref(dayjs().startOf("day").toDate());
+    const dateTo = ref(dayjs().startOf("day").toDate());
     const result = ref(null);
     const loading = ref(false);
 

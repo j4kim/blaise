@@ -8,7 +8,7 @@ dayjs.extend(quarterOfYear);
 
 const store = useAdminFinanceStore();
 
-const today = dayjs();
+const today = dayjs().startOf("day");
 const yesterday = today.subtract(1, "day");
 const monday = today.startOf("week").add(1, "day");
 const firstOfMonth = today.startOf("month");
@@ -29,7 +29,7 @@ const buttons = [
     {
         label: "Cette semaine",
         from: monday,
-        to: today,
+        to: today.endOf("week").add(1, "day"),
     },
     {
         label: "Dernière semaine",
@@ -39,7 +39,7 @@ const buttons = [
     {
         label: "Ce mois",
         from: firstOfMonth,
-        to: today,
+        to: today.endOf("month"),
     },
     {
         label: "Dernier mois",
@@ -49,7 +49,7 @@ const buttons = [
     {
         label: "Ce trimestre",
         from: firstOfQuarter,
-        to: today,
+        to: today.endOf("quarter"),
     },
     {
         label: "Dernier trimestre",
@@ -59,7 +59,7 @@ const buttons = [
     {
         label: "Cette année",
         from: firstOfYear,
-        to: today,
+        to: today.endOf("year"),
     },
     {
         label: "Dernière année",
@@ -84,8 +84,13 @@ const buttons = [
                         store.dateTo = b.to.toDate();
                     "
                     :label="b.label"
-                    severity="secondary"
                     rounded
+                    :severity="
+                        store.dateFrom.getTime() == b.from.toDate().getTime() &&
+                        store.dateTo.getTime() == b.to.toDate().getTime()
+                            ? 'primary'
+                            : 'secondary'
+                    "
                 ></Button>
             </div>
             <div class="grid grid-cols-2 gap-2 md:gap-4">
