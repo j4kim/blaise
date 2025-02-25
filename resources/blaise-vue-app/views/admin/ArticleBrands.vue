@@ -10,7 +10,7 @@ import {
 import { useArticlesStore } from "../../stores/articles";
 import { confirmDelete, formatDate } from "../../tools";
 import { ref } from "vue";
-import EditBrandDialog from "../../dialogs/EditBrandDialog.vue";
+import EditNameDialog from "../../dialogs/EditNameDialog.vue";
 
 const store = useArticlesStore();
 
@@ -107,14 +107,14 @@ const search = ref("");
                 </template>
             </Column>
         </DataTable>
-        <EditBrandDialog
+        <EditNameDialog
             header="Modifier la marque"
             btn="Sauver"
             v-model:visible="store.showEditBrandDialog"
             :edited="store.edited"
             @save="store.updateBrand"
         />
-        <EditBrandDialog
+        <EditNameDialog
             header="Ajouter marque"
             btn="Créer"
             v-model:visible="store.showAddBrandDialog"

@@ -11,6 +11,8 @@ export const useArticlesStore = defineStore("articles", {
         showArticleDialog: false,
         showAddBrandDialog: false,
         showEditBrandDialog: false,
+        showAddLineDialog: false,
+        showEditLineDialog: false,
         edited: {},
         articleFilter: "",
         articleDialogHeader: "",
@@ -135,6 +137,28 @@ export const useArticlesStore = defineStore("articles", {
             if (!response.ok) return;
             await this.fetch();
             this.showEditBrandDialog = false;
+        },
+        async createLine(line) {
+            const { data, response } = await post(
+                `/api/admin/articles/lines`,
+                line
+            );
+            if (!response.ok) return;
+            await this.fetch();
+            this.showAddLineDialog = false;
+        },
+        openLineEditDialog(line) {
+            this.edited = structuredClone(toRaw(line));
+            this.showEditLineDialog = true;
+        },
+        async updateLine(line) {
+            const { data, response } = await put(
+                `/api/admin/articles/lines/${line.id}`,
+                pick(line, "name")
+            );
+            if (!response.ok) return;
+            await this.fetch();
+            this.showEditLineDialog = false;
         },
     },
 });

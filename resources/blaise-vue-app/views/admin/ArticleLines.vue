@@ -10,6 +10,7 @@ import {
 import { useArticlesStore } from "../../stores/articles";
 import { confirmDelete, formatDate } from "../../tools";
 import { ref } from "vue";
+import EditNameDialog from "../../dialogs/EditNameDialog.vue";
 
 const store = useArticlesStore();
 
@@ -36,6 +37,13 @@ const search = ref("");
         >
             <template #header>
                 <div class="flex justify-end gap-3">
+                    <Button
+                        label="Ajouter"
+                        size="small"
+                        variant="text"
+                        icon="pi pi-plus"
+                        @click="store.showAddLineDialog = true"
+                    />
                     <IconField>
                         <InputIcon>
                             <i class="pi pi-search" />
@@ -67,9 +75,18 @@ const search = ref("");
                 sortable
                 bodyClass="tabular-nums w-28"
             ></Column>
-            <Column bodyClass="w-20">
+            <Column bodyClass="w-28">
                 <template #body="{ data }">
                     <div>
+                        <Button
+                            icon="pi pi-pencil"
+                            aria-label="Modifier"
+                            size="small"
+                            variant="text"
+                            rounded
+                            severity="secondary"
+                            @click="store.openLineEditDialog(data)"
+                        />
                         <Button
                             icon="pi pi-trash"
                             aria-label="Supprimer"
@@ -90,5 +107,19 @@ const search = ref("");
                 </template>
             </Column>
         </DataTable>
+        <EditNameDialog
+            header="Modifier la gamme"
+            btn="Sauver"
+            v-model:visible="store.showEditLineDialog"
+            :edited="store.edited"
+            @save="store.updateLine"
+        />
+        <EditNameDialog
+            header="Ajouter gamme"
+            btn="Créer"
+            v-model:visible="store.showAddLineDialog"
+            :edited="{}"
+            @save="store.createLine"
+        />
     </div>
 </template>

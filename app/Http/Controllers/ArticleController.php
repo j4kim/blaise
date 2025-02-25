@@ -63,4 +63,15 @@ class ArticleController extends Controller
         $brand->forceFill($request->all())->save();
         return $brand;
     }
+
+    public function createLine(Request $request)
+    {
+        return Line::forceCreate($request->all());
+    }
+
+    public function updateLine(Line $line, Request $request)
+    {
+        $line->forceFill($request->all())->save();
+        return $line;
+    }
 }
