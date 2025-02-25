@@ -46,4 +46,10 @@ class ArticleController extends Controller
         $brand->delete();
         return $brand;
     }
+
+    public function deleteLine(Line $line)
+    {
+        $line->delete();
+        return $line;
+    }
 }

@@ -105,5 +105,12 @@ export const useArticlesStore = defineStore("articles", {
             if (!response.ok) return;
             await this.fetch();
         },
+        async deleteLine(id) {
+            const { data, response } = await del(
+                `/api/admin/articles/lines/${id}`
+            );
+            if (!response.ok) return;
+            await this.fetch();
+        },
     },
 });

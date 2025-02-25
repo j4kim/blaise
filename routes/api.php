@@ -51,4 +51,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/admin/articles', [ArticleController::class, 'createArticle'])->name('articles.create-article');
     Route::delete('/admin/articles/{article}', [ArticleController::class, 'deleteArticle'])->name('articles.delete-article');
     Route::delete('/admin/articles/brands/{brand}', [ArticleController::class, 'deleteBrand'])->name('articles.delete-brand');
+    Route::delete('/admin/articles/lines/{line}', [ArticleController::class, 'deleteLine'])->name('articles.delete-line');
 });

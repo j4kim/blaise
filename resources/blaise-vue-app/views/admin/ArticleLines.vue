@@ -1,7 +1,14 @@
 <script setup>
-import { Column, DataTable, IconField, InputIcon, InputText } from "primevue";
+import {
+    Button,
+    Column,
+    DataTable,
+    IconField,
+    InputIcon,
+    InputText,
+} from "primevue";
 import { useArticlesStore } from "../../stores/articles";
-import { formatDate } from "../../tools";
+import { confirmDelete, formatDate } from "../../tools";
 import { ref } from "vue";
 
 const store = useArticlesStore();
@@ -60,6 +67,28 @@ const search = ref("");
                 sortable
                 bodyClass="tabular-nums w-28"
             ></Column>
+            <Column bodyClass="w-20">
+                <template #body="{ data }">
+                    <div>
+                        <Button
+                            icon="pi pi-trash"
+                            aria-label="Supprimer"
+                            size="small"
+                            variant="text"
+                            rounded
+                            severity="secondary"
+                            :disabled="data.articles_count > 0"
+                            @click="
+                                confirmDelete(
+                                    $confirm,
+                                    `Voulez-vous vraiment supprimer la gamme ${data.name} ?`,
+                                    () => store.deleteLine(data.id)
+                                )
+                            "
+                        />
+                    </div>
+                </template>
+            </Column>
         </DataTable>
     </div>
 </template>
