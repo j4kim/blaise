@@ -37,13 +37,79 @@ const store = useArticlesStore();
                 field="label"
                 header="Nom"
                 sortable
-                style="min-width: 20rem"
+                bodyClass="min-w-80"
             ></Column>
             <Column field="brand.name" header="Marque" sortable></Column>
             <Column field="line.name" header="Gamme" sortable></Column>
             <Column field="catalog_price" header="Prix cat." sortable></Column>
             <Column field="retail_price" header="Prix" sortable></Column>
             <Column field="sales_count" header="Ventes" sortable></Column>
+        </DataTable>
+
+        <header class="pt-12 pb-2 px-3 flex gap-3 justify-between flex-wrap">
+            <span class="text-xl font-extralight">Marques</span>
+        </header>
+
+        <DataTable
+            :value="store.brands"
+            paginator
+            :rows="5"
+            paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink"
+            currentPageReportTemplate="marques {first} à {last} sur {totalRecords}"
+            :alwaysShowPaginator="false"
+            sortField="name"
+            :sortOrder="1"
+        >
+            <Column
+                field="created_at"
+                header="Création"
+                bodyClass="tabular-nums w-32"
+                sortable
+            >
+                <template #body="slotProps">
+                    {{ formatDate(slotProps.data.created_at) }}
+                </template>
+            </Column>
+            <Column field="name" header="Nom" sortable></Column>
+            <Column
+                field="articles_count"
+                header="Articles"
+                sortable
+                bodyClass="tabular-nums w-28"
+            ></Column>
+        </DataTable>
+
+        <header class="pt-12 pb-2 px-3 flex gap-3 justify-between flex-wrap">
+            <span class="text-xl font-extralight">Gammes</span>
+        </header>
+
+        <DataTable
+            :value="store.lines"
+            paginator
+            :rows="5"
+            paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink"
+            currentPageReportTemplate="gammes {first} à {last} sur {totalRecords}"
+            :alwaysShowPaginator="false"
+            sortField="name"
+            :sortOrder="1"
+        >
+            <Column
+                field="created_at"
+                header="Création"
+                bodyClass="tabular-nums w-32"
+                sortable
+            >
+                <template #body="slotProps">
+                    {{ formatDate(slotProps.data.created_at) }}
+                </template>
+            </Column>
+            <Column field="name" header="Nom" sortable></Column>
+            <Column
+                field="articles_count"
+                header="Articles"
+                sortable
+                bodyClass="tabular-nums w-28"
+            ></Column>
         </DataTable>
     </div>
 </template>

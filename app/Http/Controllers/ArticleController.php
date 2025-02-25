@@ -16,11 +16,11 @@ class ArticleController extends Controller
 
     public function brands()
     {
-        return Brand::all();
+        return Brand::withCount('articles')->get();
     }
 
     public function lines()
     {
-        return Line::all();
+        return Line::withCount('articles')->get();
     }
 }
