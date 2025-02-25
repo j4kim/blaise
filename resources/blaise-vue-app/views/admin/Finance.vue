@@ -6,13 +6,13 @@ const store = useAdminFinanceStore();
 </script>
 
 <template>
-    <div class="flex flex-col h-full">
-        <header class="py-2 px-3 flex gap-3 justify-between flex-wrap">
-            <h2 class="text-xl font-extralight">Comptabilité</h2>
-        </header>
-        <div class="py-2 px-3">
-            <h3>Bilan financier par période</h3>
-            <div class="my-2 grid grid-cols-2 gap-3">
+    <div class="px-2 py-4 sm:max-w-screen-md sm:mx-auto">
+        <h2 class="text-3xl font-extralight mt-4">Comptabilité</h2>
+        <div class="my-8">
+            <h3 class="text-xl font-extralight my-4">
+                Bilan financier par période
+            </h3>
+            <div class="grid grid-cols-2 gap-2 md:gap-4">
                 <FloatLabel variant="on">
                     <DatePicker
                         v-model="store.dateFrom"
@@ -42,24 +42,28 @@ const store = useAdminFinanceStore();
                     />
                     <label for="date-to">Jusqu'au</label>
                 </FloatLabel>
-            </div>
-            <div class="my-2 grid grid-cols-2 gap-3" v-if="store.result">
-                <Card
-                    pt:content:class="text-4xl text-center py-8 text-primary font-mono"
-                >
-                    <template #title>Nombre de visites</template>
-                    <template #content>
-                        {{ store.result.visits_count.toLocaleString() }}
-                    </template>
-                </Card>
-                <Card
-                    pt:content:class="text-4xl text-center py-8 text-primary font-mono"
-                >
-                    <template #title>Chiffre d'affaire</template>
-                    <template #content>
-                        CHF {{ store.result.total_billed.toLocaleString() }}
-                    </template>
-                </Card>
+                <template v-if="store.result">
+                    <Card
+                        pt:content="text-4xl text-center py-8 text-primary font-mono"
+                        pt:title="!text-base md:!text-xl"
+                        pt:body="!p-3 md:!p-5"
+                    >
+                        <template #title>Nombre de visites</template>
+                        <template #content>
+                            {{ store.result.visits_count.toLocaleString() }}
+                        </template>
+                    </Card>
+                    <Card
+                        pt:content="text-4xl text-center py-8 text-primary font-mono"
+                        pt:title="!text-base md:!text-xl"
+                        pt:body="!p-3 md:!p-5"
+                    >
+                        <template #title>Chiffre d'affaire</template>
+                        <template #content>
+                            CHF {{ store.result.total_billed.toLocaleString() }}
+                        </template>
+                    </Card>
+                </template>
             </div>
         </div>
     </div>
