@@ -28,7 +28,7 @@ const store = useArticlesStore();
                 </template>
             </Column>
             <Column field="sort_order" header="Ordre" sortable></Column>
-            <Column field="barcode" header="Code barre" sortable></Column>
+            <Column field="barcode" header="Code-barres" sortable></Column>
             <Column
                 field="label"
                 header="Nom"

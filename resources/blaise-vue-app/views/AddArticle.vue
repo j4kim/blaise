@@ -66,7 +66,7 @@ async function add(article) {
                 <InputIcon class="pi pi-barcode" />
                 <InputText
                     v-model="state.barcode"
-                    placeholder="Scan code barre"
+                    placeholder="Scan Code-barres"
                     size="large"
                     fluid
                     @keydown.enter="find"
