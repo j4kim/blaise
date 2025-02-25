@@ -1,9 +1,19 @@
 <script setup>
-import { Button, Column, DataTable } from "primevue";
+import {
+    Button,
+    Column,
+    DataTable,
+    IconField,
+    InputIcon,
+    InputText,
+} from "primevue";
 import { useArticlesStore } from "../../stores/articles";
 import { confirmDelete, formatDate } from "../../tools";
+import { ref } from "vue";
 
 const store = useArticlesStore();
+
+const search = ref("");
 </script>
 
 <template>
@@ -17,7 +27,29 @@ const store = useArticlesStore();
             :alwaysShowPaginator="false"
             sortField="name"
             :sortOrder="1"
+            :filters="{
+                global: {
+                    value: search,
+                },
+            }"
+            :globalFilterFields="['name']"
         >
+            <template #header>
+                <div class="flex justify-end gap-3">
+                    <IconField>
+                        <InputIcon>
+                            <i class="pi pi-search" />
+                        </InputIcon>
+                        <InputText
+                            v-model="search"
+                            placeholder="Filtrer"
+                            size="small"
+                            variant="filled"
+                        />
+                    </IconField>
+                </div>
+            </template>
+            <template #empty> Aucune marque trouvée </template>
             <Column
                 field="created_at"
                 header="Création"

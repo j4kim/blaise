@@ -47,6 +47,7 @@ const store = useArticlesStore();
                     </IconField>
                 </div>
             </template>
+            <template #empty> Aucun article trouvé </template>
             <Column
                 field="created_at"
                 header="Création"
