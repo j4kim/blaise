@@ -10,7 +10,7 @@ import Profile from "./views/admin/Profile.vue";
 import Clients from "./views/admin/Clients.vue";
 import Services from "./views/admin/Services.vue";
 import Articles from "./views/admin/Articles.vue";
-import Compta from "./views/admin/Compta.vue";
+import Finance from "./views/admin/Finance.vue";
 import ClientData from "./views/admin/ClientData.vue";
 import ClientVisits from "./views/admin/ClientVisits.vue";
 import ClientVisitDetails from "./views/admin/ClientVisitDetails.vue";
@@ -91,8 +91,8 @@ const routes = [
                 beforeEnter: adminHook,
             },
             {
-                path: "compta",
-                component: Compta,
+                path: "finance",
+                component: Finance,
                 beforeEnter: adminHook,
             },
         ],

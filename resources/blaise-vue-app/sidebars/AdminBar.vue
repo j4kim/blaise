@@ -6,7 +6,7 @@ const links = [
     { title: "Clients", to: "/admin/clients" },
     { title: "Services", to: "/admin/services" },
     { title: "Articles", to: "/admin/articles" },
-    { title: "Compta", to: "/admin/compta" },
+    { title: "Compta", to: "/admin/finance" },
 ];
 </script>
 
