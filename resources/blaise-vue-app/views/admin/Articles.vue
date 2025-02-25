@@ -1,32 +1,26 @@
 <script setup>
-import { Tab, TabList, TabPanel, TabPanels, Tabs } from "primevue";
-import ArticleArticles from "./ArticleArticles.vue";
-import ArticleBrands from "./ArticleBrands.vue";
-import ArticleLines from "./ArticleLines.vue";
-import { useArticlesStore } from "../../stores/articles";
+import { Tab, TabList, Tabs } from "primevue";
+import { computed } from "vue";
+import { RouterView, useRoute, useRouter } from "vue-router";
 
-const store = useArticlesStore();
+const route = useRoute();
+const router = useRouter();
+
+const tab = computed({
+    get: () => route.path,
+    set: (v) => router.push(v),
+});
 </script>
 
 <template>
     <div class="flex flex-col h-full">
-        <Tabs v-model:value="store.tab">
+        <Tabs v-model:value="tab">
             <TabList>
-                <Tab value="articles">Articles</Tab>
-                <Tab value="brands">Marques</Tab>
-                <Tab value="lines">Gammes</Tab>
+                <Tab value="/admin/articles">Articles</Tab>
+                <Tab value="/admin/articles/brands">Marques</Tab>
+                <Tab value="/admin/articles/lines">Gammes</Tab>
             </TabList>
-            <TabPanels class="!p-0">
-                <TabPanel value="articles">
-                    <ArticleArticles />
-                </TabPanel>
-                <TabPanel value="brands">
-                    <ArticleBrands />
-                </TabPanel>
-                <TabPanel value="lines">
-                    <ArticleLines />
-                </TabPanel>
-            </TabPanels>
         </Tabs>
+        <RouterView></RouterView>
     </div>
 </template>

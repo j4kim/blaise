@@ -8,7 +8,6 @@ export const useArticlesStore = defineStore("articles", {
         articles: [],
         brands: [],
         lines: [],
-        tab: "articles",
         showArticleDialog: false,
         edited: {},
         articleFilter: "",

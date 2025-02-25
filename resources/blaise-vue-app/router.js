@@ -14,6 +14,9 @@ import Finance from "./views/admin/Finance.vue";
 import ClientData from "./views/admin/ClientData.vue";
 import ClientVisits from "./views/admin/ClientVisits.vue";
 import ClientVisitDetails from "./views/admin/ClientVisitDetails.vue";
+import ArticleArticles from "./views/admin/ArticleArticles.vue";
+import ArticleBrands from "./views/admin/ArticleBrands.vue";
+import ArticleLines from "./views/admin/ArticleLines.vue";
 
 function adminHook(to) {
     localStorage["last-admin-path"] = to.path;
@@ -89,6 +92,20 @@ const routes = [
                 path: "articles",
                 component: Articles,
                 beforeEnter: adminHook,
+                children: [
+                    {
+                        path: "",
+                        component: ArticleArticles,
+                    },
+                    {
+                        path: "brands",
+                        component: ArticleBrands,
+                    },
+                    {
+                        path: "lines",
+                        component: ArticleLines,
+                    },
+                ],
             },
             {
                 path: "finance",
