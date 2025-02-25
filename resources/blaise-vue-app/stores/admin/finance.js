@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import { get } from "../../api";
 import dayjs from "dayjs";
 
@@ -20,5 +20,7 @@ export const useAdminFinanceStore = defineStore("admin-finance", () => {
         result.value = data;
     }
 
-    return { dateFrom, dateTo, result, computeRevenue };
+    watch([dateFrom, dateTo], computeRevenue, { immediate: true });
+
+    return { dateFrom, dateTo, result };
 });

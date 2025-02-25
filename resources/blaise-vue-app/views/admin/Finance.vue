@@ -1,5 +1,5 @@
 <script setup>
-import { Button, Card, DatePicker, FloatLabel } from "primevue";
+import { Card, DatePicker, FloatLabel } from "primevue";
 import { useAdminFinanceStore } from "../../stores/admin/finance";
 
 const store = useAdminFinanceStore();
@@ -12,10 +12,7 @@ const store = useAdminFinanceStore();
         </header>
         <div class="py-2 px-3">
             <h3>Bilan financier par période</h3>
-            <form
-                class="my-2 grid lg:grid-cols-3 grid-cols-2 gap-3"
-                @submit.prevent="store.computeRevenue"
-            >
+            <div class="my-2 grid grid-cols-2 gap-3">
                 <FloatLabel variant="on">
                     <DatePicker
                         v-model="store.dateFrom"
@@ -45,15 +42,10 @@ const store = useAdminFinanceStore();
                     />
                     <label for="date-to">Jusqu'au</label>
                 </FloatLabel>
-                <Button
-                    class="col-span-2 lg:col-auto"
-                    label="Calculer"
-                    type="submit"
-                ></Button>
-            </form>
+            </div>
             <div class="my-2 grid grid-cols-2 gap-3" v-if="store.result">
                 <Card
-                    pt:content:class="text-4xl text-center py-8 text-primary tabular-nums"
+                    pt:content:class="text-4xl text-center py-8 text-primary font-mono"
                 >
                     <template #title>Nombre de visites</template>
                     <template #content>
@@ -61,7 +53,7 @@ const store = useAdminFinanceStore();
                     </template>
                 </Card>
                 <Card
-                    pt:content:class="text-4xl text-center py-8 text-primary tabular-nums"
+                    pt:content:class="text-4xl text-center py-8 text-primary font-mono"
                 >
                     <template #title>Chiffre d'affaire</template>
                     <template #content>
