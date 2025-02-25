@@ -75,9 +75,18 @@ const search = ref("");
                 sortable
                 bodyClass="tabular-nums w-28"
             ></Column>
-            <Column bodyClass="w-20">
+            <Column bodyClass="w-28">
                 <template #body="{ data }">
                     <div>
+                        <Button
+                            icon="pi pi-pencil"
+                            aria-label="Modifier"
+                            size="small"
+                            variant="text"
+                            rounded
+                            severity="secondary"
+                            @click="store.openBrandEditDialog(data)"
+                        />
                         <Button
                             icon="pi pi-trash"
                             aria-label="Supprimer"
@@ -98,6 +107,13 @@ const search = ref("");
                 </template>
             </Column>
         </DataTable>
+        <EditBrandDialog
+            header="Modifier la marque"
+            btn="Sauver"
+            v-model:visible="store.showEditBrandDialog"
+            :edited="store.edited"
+            @save="store.updateBrand"
+        />
         <EditBrandDialog
             header="Ajouter marque"
             btn="Créer"

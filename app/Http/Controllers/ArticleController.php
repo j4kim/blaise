@@ -57,4 +57,10 @@ class ArticleController extends Controller
     {
         return Brand::forceCreate($request->all());
     }
+
+    public function updateBrand(Brand $brand, Request $request)
+    {
+        $brand->forceFill($request->all())->save();
+        return $brand;
+    }
 }

@@ -10,6 +10,7 @@ export const useArticlesStore = defineStore("articles", {
         lines: [],
         showArticleDialog: false,
         showAddBrandDialog: false,
+        showEditBrandDialog: false,
         edited: {},
         articleFilter: "",
         articleDialogHeader: "",
@@ -121,6 +122,19 @@ export const useArticlesStore = defineStore("articles", {
             if (!response.ok) return;
             await this.fetch();
             this.showAddBrandDialog = false;
+        },
+        openBrandEditDialog(brand) {
+            this.edited = structuredClone(toRaw(brand));
+            this.showEditBrandDialog = true;
+        },
+        async updateBrand(brand) {
+            const { data, response } = await put(
+                `/api/admin/articles/brands/${brand.id}`,
+                pick(brand, "name")
+            );
+            if (!response.ok) return;
+            await this.fetch();
+            this.showEditBrandDialog = false;
         },
     },
 });
