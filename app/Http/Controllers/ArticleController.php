@@ -11,7 +11,7 @@ class ArticleController extends Controller
 {
     public function index()
     {
-        return Article::with('line', 'brand')->orderBy('sort_order')->get();
+        return Article::with('line', 'brand')->withCount('sales')->orderBy('sort_order')->get();
     }
 
     public function brands()

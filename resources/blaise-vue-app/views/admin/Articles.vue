@@ -33,11 +33,17 @@ const store = useArticlesStore();
             </Column>
             <Column field="sort_order" header="Ordre" sortable></Column>
             <Column field="barcode" header="Code barre" sortable></Column>
-            <Column field="label" header="Nom" sortable></Column>
+            <Column
+                field="label"
+                header="Nom"
+                sortable
+                style="min-width: 20rem"
+            ></Column>
             <Column field="brand.name" header="Marque" sortable></Column>
             <Column field="line.name" header="Gamme" sortable></Column>
             <Column field="catalog_price" header="Prix cat." sortable></Column>
             <Column field="retail_price" header="Prix" sortable></Column>
+            <Column field="sales_count" header="Ventes" sortable></Column>
         </DataTable>
     </div>
 </template>
