@@ -26,23 +26,30 @@ export const useArticlesStore = defineStore("articles", {
                 .join(" ");
             return article;
         },
+        async fetchArticles() {
+            const { response, data } = await get("/api/articles");
+            if (response.ok) {
+                this.articles = data.map((a) => this.prepareArticle(a));
+            }
+        },
+        async fetchBrands() {
+            const { response, data } = await get("/api/admin/articles/brands");
+            if (response.ok) {
+                this.brands = data;
+            }
+        },
+        async fetchLines() {
+            const { response, data } = await get("/api/admin/articles/lines");
+            if (response.ok) {
+                this.lines = data;
+            }
+        },
         async fetch() {
-            const [articles, brands, lines] = await Promise.all([
-                get("/api/articles"),
-                get("/api/admin/articles/brands"),
-                get("/api/admin/articles/lines"),
+            await Promise.all([
+                this.fetchArticles(),
+                this.fetchBrands(),
+                this.fetchLines(),
             ]);
-            if (articles.response.ok) {
-                this.articles = articles.data.map((a) =>
-                    this.prepareArticle(a)
-                );
-            }
-            if (brands.response.ok) {
-                this.brands = brands.data;
-            }
-            if (lines.response.ok) {
-                this.lines = lines.data;
-            }
         },
         openArticleEditDialog(article) {
             this.edited = structuredClone(toRaw(article));
@@ -63,13 +70,13 @@ export const useArticlesStore = defineStore("articles", {
                 )
             );
             if (!response.ok) return;
-            await this.fetch();
+            await this.fetchArticles();
             this.showArticleDialog = false;
         },
         async deleteArticle(id) {
             const { data, response } = await del(`/api/admin/articles/${id}`);
             if (!response.ok) return;
-            await this.fetch();
+            await this.fetchArticles();
         },
     },
 });
