@@ -29,4 +29,10 @@ class ArticleController extends Controller
         $article->forceFill($request->all())->save();
         return $article;
     }
+
+    public function deleteArticle(Article $article)
+    {
+        $article->delete();
+        return $article;
+    }
 }

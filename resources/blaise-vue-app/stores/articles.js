@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { get, put } from "../api";
+import { del, get, put } from "../api";
 import { toRaw } from "vue";
 import { pick } from "../tools";
 
@@ -65,6 +65,11 @@ export const useArticlesStore = defineStore("articles", {
             if (!response.ok) return;
             await this.fetch();
             this.showArticleDialog = false;
+        },
+        async deleteArticle(id) {
+            const { data, response } = await del(`/api/admin/articles/${id}`);
+            if (!response.ok) return;
+            await this.fetch();
         },
     },
 });

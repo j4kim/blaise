@@ -1,7 +1,7 @@
 <script setup>
 import { Button, Column, DataTable } from "primevue";
 import { useArticlesStore } from "../../stores/articles";
-import { formatDate } from "../../tools";
+import { confirmDelete, formatDate } from "../../tools";
 import EditArticleDialog from "../../dialogs/EditArticleDialog.vue";
 
 const store = useArticlesStore();
@@ -67,7 +67,7 @@ const store = useArticlesStore();
                             @click="
                                 confirmDelete(
                                     $confirm,
-                                    `Voulez-vous vraiment supprimer l'article ${data.name} ?`,
+                                    `Voulez-vous vraiment supprimer l'article ${data.label} ?`,
                                     () => store.deleteArticle(data.id)
                                 )
                             "
