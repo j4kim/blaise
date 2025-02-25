@@ -38,7 +38,11 @@ const store = useArticlesStore();
             ></Column>
             <Column field="brand.name" header="Marque" sortable></Column>
             <Column field="line.name" header="Gamme" sortable></Column>
-            <Column field="catalog_price" header="Prix cat." sortable></Column>
+            <Column field="catalog_price" header="Prix cat." sortable>
+                <template #body="{ data }">
+                    {{ data.catalog_price.toFixed(2) }}
+                </template>
+            </Column>
             <Column field="retail_price" header="Prix" sortable></Column>
             <Column field="sales_count" header="Ventes" sortable></Column>
             <Column>
