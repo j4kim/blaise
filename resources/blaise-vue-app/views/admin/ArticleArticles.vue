@@ -1,7 +1,8 @@
 <script setup>
-import { Column, DataTable } from "primevue";
+import { Button, Column, DataTable } from "primevue";
 import { useArticlesStore } from "../../stores/articles";
 import { formatDate } from "../../tools";
+import EditArticleDialog from "../../dialogs/EditArticleDialog.vue";
 
 const store = useArticlesStore();
 </script>
@@ -40,6 +41,41 @@ const store = useArticlesStore();
             <Column field="catalog_price" header="Prix cat." sortable></Column>
             <Column field="retail_price" header="Prix" sortable></Column>
             <Column field="sales_count" header="Ventes" sortable></Column>
+            <Column>
+                <template #body="{ data }">
+                    <div class="w-20">
+                        <Button
+                            icon="pi pi-pencil"
+                            aria-label="Modifier"
+                            size="small"
+                            variant="text"
+                            rounded
+                            severity="secondary"
+                            @click="store.openArticleEditDialog(data)"
+                        />
+                        <Button
+                            icon="pi pi-trash"
+                            aria-label="Supprimer"
+                            size="small"
+                            variant="text"
+                            rounded
+                            severity="secondary"
+                            @click="
+                                confirmDelete(
+                                    $confirm,
+                                    `Voulez-vous vraiment supprimer l'article ${data.name} ?`,
+                                    () => store.deleteArticle(data.id)
+                                )
+                            "
+                        />
+                    </div>
+                </template>
+            </Column>
         </DataTable>
+        <EditArticleDialog
+            v-model:visible="store.showArticleDialog"
+            :edited="store.edited"
+            @save="store.updateArticle"
+        />
     </div>
 </template>

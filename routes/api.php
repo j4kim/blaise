@@ -47,4 +47,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/admin/finance/compute-revenue', [FinanceController::class, 'computeRevenue'])->name('visits.compute-revenue');
     Route::get('/admin/articles/brands', [ArticleController::class, 'brands'])->name('articles.brands');
     Route::get('/admin/articles/lines', [ArticleController::class, 'lines'])->name('articles.lines');
+    Route::put('/admin/articles/{article}', [ArticleController::class, 'updateArticle'])->name('articles.update-article');
 });
