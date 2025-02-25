@@ -62,7 +62,7 @@ const store = useArticlesStore();
             <Column field="line.name" header="Gamme" sortable></Column>
             <Column field="catalog_price" header="Prix cat." sortable>
                 <template #body="{ data }">
-                    {{ data.catalog_price.toFixed(2) }}
+                    {{ data.catalog_price?.toFixed(2) }}
                 </template>
             </Column>
             <Column field="retail_price" header="Prix" sortable></Column>
