@@ -30,6 +30,11 @@ class ArticleController extends Controller
         return $article;
     }
 
+    public function createArticle(Request $request)
+    {
+        return Article::forceCreate($request->all());
+    }
+
     public function deleteArticle(Article $article)
     {
         $article->delete();

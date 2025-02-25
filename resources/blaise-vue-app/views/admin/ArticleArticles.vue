@@ -26,7 +26,14 @@ const store = useArticlesStore();
             :sortOrder="1"
         >
             <template #header>
-                <div class="flex justify-end">
+                <div class="flex justify-end gap-3">
+                    <Button
+                        label="Ajouter"
+                        size="small"
+                        variant="text"
+                        icon="pi pi-plus"
+                        @click="store.openArticleCreateDialog"
+                    />
                     <IconField>
                         <InputIcon>
                             <i class="pi pi-search" />
@@ -99,9 +106,11 @@ const store = useArticlesStore();
             </Column>
         </DataTable>
         <EditArticleDialog
+            :header="store.articleDialogHeader"
+            :btn="store.articleDialogBtn"
             v-model:visible="store.showArticleDialog"
             :edited="store.edited"
-            @save="store.updateArticle"
+            @save="store.updateOrCreateArticle"
         />
     </div>
 </template>

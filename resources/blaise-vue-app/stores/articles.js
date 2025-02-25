@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { del, get, put } from "../api";
+import { del, get, post, put } from "../api";
 import { toRaw } from "vue";
 import { pick } from "../tools";
 
@@ -12,6 +12,8 @@ export const useArticlesStore = defineStore("articles", {
         showArticleDialog: false,
         edited: {},
         articleFilter: "",
+        articleDialogHeader: "",
+        articleDialogBtn: "",
     }),
 
     getters: {
@@ -56,26 +58,41 @@ export const useArticlesStore = defineStore("articles", {
             }
         },
         openArticleEditDialog(article) {
+            this.articleDialogHeader = "Modifier l'article";
+            this.articleDialogBtn = "Sauver";
             this.edited = structuredClone(toRaw(article));
             this.showArticleDialog = true;
         },
-        async updateArticle(article) {
-            const { data, response } = await put(
-                `/api/admin/articles/${article.id}`,
-                pick(
-                    article,
-                    "sort_order",
-                    "barcode",
-                    "label",
-                    "brand_id",
-                    "line_id",
-                    "catalog_price",
-                    "retail_price"
-                )
+        openArticleCreateDialog() {
+            this.edited = {};
+            this.articleDialogHeader = "Nouvel article";
+            this.articleDialogBtn = "Créer";
+            this.showArticleDialog = true;
+        },
+        async updateOrCreateArticle(article) {
+            const attrs = pick(
+                article,
+                "sort_order",
+                "barcode",
+                "label",
+                "brand_id",
+                "line_id",
+                "catalog_price",
+                "retail_price"
             );
+            const promise = article.id
+                ? this.updateArticle(article.id, attrs)
+                : this.createArticle(attrs);
+            const { data, response } = await promise;
             if (!response.ok) return;
             await this.fetch();
             this.showArticleDialog = false;
+        },
+        async updateArticle(id, attrs) {
+            return await put(`/api/admin/articles/${id}`, attrs);
+        },
+        async createArticle(attrs) {
+            return await post(`/api/admin/articles`, attrs);
         },
         async deleteArticle(id) {
             const { data, response } = await del(`/api/admin/articles/${id}`);
