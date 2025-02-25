@@ -76,7 +76,7 @@ const buttons = [
             <h3 class="text-xl font-extralight my-4">
                 Bilan financier par période
             </h3>
-            <div class="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-4 mb-6">
+            <div class="flex flex-wrap gap-2 mb-6">
                 <Button
                     v-for="b in buttons"
                     @click="
@@ -85,6 +85,7 @@ const buttons = [
                     "
                     :label="b.label"
                     severity="secondary"
+                    rounded
                 ></Button>
             </div>
             <div class="grid grid-cols-2 gap-2 md:gap-4">
