@@ -1,8 +1,72 @@
 <script setup>
-import { Card, DatePicker, FloatLabel } from "primevue";
+import { Button, Card, DatePicker, FloatLabel } from "primevue";
 import { useAdminFinanceStore } from "../../stores/admin/finance";
+import dayjs from "dayjs";
+import quarterOfYear from "dayjs/plugin/quarterOfYear";
+
+dayjs.extend(quarterOfYear);
 
 const store = useAdminFinanceStore();
+
+const today = dayjs();
+const yesterday = today.subtract(1, "day");
+const monday = today.startOf("week").add(1, "day");
+const firstOfMonth = today.startOf("month");
+const firstOfQuarter = today.startOf("quarter");
+const firstOfYear = today.startOf("year");
+
+const buttons = [
+    {
+        label: "Ajourd'hui",
+        from: today,
+        to: today,
+    },
+    {
+        label: "Hier",
+        from: yesterday,
+        to: yesterday,
+    },
+    {
+        label: "Cette semaine",
+        from: monday,
+        to: today,
+    },
+    {
+        label: "Dernière semaine",
+        from: monday.subtract(1, "week"),
+        to: monday.subtract(1, "day"),
+    },
+    {
+        label: "Ce mois",
+        from: firstOfMonth,
+        to: today,
+    },
+    {
+        label: "Dernier mois",
+        from: firstOfMonth.subtract(1, "month"),
+        to: firstOfMonth.subtract(1, "day"),
+    },
+    {
+        label: "Ce trimestre",
+        from: firstOfQuarter,
+        to: today,
+    },
+    {
+        label: "Dernier trimestre",
+        from: firstOfQuarter.subtract(1, "quarter"),
+        to: firstOfQuarter.subtract(1, "day"),
+    },
+    {
+        label: "Cette année",
+        from: firstOfYear,
+        to: today,
+    },
+    {
+        label: "Dernière année",
+        from: firstOfYear.subtract(1, "year"),
+        to: firstOfYear.subtract(1, "day"),
+    },
+];
 </script>
 
 <template>
@@ -12,6 +76,17 @@ const store = useAdminFinanceStore();
             <h3 class="text-xl font-extralight my-4">
                 Bilan financier par période
             </h3>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-4 mb-6">
+                <Button
+                    v-for="b in buttons"
+                    @click="
+                        store.dateFrom = b.from.toDate();
+                        store.dateTo = b.to.toDate();
+                    "
+                    :label="b.label"
+                    severity="secondary"
+                ></Button>
+            </div>
             <div class="grid grid-cols-2 gap-2 md:gap-4">
                 <FloatLabel variant="on">
                     <DatePicker
@@ -50,7 +125,14 @@ const store = useAdminFinanceStore();
                     >
                         <template #title>Nombre de visites</template>
                         <template #content>
-                            {{ store.result.visits_count.toLocaleString() }}
+                            <i
+                                v-if="store.loading"
+                                class="pi pi-spin pi-spinner"
+                                style="font-size: 2rem"
+                            ></i>
+                            <span v-else>
+                                {{ store.result.visits_count.toLocaleString() }}
+                            </span>
                         </template>
                     </Card>
                     <Card
@@ -60,7 +142,15 @@ const store = useAdminFinanceStore();
                     >
                         <template #title>Chiffre d'affaire</template>
                         <template #content>
-                            CHF {{ store.result.total_billed.toLocaleString() }}
+                            <i
+                                v-if="store.loading"
+                                class="pi pi-spin pi-spinner"
+                                style="font-size: 2rem"
+                            ></i>
+                            <span v-else>
+                                CHF
+                                {{ store.result.total_billed.toLocaleString() }}
+                            </span>
                         </template>
                     </Card>
                 </template>
