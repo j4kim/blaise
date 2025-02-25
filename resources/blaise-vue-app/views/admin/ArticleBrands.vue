@@ -11,7 +11,7 @@ const store = useArticlesStore();
         <DataTable
             :value="store.brands"
             paginator
-            :rows="5"
+            :rows="10"
             paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink"
             currentPageReportTemplate="marques {first} à {last} sur {totalRecords}"
             :alwaysShowPaginator="false"
