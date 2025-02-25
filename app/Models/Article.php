@@ -11,6 +11,14 @@ class Article extends Model
 {
     use SoftDeletes;
 
+    protected function casts(): array
+    {
+        return [
+            'retail_price' => 'real',
+            'catalog_price' => 'real',
+        ];
+    }
+
     public function brand(): BelongsTo
     {
         return $this->belongsTo(Brand::class);
