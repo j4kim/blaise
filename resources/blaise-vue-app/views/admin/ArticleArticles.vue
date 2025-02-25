@@ -1,8 +1,16 @@
 <script setup>
-import { Button, Column, DataTable } from "primevue";
+import {
+    Button,
+    Column,
+    DataTable,
+    IconField,
+    InputIcon,
+    InputText,
+} from "primevue";
 import { useArticlesStore } from "../../stores/articles";
 import { confirmDelete, formatDate } from "../../tools";
 import EditArticleDialog from "../../dialogs/EditArticleDialog.vue";
+import { FilterMatchMode } from "@primevue/core/api";
 
 const store = useArticlesStore();
 </script>
@@ -17,7 +25,34 @@ const store = useArticlesStore();
             currentPageReportTemplate="articles {first} à {last} sur {totalRecords}"
             sortField="sort_order"
             :sortOrder="1"
+            :globalFilterFields="[
+                'label',
+                'barcode',
+                'brand.name',
+                'line.name',
+            ]"
+            :filters="{
+                global: {
+                    value: store.articleFilter,
+                    matchMode: FilterMatchMode.CONTAINS,
+                },
+            }"
         >
+            <template #header>
+                <div class="flex justify-end">
+                    <IconField>
+                        <InputIcon>
+                            <i class="pi pi-search" />
+                        </InputIcon>
+                        <InputText
+                            v-model="store.articleFilter"
+                            placeholder="Filtrer"
+                            size="small"
+                            variant="filled"
+                        />
+                    </IconField>
+                </div>
+            </template>
             <Column
                 field="created_at"
                 header="Création"

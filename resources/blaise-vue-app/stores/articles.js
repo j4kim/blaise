@@ -11,6 +11,7 @@ export const useArticlesStore = defineStore("articles", {
         tab: "articles",
         showArticleDialog: false,
         edited: {},
+        articleFilter: "",
     }),
 
     actions: {

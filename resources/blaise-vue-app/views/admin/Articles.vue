@@ -16,7 +16,7 @@ const store = useArticlesStore();
                 <Tab value="brands">Marques</Tab>
                 <Tab value="lines">Gammes</Tab>
             </TabList>
-            <TabPanels class="!px-0">
+            <TabPanels class="!p-0">
                 <TabPanel value="articles">
                     <ArticleArticles />
                 </TabPanel>
