@@ -45,7 +45,12 @@ const props = defineProps({
                     <label for="barcode">Code-barres</label>
                 </FloatLabel>
                 <FloatLabel class="col-span-12" variant="on">
-                    <InputText v-model="edited.label" id="label" fluid />
+                    <InputText
+                        v-model="edited.label"
+                        id="label"
+                        fluid
+                        required
+                    />
                     <label for="label">Nom</label>
                 </FloatLabel>
                 <FloatLabel class="col-span-12 sm:col-span-6" variant="on">
@@ -56,6 +61,8 @@ const props = defineProps({
                         optionValue="id"
                         id="brand"
                         fluid
+                        showClear
+                        :filter="store.brands.length > 10"
                     />
                     <label for="brand">Marque</label>
                 </FloatLabel>
@@ -67,6 +74,8 @@ const props = defineProps({
                         optionValue="id"
                         id="line"
                         fluid
+                        showClear
+                        :filter="store.lines.length > 10"
                     />
                     <label for="line">Gamme</label>
                 </FloatLabel>
