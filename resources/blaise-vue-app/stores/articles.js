@@ -14,12 +14,22 @@ export const useArticlesStore = defineStore("articles", {
         articleFilter: "",
     }),
 
+    getters: {
+        filteredArticles() {
+            const parts = this.articleFilter.split(" ");
+            return this.articles.filter((a) =>
+                parts.every((part) => a.searchText.includes(part))
+            );
+        },
+    },
+
     actions: {
         prepareArticle(article) {
             const parts = [
                 article.label,
                 article.brand?.name,
                 article.line?.name,
+                article.barcode,
             ];
             article.searchText = parts
                 .filter((s) => s)

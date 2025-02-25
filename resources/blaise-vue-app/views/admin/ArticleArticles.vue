@@ -10,7 +10,6 @@ import {
 import { useArticlesStore } from "../../stores/articles";
 import { confirmDelete, formatDate } from "../../tools";
 import EditArticleDialog from "../../dialogs/EditArticleDialog.vue";
-import { FilterMatchMode } from "@primevue/core/api";
 
 const store = useArticlesStore();
 </script>
@@ -18,25 +17,13 @@ const store = useArticlesStore();
 <template>
     <div>
         <DataTable
-            :value="store.articles"
+            :value="store.filteredArticles"
             paginator
             :rows="10"
             paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink"
             currentPageReportTemplate="articles {first} à {last} sur {totalRecords}"
             sortField="sort_order"
             :sortOrder="1"
-            :globalFilterFields="[
-                'label',
-                'barcode',
-                'brand.name',
-                'line.name',
-            ]"
-            :filters="{
-                global: {
-                    value: store.articleFilter,
-                    matchMode: FilterMatchMode.CONTAINS,
-                },
-            }"
         >
             <template #header>
                 <div class="flex justify-end">
