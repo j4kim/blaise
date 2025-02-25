@@ -50,4 +50,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/admin/articles/{article}', [ArticleController::class, 'updateArticle'])->name('articles.update-article');
     Route::post('/admin/articles', [ArticleController::class, 'createArticle'])->name('articles.create-article');
     Route::delete('/admin/articles/{article}', [ArticleController::class, 'deleteArticle'])->name('articles.delete-article');
+    Route::delete('/admin/articles/brands/{brand}', [ArticleController::class, 'deleteBrand'])->name('articles.delete-brand');
 });

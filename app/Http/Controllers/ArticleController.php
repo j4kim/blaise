@@ -40,4 +40,10 @@ class ArticleController extends Controller
         $article->delete();
         return $article;
     }
+
+    public function deleteBrand(Brand $brand)
+    {
+        $brand->delete();
+        return $brand;
+    }
 }

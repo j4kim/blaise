@@ -99,5 +99,12 @@ export const useArticlesStore = defineStore("articles", {
             if (!response.ok) return;
             await this.fetch();
         },
+        async deleteBrand(id) {
+            const { data, response } = await del(
+                `/api/admin/articles/brands/${id}`
+            );
+            if (!response.ok) return;
+            await this.fetch();
+        },
     },
 });
