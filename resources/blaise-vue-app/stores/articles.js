@@ -6,6 +6,7 @@ export const useArticlesStore = defineStore("articles", {
         articles: [],
         brands: [],
         lines: [],
+        tab: "articles",
     }),
 
     actions: {

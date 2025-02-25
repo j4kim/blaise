@@ -8,10 +8,6 @@ const store = useArticlesStore();
 
 <template>
     <div>
-        <header class="py-2 px-3 flex gap-3 justify-between flex-wrap">
-            <span class="text-xl font-extralight">Marques</span>
-        </header>
-
         <DataTable
             :value="store.brands"
             paginator
