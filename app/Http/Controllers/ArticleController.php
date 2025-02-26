@@ -15,12 +15,13 @@ class ArticleController extends Controller
     public function update(Article $article, Request $request)
     {
         $article->forceFill($request->all())->save();
-        return $article;
+        return $article->load('line', 'brand')->loadCount('sales');
     }
 
     public function create(Request $request)
     {
-        return Article::forceCreate($request->all());
+        $article = Article::forceCreate($request->all());
+        return $article->load('line', 'brand')->loadCount('sales');
     }
 
     public function delete(Article $article)

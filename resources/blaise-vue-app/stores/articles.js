@@ -82,7 +82,7 @@ export const useArticlesStore = defineStore("articles", {
         },
 
         async updateArticle(article) {
-            const { response } = await put(
+            const { response, data } = await put(
                 `/api/admin/articles/${article.id}`,
                 pick(
                     article,
@@ -96,21 +96,32 @@ export const useArticlesStore = defineStore("articles", {
                 )
             );
             if (!response.ok) return;
-            await this.fetchArticles();
+            const index = this.articles.findIndex((a) => a.id === data.id);
+            this.articles.splice(index, 1, this.prepareArticle(data));
+            this.fetchBrands();
+            this.fetchLines();
             this.showEditArticleDialog = false;
         },
 
         async createArticle(article) {
-            const { response } = await post(`/api/admin/articles`, article);
+            const { response, data } = await post(
+                `/api/admin/articles`,
+                article
+            );
             if (!response.ok) return;
-            await this.fetchArticles();
+            this.articles.push(this.prepareArticle(data));
+            this.fetchBrands();
+            this.fetchLines();
             this.showAddArticleDialog = false;
         },
 
         async deleteArticle(id) {
             const { response } = await del(`/api/admin/articles/${id}`);
             if (!response.ok) return;
-            await this.fetchArticles();
+            const index = this.articles.findIndex((a) => a.id === id);
+            this.articles.splice(index, 1);
+            this.fetchBrands();
+            this.fetchLines();
         },
 
         // brands
