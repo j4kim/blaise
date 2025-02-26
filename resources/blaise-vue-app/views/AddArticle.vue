@@ -95,7 +95,19 @@ async function add(article) {
                 <Column field="label" header="Nom"></Column>
                 <Column field="brand.name" header="Marque"></Column>
                 <Column field="line.name" header="Gamme"></Column>
-                <Column field="stock" header="Stock"></Column>
+                <Column field="stock" header="Stock">
+                    <template #body="{ data }">
+                        <span
+                            :class="{
+                                'text-red-600': data.stock === 0,
+                                'text-amber-400':
+                                    data.stock > 0 && data.stock < 3,
+                            }"
+                        >
+                            {{ data.stock }}
+                        </span>
+                    </template>
+                </Column>
                 <Column field="retail_price" header="Prix"></Column>
             </DataTable>
         </div>

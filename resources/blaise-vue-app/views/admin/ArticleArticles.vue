@@ -70,7 +70,18 @@ const store = useArticlesStore();
             </Column>
             <Column field="brand.name" header="Marque" sortable></Column>
             <Column field="line.name" header="Gamme" sortable></Column>
-            <Column field="stock" header="Stock" sortable></Column>
+            <Column field="stock" header="Stock" sortable>
+                <template #body="{ data }">
+                    <span
+                        :class="{
+                            'text-red-600': data.stock === 0,
+                            'text-amber-400': data.stock > 0 && data.stock < 3,
+                        }"
+                    >
+                        {{ data.stock }}
+                    </span>
+                </template>
+            </Column>
             <Column field="catalog_price" header="Prix cat." sortable>
                 <template #body="{ data }">
                     {{ data.catalog_price?.toFixed(2) }}
