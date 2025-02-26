@@ -32,7 +32,7 @@ const store = useArticlesStore();
                         size="small"
                         variant="text"
                         icon="pi pi-plus"
-                        @click="store.showAddArticleDialog = 1"
+                        @click="store.showAddArticleDialog = true"
                     />
                     <IconField>
                         <InputIcon>
