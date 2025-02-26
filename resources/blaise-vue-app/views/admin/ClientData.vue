@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, ref } from "vue";
+import { ref } from "vue";
 import { RouterLink, RouterView, useRoute } from "vue-router";
 import { del, get, put } from "../../api";
 import ClientDetails from "../../components/ClientDetails.vue";
@@ -9,7 +9,7 @@ import EditClientDialog from "../../dialogs/EditClientDialog.vue";
 
 const route = useRoute();
 
-const state = reactive({ client: null, error: "" });
+const client = ref({});
 
 const edited = ref({});
 
@@ -18,7 +18,7 @@ const showEditDialog = ref(false);
 async function fetchClient(id) {
     const { data, response } = await get(`/api/admin/clients/${id}`);
     if (!response.ok) return;
-    state.client = data;
+    client.value = data;
 }
 
 fetchClient(route.params.clientId);
@@ -29,21 +29,21 @@ async function save(edited) {
         edited
     );
     if (!response.ok) return;
-    state.client = data;
+    client.value = data;
     showEditDialog.value = false;
 }
 
 async function deleteClient() {
     const { data, response } = await del(
-        `/api/admin/clients/${state.client.id}`
+        `/api/admin/clients/${client.value.id}`
     );
     if (!response.ok) return;
-    state.client = data;
+    client.value = data;
 }
 
 function openEditDialog() {
     edited.value = pick(
-        state.client,
+        client.value,
         "first_name",
         "last_name",
         "gender",
@@ -58,7 +58,7 @@ function openEditDialog() {
 </script>
 
 <template>
-    <div class="flex flex-col h-full" v-if="state.client">
+    <div class="flex flex-col h-full" v-if="client">
         <header class="py-2 px-3 flex justify-between flex-wrap">
             <h2 class="text-xl font-extralight">
                 <RouterLink
@@ -71,33 +71,32 @@ function openEditDialog() {
                     class="pi pi-chevron-right text-muted-color"
                     style="font-size: 0.7rem"
                 ></i>
-                {{ state.client.first_name }} {{ state.client.last_name }}
+                {{ client.first_name }} {{ client.last_name }}
             </h2>
 
-            <RouterLink :to="`/clients/${state.client.id}`">
+            <RouterLink :to="`/clients/${client.id}`">
                 <Button
                     size="small"
                     variant="outlined"
-                    :disabled="state.client.deleted_at"
+                    :disabled="client.deleted_at"
                     icon="pi pi-arrow-up-right"
                     label="Vers ticket"
                 ></Button>
             </RouterLink>
         </header>
-        <div class="py-2 px-3" v-if="state.client.deleted_at">
+        <div class="py-2 px-3" v-if="client.deleted_at">
             <Message severity="warn">
-                {{ state.client.title }} supprimé<span
-                    v-if="state.client.gender == 0"
+                {{ client.title }} supprimé<span v-if="client.gender == 0"
                     >e</span
                 >
-                le {{ formatDate(state.client.deleted_at) }}
+                le {{ formatDate(client.deleted_at) }}
             </Message>
         </div>
         <div class="py-2 px-3">
-            <ClientDetails :client="state.client"></ClientDetails>
+            <ClientDetails :client="client"></ClientDetails>
             <div class="flex justify-end gap-2 mt-2">
                 <Button
-                    v-if="state.client.deleted_at"
+                    v-if="client.deleted_at"
                     @click="save({ deleted_at: null })"
                     label="Restaurer"
                     icon="pi pi-refresh"
@@ -106,11 +105,11 @@ function openEditDialog() {
                     severity="secondary"
                 ></Button>
                 <Button
-                    :disabled="!!state.client.deleted_at"
+                    :disabled="!!client.deleted_at"
                     @click="
                         confirmDelete(
                             $confirm,
-                            `Voulez-vous vraiment supprimer ${state.client.first_name} ${state.client.last_name} ?`,
+                            `Voulez-vous vraiment supprimer ${client.first_name} ${client.last_name} ?`,
                             deleteClient
                         )
                     "
@@ -122,7 +121,7 @@ function openEditDialog() {
                 ></Button>
                 <Button
                     @click="openEditDialog"
-                    :disabled="!!state.client.deleted_at"
+                    :disabled="!!client.deleted_at"
                     label="Modifier"
                     icon="pi pi-pencil"
                     size="small"
