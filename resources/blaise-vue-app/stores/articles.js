@@ -165,26 +165,29 @@ export const useArticlesStore = defineStore("articles", {
         },
 
         async updateLine(line) {
-            const { response } = await put(
+            const { response, data } = await put(
                 `/api/admin/lines/${line.id}`,
                 pick(line, "name")
             );
             if (!response.ok) return;
-            await this.fetch();
+            const index = this.lines.findIndex((l) => l.id === data.id);
+            this.lines.splice(index, 1, data);
+            this.fetchArticles();
             this.showEditLineDialog = false;
         },
 
         async createLine(line) {
-            const { response } = await post(`/api/admin/lines`, line);
+            const { response, data } = await post(`/api/admin/lines`, line);
             if (!response.ok) return;
-            await this.fetch();
+            this.lines.push(data);
             this.showAddLineDialog = false;
         },
 
         async deleteLine(id) {
             const { response } = await del(`/api/admin/lines/${id}`);
             if (!response.ok) return;
-            await this.fetch();
+            const index = this.lines.findIndex((l) => l.id === id);
+            this.lines.splice(index, 1);
         },
     },
 });

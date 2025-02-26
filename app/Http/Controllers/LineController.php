@@ -15,12 +15,13 @@ class LineController extends Controller
     public function update(Line $line, Request $request)
     {
         $line->forceFill($request->all())->save();
-        return $line;
+        return $line->loadCount('articles');
     }
 
     public function create(Request $request)
     {
-        return Line::forceCreate($request->all());
+        $line = Line::forceCreate($request->all());
+        return $line->loadCount('articles');
     }
 
     public function delete(Line $line)
