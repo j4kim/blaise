@@ -94,7 +94,7 @@ function openEditDialog() {
         </div>
         <div class="py-2 px-3">
             <ClientDetails :client="client"></ClientDetails>
-            <div class="flex justify-end gap-2 mt-2">
+            <div class="flex justify-end gap-2 mt-4">
                 <Button
                     v-if="client.deleted_at"
                     @click="save({ deleted_at: null })"
@@ -113,7 +113,7 @@ function openEditDialog() {
                             deleteClient
                         )
                     "
-                    label="Supprimer"
+                    :label="`Supprimer ${client.title?.toLowerCase()}`"
                     icon="pi pi-trash"
                     size="small"
                     variant="text"
@@ -122,7 +122,7 @@ function openEditDialog() {
                 <Button
                     @click="openEditDialog"
                     :disabled="!!client.deleted_at"
-                    label="Modifier"
+                    label="Modifier les coordonnées"
                     icon="pi pi-pencil"
                     size="small"
                     variant="text"
@@ -135,6 +135,6 @@ function openEditDialog() {
                 />
             </div>
         </div>
-        <RouterView></RouterView>
+        <RouterView class="mt-8"></RouterView>
     </div>
 </template>

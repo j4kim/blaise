@@ -22,7 +22,7 @@ fetchVisit(route.params.visitId);
 
 <template>
     <div class="py-2 px-3">
-        <h2 class="text-xl font-extralight mb-2">
+        <h2 class="text-xl font-extralight mb-4">
             <RouterLink
                 :to="`/admin/clients/${route.params.clientId}`"
                 class="text-muted-color hover:text-color"

@@ -20,7 +20,7 @@ fetchVisits(route.params.clientId);
 
 <template>
     <div class="py-2 px-3">
-        <h2 class="text-xl font-extralight mb-2">Toutes les visites</h2>
+        <h2 class="text-xl font-extralight mb-4">Toutes les visites</h2>
         <DataTable
             :value="state.visits"
             paginator
