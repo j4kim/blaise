@@ -29,12 +29,14 @@ fetchVisit(route.params.visitId);
             >
                 Toutes les visites
             </RouterLink>
-            <i
-                class="pi pi-chevron-right text-muted-color"
-                style="font-size: 0.7rem"
-            ></i>
-            Visite du
-            {{ formatDate(state.visit.visit_date, true) }}
+            <span v-if="state.visit.visit_date">
+                <i
+                    class="pi pi-chevron-right text-muted-color"
+                    style="font-size: 0.7rem"
+                ></i>
+                Visite du
+                {{ formatDate(state.visit.visit_date, true) }}
+            </span>
         </h2>
         <Attributes
             :attributes="[
