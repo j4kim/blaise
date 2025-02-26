@@ -8,12 +8,15 @@ export const useArticlesStore = defineStore("articles", {
         articles: [],
         brands: [],
         lines: [],
+
+        edited: {},
+
         showArticleDialog: false,
         showAddBrandDialog: false,
         showEditBrandDialog: false,
         showAddLineDialog: false,
         showEditLineDialog: false,
-        edited: {},
+
         articleFilter: "",
         articleDialogHeader: "",
         articleDialogBtn: "",
@@ -42,24 +45,28 @@ export const useArticlesStore = defineStore("articles", {
                 .join(" ");
             return article;
         },
+
         async fetchArticles() {
             const { response, data } = await get("/api/articles");
             if (response.ok) {
                 this.articles = data.map((a) => this.prepareArticle(a));
             }
         },
+
         async fetchBrands() {
             const { response, data } = await get("/api/admin/articles/brands");
             if (response.ok) {
                 this.brands = data;
             }
         },
+
         async fetchLines() {
             const { response, data } = await get("/api/admin/articles/lines");
             if (response.ok) {
                 this.lines = data;
             }
         },
+
         async fetch() {
             await Promise.all([
                 this.fetchArticles(),
@@ -67,18 +74,23 @@ export const useArticlesStore = defineStore("articles", {
                 this.fetchLines(),
             ]);
         },
+
+        // articles
+
         openArticleEditDialog(article) {
             this.articleDialogHeader = "Modifier l'article";
             this.articleDialogBtn = "Sauver";
             this.edited = structuredClone(toRaw(article));
             this.showArticleDialog = true;
         },
+
         openArticleCreateDialog() {
             this.edited = {};
             this.articleDialogHeader = "Nouvel article";
             this.articleDialogBtn = "Créer";
             this.showArticleDialog = true;
         },
+
         async updateOrCreateArticle(article) {
             const attrs = pick(
                 article,
@@ -98,44 +110,28 @@ export const useArticlesStore = defineStore("articles", {
             await this.fetchArticles();
             this.showArticleDialog = false;
         },
+
         async updateArticle(id, attrs) {
             return await put(`/api/admin/articles/${id}`, attrs);
         },
+
         async createArticle(attrs) {
             return await post(`/api/admin/articles`, attrs);
         },
+
         async deleteArticle(id) {
             const { data, response } = await del(`/api/admin/articles/${id}`);
             if (!response.ok) return;
             await this.fetchArticles();
         },
-        async deleteBrand(id) {
-            const { data, response } = await del(
-                `/api/admin/articles/brands/${id}`
-            );
-            if (!response.ok) return;
-            await this.fetch();
-        },
-        async deleteLine(id) {
-            const { data, response } = await del(
-                `/api/admin/articles/lines/${id}`
-            );
-            if (!response.ok) return;
-            await this.fetch();
-        },
-        async createBrand(brand) {
-            const { data, response } = await post(
-                `/api/admin/articles/brands`,
-                brand
-            );
-            if (!response.ok) return;
-            await this.fetch();
-            this.showAddBrandDialog = false;
-        },
+
+        // brands
+
         openBrandEditDialog(brand) {
             this.edited = structuredClone(toRaw(brand));
             this.showEditBrandDialog = true;
         },
+
         async updateBrand(brand) {
             const { data, response } = await put(
                 `/api/admin/articles/brands/${brand.id}`,
@@ -145,6 +141,42 @@ export const useArticlesStore = defineStore("articles", {
             await this.fetch();
             this.showEditBrandDialog = false;
         },
+
+        async createBrand(brand) {
+            const { data, response } = await post(
+                `/api/admin/articles/brands`,
+                brand
+            );
+            if (!response.ok) return;
+            await this.fetch();
+            this.showAddBrandDialog = false;
+        },
+
+        async deleteBrand(id) {
+            const { data, response } = await del(
+                `/api/admin/articles/brands/${id}`
+            );
+            if (!response.ok) return;
+            await this.fetch();
+        },
+
+        // lines
+
+        openLineEditDialog(line) {
+            this.edited = structuredClone(toRaw(line));
+            this.showEditLineDialog = true;
+        },
+
+        async updateLine(line) {
+            const { data, response } = await put(
+                `/api/admin/articles/lines/${line.id}`,
+                pick(line, "name")
+            );
+            if (!response.ok) return;
+            await this.fetch();
+            this.showEditLineDialog = false;
+        },
+
         async createLine(line) {
             const { data, response } = await post(
                 `/api/admin/articles/lines`,
@@ -154,18 +186,13 @@ export const useArticlesStore = defineStore("articles", {
             await this.fetch();
             this.showAddLineDialog = false;
         },
-        openLineEditDialog(line) {
-            this.edited = structuredClone(toRaw(line));
-            this.showEditLineDialog = true;
-        },
-        async updateLine(line) {
-            const { data, response } = await put(
-                `/api/admin/articles/lines/${line.id}`,
-                pick(line, "name")
+
+        async deleteLine(id) {
+            const { data, response } = await del(
+                `/api/admin/articles/lines/${id}`
             );
             if (!response.ok) return;
             await this.fetch();
-            this.showEditLineDialog = false;
         },
     },
 });
