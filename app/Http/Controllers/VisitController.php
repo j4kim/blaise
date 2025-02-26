@@ -42,6 +42,11 @@ class VisitController extends Controller
         $visit->billed = $visit->total;
         $visit->save();
         $visit->client()->touch();
+        $visit->sales()->where('type', 'article')->with('article')->each(function (Sale $sale) {
+            $art = $sale->article;
+            $art->stock = $art->stock - $sale->quantity;
+            $art->save();
+        });
         return $visit;
     }
 
