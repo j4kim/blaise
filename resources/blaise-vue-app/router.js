@@ -32,6 +32,11 @@ const routes = [
     {
         path: "/clients/:id",
         component: Client,
+        meta: {
+            adminRoute(route) {
+                return `/admin/clients/${route.params.id}`;
+            },
+        },
         children: [
             {
                 path: "",

@@ -28,11 +28,8 @@ const visit = useVisitStore();
             <footer
                 v-if="!$route.meta.hideFooter"
                 class="text-center p-3 text-sm md:block"
-                :class="{
-                    hidden: visit.current,
-                }"
             >
-                <RouterLink to="/admin">
+                <RouterLink :to="$route.meta?.adminRoute?.($route) ?? '/admin'">
                     <Button variant="text" severity="secondary" size="small">
                         Administration
                     </Button>

@@ -111,13 +111,4 @@ function getSalesSummary(sales) {
             </AccordionContent>
         </AccordionPanel>
     </Accordion>
-    <RouterLink :to="`/admin/clients/${client.id}`">
-        <Button
-            class="mt-2"
-            label="Toutes les visites"
-            size="small"
-            variant="text"
-            severity="secondary"
-        ></Button>
-    </RouterLink>
 </template>
