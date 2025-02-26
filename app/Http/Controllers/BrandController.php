@@ -15,12 +15,13 @@ class BrandController extends Controller
     public function update(Brand $brand, Request $request)
     {
         $brand->forceFill($request->all())->save();
-        return $brand;
+        return $brand->loadCount('articles');
     }
 
     public function create(Request $request)
     {
-        return Brand::forceCreate($request->all());
+        $brand = Brand::forceCreate($request->all());
+        return $brand->loadCount('articles');
     }
 
     public function delete(Brand $brand)

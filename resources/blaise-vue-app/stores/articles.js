@@ -132,26 +132,29 @@ export const useArticlesStore = defineStore("articles", {
         },
 
         async updateBrand(brand) {
-            const { response } = await put(
+            const { response, data } = await put(
                 `/api/admin/brands/${brand.id}`,
                 pick(brand, "name")
             );
             if (!response.ok) return;
-            await this.fetch();
+            const index = this.brands.findIndex((b) => b.id === data.id);
+            this.brands.splice(index, 1, data);
+            this.fetchArticles();
             this.showEditBrandDialog = false;
         },
 
         async createBrand(brand) {
-            const { response } = await post(`/api/admin/brands`, brand);
+            const { response, data } = await post(`/api/admin/brands`, brand);
             if (!response.ok) return;
-            await this.fetch();
+            this.brands.push(data);
             this.showAddBrandDialog = false;
         },
 
         async deleteBrand(id) {
             const { response } = await del(`/api/admin/brands/${id}`);
             if (!response.ok) return;
-            await this.fetch();
+            const index = this.brands.findIndex((b) => b.id === id);
+            this.brands.splice(index, 1);
         },
 
         // lines
