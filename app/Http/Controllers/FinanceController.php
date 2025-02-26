@@ -17,7 +17,7 @@ class FinanceController extends Controller
             'from' => $from,
             'to' => $to,
             'visits_count' => $visits->count(),
-            'total_billed' => $visits->sum('billed')
+            'total_billed' => floatval($visits->sum('billed')),
         ];
     }
 }
