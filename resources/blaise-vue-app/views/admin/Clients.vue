@@ -80,6 +80,8 @@ store.fetchClients();
             sortField="updated_at"
             :sortOrder="-1"
             :loading="store.loading"
+            stateStorage="local"
+            stateKey="dt-clients"
         >
             <Column
                 field="created_at"

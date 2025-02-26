@@ -24,6 +24,8 @@ const store = useArticlesStore();
             currentPageReportTemplate="articles {first} à {last} sur {totalRecords}"
             sortField="sort_order"
             :sortOrder="1"
+            stateStorage="local"
+            stateKey="dt-articles"
         >
             <template #header>
                 <div class="flex justify-end gap-3">

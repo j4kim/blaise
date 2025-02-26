@@ -34,6 +34,8 @@ const search = ref("");
                 },
             }"
             :globalFilterFields="['name']"
+            stateStorage="local"
+            stateKey="dt-brands"
         >
             <template #header>
                 <div class="flex justify-end gap-3">
