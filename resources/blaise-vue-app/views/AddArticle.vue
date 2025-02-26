@@ -95,6 +95,7 @@ async function add(article) {
                 <Column field="label" header="Nom"></Column>
                 <Column field="brand.name" header="Marque"></Column>
                 <Column field="line.name" header="Gamme"></Column>
+                <Column field="stock" header="Stock"></Column>
                 <Column field="retail_price" header="Prix"></Column>
             </DataTable>
         </div>

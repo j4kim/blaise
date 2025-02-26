@@ -91,6 +91,7 @@ export const useArticlesStore = defineStore("articles", {
                     "label",
                     "brand_id",
                     "line_id",
+                    "stock",
                     "catalog_price",
                     "retail_price"
                 )

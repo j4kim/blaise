@@ -26,6 +26,7 @@ const store = useArticlesStore();
             :sortOrder="1"
             stateStorage="local"
             stateKey="dt-articles"
+            size="small"
         >
             <template #header>
                 <div class="flex justify-end gap-3">
@@ -69,6 +70,7 @@ const store = useArticlesStore();
             </Column>
             <Column field="brand.name" header="Marque" sortable></Column>
             <Column field="line.name" header="Gamme" sortable></Column>
+            <Column field="stock" header="Stock" sortable></Column>
             <Column field="catalog_price" header="Prix cat." sortable>
                 <template #body="{ data }">
                     {{ data.catalog_price?.toFixed(2) }}

@@ -79,7 +79,16 @@ const props = defineProps({
                     />
                     <label for="line">Gamme</label>
                 </FloatLabel>
-                <FloatLabel class="col-span-12 sm:col-span-6" variant="on">
+                <FloatLabel class="col-span-12 sm:col-span-4" variant="on">
+                    <InputNumber
+                        v-model="edited.stock"
+                        id="stock"
+                        showButtons
+                        fluid
+                    />
+                    <label for="stock">Stock</label>
+                </FloatLabel>
+                <FloatLabel class="col-span-12 sm:col-span-4" variant="on">
                     <InputNumber
                         v-model="edited.catalog_price"
                         id="catalog_price"
@@ -91,7 +100,7 @@ const props = defineProps({
                     />
                     <label for="catalog_price">Prix catalogue</label>
                 </FloatLabel>
-                <FloatLabel class="col-span-12 sm:col-span-6" variant="on">
+                <FloatLabel class="col-span-12 sm:col-span-4" variant="on">
                     <InputNumber
                         v-model="edited.retail_price"
                         id="retail_price"
