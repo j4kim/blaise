@@ -23,7 +23,7 @@ export const useAdminFinanceStore = defineStore("admin-finance", () => {
         result.value = data;
     }
 
-    watch([dateFrom, dateTo], computeRevenue, { immediate: true });
+    watch([dateFrom, dateTo], computeRevenue);
 
-    return { dateFrom, dateTo, result, loading };
+    return { dateFrom, dateTo, result, loading, computeRevenue };
 });

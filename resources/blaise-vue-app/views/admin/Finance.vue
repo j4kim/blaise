@@ -8,6 +8,8 @@ dayjs.extend(quarterOfYear);
 
 const store = useAdminFinanceStore();
 
+store.computeRevenue();
+
 const today = dayjs().startOf("day");
 const yesterday = today.subtract(1, "day");
 const monday = today.startOf("week").add(1, "day");
