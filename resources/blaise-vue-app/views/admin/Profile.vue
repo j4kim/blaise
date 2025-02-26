@@ -76,7 +76,7 @@ async function updatePassword() {
                             v-model="pwdForm.password"
                             id="password"
                             :feedback="false"
-                            :invalid="pwdRes.errors.password"
+                            :invalid="pwdRes.errors.password?.length > 0"
                             fluid
                             required
                             toggleMask
@@ -96,7 +96,7 @@ async function updatePassword() {
                             v-model="pwdForm.newPassword"
                             id="newPassword"
                             :feedback="false"
-                            :invalid="pwdRes.errors.newPassword"
+                            :invalid="pwdRes.errors.newPassword?.length > 0"
                             fluid
                             required
                             toggleMask
@@ -118,7 +118,10 @@ async function updatePassword() {
                             v-model="pwdForm.newPassword_confirmation"
                             id="newPassword_confirmation"
                             :feedback="false"
-                            :invalid="pwdRes.errors.newPassword_confirmation"
+                            :invalid="
+                                pwdRes.errors.newPassword_confirmation?.length >
+                                0
+                            "
                             fluid
                             required
                             toggleMask
