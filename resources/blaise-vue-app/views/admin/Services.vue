@@ -80,6 +80,7 @@ const store = useServicesStore();
                         </template>
                         <Column field="label" header="Service"></Column>
                         <Column field="sort_order" header="Ordre"></Column>
+                        <Column field="sales_count" header="Ventes"></Column>
                         <Column field="price" header="Prix">
                             <template #body="{ data }">
                                 CHF {{ data.price }}
