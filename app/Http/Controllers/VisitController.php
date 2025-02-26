@@ -27,6 +27,20 @@ class VisitController extends Controller
         ])->fresh();
     }
 
+    public function replicate(Client $client, Visit $originalVisit)
+    {
+        $current = $client->getCurrentVisit();
+        if (!$current) {
+            $current = $client->visits()->forceCreate([
+                'visit_date' => now(),
+            ]);
+        }
+        foreach ($originalVisit->sales as $sale) {
+            $current->sales()->save($sale->replicate(['visit_id']));
+        }
+        return $current->load('sales')->append('total');
+    }
+
     public function update(Visit $visit, Request $request)
     {
         $visit->discount = $request->discount;

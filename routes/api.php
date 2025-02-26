@@ -27,6 +27,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/visits/currents', [VisitController::class, 'currents'])->name('visits.currents');
     Route::post('/visits/{client}', [VisitController::class, 'store'])->name('visits.store');
+    Route::post('/visits/replicate/{client}/{originalVisit}', [VisitController::class, 'replicate'])->name('visits.replicate');
     Route::put('/visits/{visit}', [VisitController::class, 'update'])->name('visits.update');
     Route::post('/visits/{visit}/validate', [VisitController::class, 'validate'])->name('visits.validate');
     Route::delete('/visits/{visit}', [VisitController::class, 'destroy'])->name('visits.destroy');

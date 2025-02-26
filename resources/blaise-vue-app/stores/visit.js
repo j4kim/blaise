@@ -24,6 +24,15 @@ export const useVisitStore = defineStore("visit", {
             this.current = data;
             client.hidePanels();
         },
+        async replicate(visitId) {
+            const client = useClientStore();
+            const { data, response } = await post(
+                `/api/visits/replicate/${client.selected.id}/${visitId}`
+            );
+            if (!response.ok) return;
+            this.current = data;
+            client.hidePanels();
+        },
         async validateCurrent() {
             const { response } = await post(
                 `/api/visits/${this.current.id}/validate`

@@ -9,10 +9,13 @@ import {
 import { ref } from "vue";
 import { RouterLink } from "vue-router";
 import { formatDate } from "../tools";
+import { useVisitStore } from "../stores/visit";
 
 defineProps({
     client: Object,
 });
+
+const visitStore = useVisitStore();
 
 const selected = ref(null);
 
@@ -97,6 +100,13 @@ function getSalesSummary(sales) {
                             severity="secondary"
                         ></Button>
                     </RouterLink>
+                    <Button
+                        label="Récupérer"
+                        size="small"
+                        variant="text"
+                        severity="secondary"
+                        @click="visitStore.replicate(visit.id)"
+                    ></Button>
                 </div>
             </AccordionContent>
         </AccordionPanel>
