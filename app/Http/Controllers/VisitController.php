@@ -13,13 +13,11 @@ class VisitController extends Controller
 {
     public function currents()
     {
-        $query = Visit::with('client')->whereNull('billed');
-        $slice = [];
-        $count = $query->count();
-        if ($count) {
-            $slice = $query->orderBy('visit_date')->take(3)->get();
-        }
-        return compact('slice', 'count');
+        return Visit::with('client')
+            ->whereHas('client')
+            ->orderBy('visit_date')
+            ->whereNull('billed')
+            ->get();
     }
 
     public function store(Client $client)

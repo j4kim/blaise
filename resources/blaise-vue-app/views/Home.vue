@@ -1,16 +1,10 @@
 <script setup>
-import { Message } from "primevue";
 import { get } from "../api";
 import ClientSearch from "../components/ClientSearch.vue";
 import { RouterLink } from "vue-router";
-import { computed, ref } from "vue";
+import { ref } from "vue";
 
-const currents = ref({
-    count: 0,
-    slice: [],
-});
-
-const rest = computed(() => currents.value.count - currents.value.slice.length);
+const currents = ref([]);
 
 const { data, response } = await get("/api/visits/currents");
 
@@ -22,34 +16,40 @@ if (response.ok) {
 </script>
 
 <template>
-    <div class="sm:h-1/3">
-        <Message
-            v-if="currents.count"
-            severity="warn"
-            icon="pi pi-exclamation-triangle"
-        >
-            Vous avez
-            {{
-                currents.count === 1
-                    ? "un ticket non finalisé"
-                    : "des tickets non finalisés"
-            }}:
-            <template v-for="(t, index) in currents.slice">
-                <RouterLink :to="`/clients/${t.client_id}`" class="underline">
-                    {{ t.client.first_name }} {{ t.client.last_name }}
-                </RouterLink>
-                <span v-if="index < currents.slice.length - 1"
-                    >,
-                </span></template
-            ><span v-if="rest">
-                et {{ rest }} {{ rest === 1 ? "autre" : "autres" }}</span
-            >.
-        </Message>
-    </div>
     <div
-        class="flex flex-col justify-center gap-12 items-center sm:max-w-screen-md sm:mx-auto px-2 py-4"
+        class="flex md:h-full flex-col justify-center gap-12 items-center md:max-w-screen-md md:mx-auto px-2 pt-8 pb-16"
     >
         <h1 class="text-4xl">blaise</h1>
-        <ClientSearch class="w-full sm:w-2/3" autofocus />
+        <div
+            class="flex w-full gap-28 md:gap-8 items-center flex-col md:flex-row"
+        >
+            <div
+                :class="{
+                    'md:w-1/2': currents.length,
+                    'w-full': !currents.length,
+                }"
+            >
+                <ClientSearch class="max-w-md mx-auto" autofocus />
+            </div>
+            <div
+                v-if="currents.length"
+                class="bg-emphasis w-full h-px md:w-px md:h-full"
+            ></div>
+            <div v-if="currents.length" class="w-full md:w-1/2">
+                <h2 class="text-xl font-extralight mb-4">Tickets en attente</h2>
+                <div class="sm:max-h-96 overflow-y-auto">
+                    <div class="flex flex-col gap-2">
+                        <RouterLink
+                            v-for="visit in currents"
+                            :to="`/clients/${visit.client.id}`"
+                            class="px-4 py-2 rounded-md bg-emphasis hover:bg-highlight"
+                        >
+                            {{ visit.client.first_name }}
+                            {{ visit.client.last_name }}
+                        </RouterLink>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
