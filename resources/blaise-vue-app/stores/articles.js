@@ -23,7 +23,7 @@ export const useArticlesStore = defineStore("articles", {
 
     getters: {
         filteredArticles() {
-            const parts = this.articleFilter.split(" ");
+            const parts = this.articleFilter.toLowerCase().split(" ");
             return this.articles.filter((a) =>
                 parts.every((part) => a.searchText.includes(part))
             );

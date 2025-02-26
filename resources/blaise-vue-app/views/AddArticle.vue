@@ -26,7 +26,7 @@ const state = reactive({
 });
 
 const filtered = computed(() => {
-    const parts = state.search.split(" ");
+    const parts = state.search.toLowerCase().split(" ");
     return store.articles.filter((a) =>
         parts.every((part) => a.searchText.includes(part))
     );
