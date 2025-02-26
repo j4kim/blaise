@@ -66,6 +66,11 @@ const buttons = [
         from: firstOfYear.subtract(1, "year"),
         to: firstOfYear.subtract(1, "day"),
     },
+    {
+        label: "Ce siècle",
+        from: dayjs("2000-01-01"),
+        to: dayjs("2099-12-31"),
+    },
 ];
 </script>
 
