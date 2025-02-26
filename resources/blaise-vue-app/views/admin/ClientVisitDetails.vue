@@ -60,7 +60,7 @@ async function replicate() {
                 />
                 <Attribute
                     v-if="state.visit.voucher_payment"
-                    label="Remise"
+                    label="Paiement par bon"
                     :value="`- CHF ${state.visit.voucher_payment}`"
                 />
             </template>
