@@ -11,15 +11,14 @@ export const useArticlesStore = defineStore("articles", {
 
         edited: {},
 
-        showArticleDialog: false,
+        showAddArticleDialog: false,
+        showEditArticleDialog: false,
         showAddBrandDialog: false,
         showEditBrandDialog: false,
         showAddLineDialog: false,
         showEditLineDialog: false,
 
         articleFilter: "",
-        articleDialogHeader: "",
-        articleDialogBtn: "",
     }),
 
     getters: {
@@ -78,45 +77,34 @@ export const useArticlesStore = defineStore("articles", {
         // articles
 
         openArticleEditDialog(article) {
-            this.articleDialogHeader = "Modifier l'article";
-            this.articleDialogBtn = "Sauver";
             this.edited = structuredClone(toRaw(article));
-            this.showArticleDialog = true;
+            this.showEditArticleDialog = true;
         },
 
-        openArticleCreateDialog() {
-            this.edited = {};
-            this.articleDialogHeader = "Nouvel article";
-            this.articleDialogBtn = "Créer";
-            this.showArticleDialog = true;
-        },
-
-        async updateOrCreateArticle(article) {
-            const attrs = pick(
-                article,
-                "sort_order",
-                "barcode",
-                "label",
-                "brand_id",
-                "line_id",
-                "catalog_price",
-                "retail_price"
+        async updateArticle(article) {
+            const { response } = await put(
+                `/api/admin/articles/${article.id}`,
+                pick(
+                    article,
+                    "sort_order",
+                    "barcode",
+                    "label",
+                    "brand_id",
+                    "line_id",
+                    "catalog_price",
+                    "retail_price"
+                )
             );
-            const promise = article.id
-                ? this.updateArticle(article.id, attrs)
-                : this.createArticle(attrs);
-            const { data, response } = await promise;
             if (!response.ok) return;
             await this.fetchArticles();
-            this.showArticleDialog = false;
+            this.showEditArticleDialog = false;
         },
 
-        async updateArticle(id, attrs) {
-            return await put(`/api/admin/articles/${id}`, attrs);
-        },
-
-        async createArticle(attrs) {
-            return await post(`/api/admin/articles`, attrs);
+        async createArticle(article) {
+            const { response } = await post(`/api/admin/articles`, article);
+            if (!response.ok) return;
+            await this.fetchArticles();
+            this.showAddArticleDialog = false;
         },
 
         async deleteArticle(id) {

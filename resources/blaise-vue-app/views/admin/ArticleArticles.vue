@@ -32,7 +32,7 @@ const store = useArticlesStore();
                         size="small"
                         variant="text"
                         icon="pi pi-plus"
-                        @click="store.openArticleCreateDialog"
+                        @click="store.showAddArticleDialog = 1"
                     />
                     <IconField>
                         <InputIcon>
@@ -106,11 +106,18 @@ const store = useArticlesStore();
             </Column>
         </DataTable>
         <EditArticleDialog
-            :header="store.articleDialogHeader"
-            :btn="store.articleDialogBtn"
-            v-model:visible="store.showArticleDialog"
+            header="Modifier l'article"
+            btn="Sauver"
+            v-model:visible="store.showEditArticleDialog"
             :edited="store.edited"
-            @save="store.updateOrCreateArticle"
+            @save="store.updateArticle"
+        />
+        <EditArticleDialog
+            header="Ajouter un article"
+            btn="Créer"
+            v-model:visible="store.showAddArticleDialog"
+            :edited="{}"
+            @save="store.createArticle"
         />
     </div>
 </template>
