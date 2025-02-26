@@ -1,14 +1,19 @@
 <script setup>
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
 import { RouterLink, RouterView, useRoute } from "vue-router";
 import { del, get, put } from "../../api";
 import ClientDetails from "../../components/ClientDetails.vue";
 import { Button, Message } from "primevue";
-import { confirmDelete, formatDate } from "../../tools";
+import { confirmDelete, formatDate, pick } from "../../tools";
+import EditClientDialog from "../../dialogs/EditClientDialog.vue";
 
 const route = useRoute();
 
 const state = reactive({ client: null, error: "" });
+
+const edited = ref({});
+
+const showEditDialog = ref(false);
 
 async function fetchClient(id) {
     const { data, response } = await get(`/api/admin/clients/${id}`);
@@ -25,6 +30,7 @@ async function save(edited) {
     );
     if (!response.ok) return;
     state.client = data;
+    showEditDialog.value = false;
 }
 
 async function deleteClient() {
@@ -33,6 +39,21 @@ async function deleteClient() {
     );
     if (!response.ok) return;
     state.client = data;
+}
+
+function openEditDialog() {
+    edited.value = pick(
+        state.client,
+        "first_name",
+        "last_name",
+        "gender",
+        "tel_1",
+        "tel_2",
+        "tel_3",
+        "npa",
+        "location"
+    );
+    showEditDialog.value = true;
 }
 </script>
 
@@ -73,38 +94,47 @@ async function deleteClient() {
             </Message>
         </div>
         <div class="py-2 px-3">
-            <ClientDetails
-                :client="state.client"
-                @save="save"
-                :disableBtn="!!state.client.deleted_at"
-            >
-                <template #buttons>
-                    <Button
-                        v-if="state.client.deleted_at"
-                        @click="save({ deleted_at: null })"
-                        label="Restaurer"
-                        icon="pi pi-refresh"
-                        size="small"
-                        variant="text"
-                        severity="secondary"
-                    ></Button>
-                    <Button
-                        :disabled="!!state.client.deleted_at"
-                        @click="
-                            confirmDelete(
-                                $confirm,
-                                `Voulez-vous vraiment supprimer ${state.client.first_name} ${state.client.last_name} ?`,
-                                deleteClient
-                            )
-                        "
-                        label="Supprimer"
-                        icon="pi pi-trash"
-                        size="small"
-                        variant="text"
-                        severity="danger"
-                    ></Button>
-                </template>
-            </ClientDetails>
+            <ClientDetails :client="state.client"></ClientDetails>
+            <div class="flex justify-end gap-2 mt-2">
+                <Button
+                    v-if="state.client.deleted_at"
+                    @click="save({ deleted_at: null })"
+                    label="Restaurer"
+                    icon="pi pi-refresh"
+                    size="small"
+                    variant="text"
+                    severity="secondary"
+                ></Button>
+                <Button
+                    :disabled="!!state.client.deleted_at"
+                    @click="
+                        confirmDelete(
+                            $confirm,
+                            `Voulez-vous vraiment supprimer ${state.client.first_name} ${state.client.last_name} ?`,
+                            deleteClient
+                        )
+                    "
+                    label="Supprimer"
+                    icon="pi pi-trash"
+                    size="small"
+                    variant="text"
+                    severity="danger"
+                ></Button>
+                <Button
+                    @click="openEditDialog"
+                    :disabled="!!state.client.deleted_at"
+                    label="Modifier"
+                    icon="pi pi-pencil"
+                    size="small"
+                    variant="text"
+                    severity="secondary"
+                ></Button>
+                <EditClientDialog
+                    v-model:visible="showEditDialog"
+                    :edited="edited"
+                    @save="save"
+                />
+            </div>
         </div>
         <RouterView></RouterView>
     </div>

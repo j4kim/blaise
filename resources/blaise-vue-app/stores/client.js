@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { get, put } from "../api";
+import { get } from "../api";
 import { useVisitStore } from "./visit";
 
 export const useClientStore = defineStore("client", {
@@ -27,14 +27,6 @@ export const useClientStore = defineStore("client", {
         hidePanels() {
             this.showDetails = false;
             this.showLastVisits = false;
-        },
-        async save(edited) {
-            const { data, response } = await put(
-                `/api/clients/${this.selected.id}`,
-                edited
-            );
-            if (!response.ok) return;
-            this.selected = data;
         },
     },
 });

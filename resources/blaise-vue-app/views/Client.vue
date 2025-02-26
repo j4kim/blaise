@@ -69,7 +69,6 @@ onBeforeRouteLeave(() => (visit.current = null));
             <ClientDetails
                 v-if="client.showDetails"
                 :client="client.selected"
-                @save="client.save"
             ></ClientDetails>
         </div>
 
