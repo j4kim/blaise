@@ -53,14 +53,14 @@ export const useArticlesStore = defineStore("articles", {
         },
 
         async fetchBrands() {
-            const { response, data } = await get("/api/admin/articles/brands");
+            const { response, data } = await get("/api/admin/brands");
             if (response.ok) {
                 this.brands = data;
             }
         },
 
         async fetchLines() {
-            const { response, data } = await get("/api/admin/articles/lines");
+            const { response, data } = await get("/api/admin/lines");
             if (response.ok) {
                 this.lines = data;
             }
@@ -108,7 +108,7 @@ export const useArticlesStore = defineStore("articles", {
         },
 
         async deleteArticle(id) {
-            const { data, response } = await del(`/api/admin/articles/${id}`);
+            const { response } = await del(`/api/admin/articles/${id}`);
             if (!response.ok) return;
             await this.fetchArticles();
         },
@@ -121,8 +121,8 @@ export const useArticlesStore = defineStore("articles", {
         },
 
         async updateBrand(brand) {
-            const { data, response } = await put(
-                `/api/admin/articles/brands/${brand.id}`,
+            const { response } = await put(
+                `/api/admin/brands/${brand.id}`,
                 pick(brand, "name")
             );
             if (!response.ok) return;
@@ -131,19 +131,14 @@ export const useArticlesStore = defineStore("articles", {
         },
 
         async createBrand(brand) {
-            const { data, response } = await post(
-                `/api/admin/articles/brands`,
-                brand
-            );
+            const { response } = await post(`/api/admin/brands`, brand);
             if (!response.ok) return;
             await this.fetch();
             this.showAddBrandDialog = false;
         },
 
         async deleteBrand(id) {
-            const { data, response } = await del(
-                `/api/admin/articles/brands/${id}`
-            );
+            const { response } = await del(`/api/admin/brands/${id}`);
             if (!response.ok) return;
             await this.fetch();
         },
@@ -156,8 +151,8 @@ export const useArticlesStore = defineStore("articles", {
         },
 
         async updateLine(line) {
-            const { data, response } = await put(
-                `/api/admin/articles/lines/${line.id}`,
+            const { response } = await put(
+                `/api/admin/lines/${line.id}`,
                 pick(line, "name")
             );
             if (!response.ok) return;
@@ -166,19 +161,14 @@ export const useArticlesStore = defineStore("articles", {
         },
 
         async createLine(line) {
-            const { data, response } = await post(
-                `/api/admin/articles/lines`,
-                line
-            );
+            const { response } = await post(`/api/admin/lines`, line);
             if (!response.ok) return;
             await this.fetch();
             this.showAddLineDialog = false;
         },
 
         async deleteLine(id) {
-            const { data, response } = await del(
-                `/api/admin/articles/lines/${id}`
-            );
+            const { response } = await del(`/api/admin/lines/${id}`);
             if (!response.ok) return;
             await this.fetch();
         },

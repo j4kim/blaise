@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
-use App\Models\Brand;
-use App\Models\Line;
 use Illuminate\Http\Request;
 
 class ArticleController extends Controller
@@ -14,64 +12,20 @@ class ArticleController extends Controller
         return Article::with('line', 'brand')->withCount('sales')->orderBy('sort_order')->get();
     }
 
-    public function brands()
-    {
-        return Brand::withCount('articles')->orderBy('name')->get();
-    }
-
-    public function lines()
-    {
-        return Line::withCount('articles')->orderBy('name')->get();
-    }
-
-    public function updateArticle(Article $article, Request $request)
+    public function update(Article $article, Request $request)
     {
         $article->forceFill($request->all())->save();
         return $article;
     }
 
-    public function createArticle(Request $request)
+    public function create(Request $request)
     {
         return Article::forceCreate($request->all());
     }
 
-    public function deleteArticle(Article $article)
+    public function delete(Article $article)
     {
         $article->delete();
         return $article;
-    }
-
-    public function deleteBrand(Brand $brand)
-    {
-        $brand->delete();
-        return $brand;
-    }
-
-    public function deleteLine(Line $line)
-    {
-        $line->delete();
-        return $line;
-    }
-
-    public function createBrand(Request $request)
-    {
-        return Brand::forceCreate($request->all());
-    }
-
-    public function updateBrand(Brand $brand, Request $request)
-    {
-        $brand->forceFill($request->all())->save();
-        return $brand;
-    }
-
-    public function createLine(Request $request)
-    {
-        return Line::forceCreate($request->all());
-    }
-
-    public function updateLine(Line $line, Request $request)
-    {
-        $line->forceFill($request->all())->save();
-        return $line;
     }
 }
