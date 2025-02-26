@@ -17,7 +17,7 @@ if (response.ok) {
 
 <template>
     <div
-        class="flex md:h-full flex-col justify-center gap-12 items-center md:max-w-screen-md md:mx-auto px-2 pt-8 pb-16"
+        class="flex md:h-full flex-col justify-center gap-12 items-center md:max-w-screen-md md:mx-auto px-2 pt-8 pb-48"
     >
         <h1 class="text-4xl">blaise</h1>
         <div
