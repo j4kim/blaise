@@ -74,7 +74,7 @@ const store = useArticlesStore();
                 <template #body="{ data }">
                     <span
                         :class="{
-                            'text-red-600': data.stock === 0,
+                            'text-red-600': data.stock < 1,
                             'text-amber-400': data.stock > 0 && data.stock < 3,
                         }"
                     >
