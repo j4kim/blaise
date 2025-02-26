@@ -2,6 +2,8 @@ import { defineStore } from "pinia";
 import { del, post, put } from "../api";
 import { toRaw } from "vue";
 import { useClientStore } from "./client";
+import { useArticlesStore } from "./articles";
+import { useServicesStore } from "./services";
 
 export const useVisitStore = defineStore("visit", {
     state: () => ({
@@ -29,6 +31,8 @@ export const useVisitStore = defineStore("visit", {
             if (!response.ok) return;
             const client = useClientStore();
             await client.fetchClient(client.selected.id);
+            useArticlesStore().fetch();
+            useServicesStore().fetch();
         },
         async deleteCurrent() {
             const { response } = await del(`/api/visits/${this.current.id}`);
