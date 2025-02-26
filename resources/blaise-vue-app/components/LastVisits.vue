@@ -105,7 +105,7 @@ function getSalesSummary(sales) {
                         size="small"
                         variant="text"
                         severity="secondary"
-                        @click="visitStore.replicate(visit.id)"
+                        @click="visitStore.replicate(visit.client_id, visit.id)"
                     ></Button>
                 </div>
             </AccordionContent>

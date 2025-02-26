@@ -24,14 +24,13 @@ export const useVisitStore = defineStore("visit", {
             this.current = data;
             client.hidePanels();
         },
-        async replicate(visitId) {
-            const client = useClientStore();
+        async replicate(clientId, visitId) {
             const { data, response } = await post(
-                `/api/visits/replicate/${client.selected.id}/${visitId}`
+                `/api/visits/replicate/${clientId}/${visitId}`
             );
             if (!response.ok) return;
             this.current = data;
-            client.hidePanels();
+            useClientStore().hidePanels();
         },
         async validateCurrent() {
             const { response } = await post(

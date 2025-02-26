@@ -1,15 +1,19 @@
 <script setup>
 import { reactive } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { get } from "../../api";
 import Attributes from "../../components/Attributes.vue";
 import Attribute from "../../components/Attribute.vue";
-import { Column, DataTable } from "primevue";
+import { Button, Column, DataTable } from "primevue";
 import { formatDate } from "../../tools";
+import { useVisitStore } from "../../stores/visit";
 
 const route = useRoute();
+const router = useRouter();
 
 const state = reactive({ visit: {} });
+
+const visitStore = useVisitStore();
 
 async function fetchVisit(id) {
     const { data, response } = await get(`/api/admin/visits/${id}`);
@@ -18,6 +22,11 @@ async function fetchVisit(id) {
 }
 
 fetchVisit(route.params.visitId);
+
+async function replicate() {
+    visitStore.replicate(state.visit.client_id, state.visit.id);
+    router.push(`/clients/${state.visit.client_id}`);
+}
 </script>
 
 <template>
@@ -66,5 +75,16 @@ fetchVisit(route.params.visitId);
             <Column field="base_price" , header="Prix de base"></Column>
             <Column field="price_charged" , header="Prix facturé"></Column>
         </DataTable>
+
+        <div class="flex justify-end gap-2 mt-4">
+            <Button
+                @click="replicate"
+                label="Récupérer dans le ticket"
+                icon="pi pi-clone"
+                size="small"
+                variant="text"
+                severity="secondary"
+            ></Button>
+        </div>
     </div>
 </template>
