@@ -148,6 +148,10 @@ async function del() {
         <SaleDialog />
         <DiscountDialog />
         <VoucherPaymentDialog />
-        <VisitDateDialog />
+        <VisitDateDialog
+            v-model:visible="visit.showDateDialog"
+            :value="visit.current.visit_date"
+            @save="visit.updateVisitDate"
+        />
     </aside>
 </template>

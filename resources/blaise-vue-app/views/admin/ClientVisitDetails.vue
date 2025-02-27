@@ -1,17 +1,18 @@
 <script setup>
 import { reactive } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { get } from "../../api";
+import { get, put } from "../../api";
 import Attributes from "../../components/Attributes.vue";
 import Attribute from "../../components/Attribute.vue";
 import { Button, Column, DataTable } from "primevue";
 import { formatDate } from "../../tools";
 import { useVisitStore } from "../../stores/visit";
+import VisitDateDialog from "../../dialogs/VisitDateDialog.vue";
 
 const route = useRoute();
 const router = useRouter();
 
-const state = reactive({ visit: {} });
+const state = reactive({ visit: null, showDateDialog: false });
 
 const visitStore = useVisitStore();
 
@@ -27,10 +28,19 @@ async function replicate() {
     visitStore.replicate(state.visit.client_id, state.visit.id);
     router.push(`/clients/${state.visit.client_id}`);
 }
+
+async function updateVisitDate(visit_date) {
+    const { response, data } = await put(`/api/visits/${state.visit.id}`, {
+        visit_date,
+    });
+    if (!response.ok) return;
+    state.visit = data;
+    state.showDateDialog = false;
+}
 </script>
 
 <template>
-    <div class="py-2 px-3">
+    <div class="py-2 px-3" v-if="state.visit">
         <h2 class="text-xl font-extralight mb-4">
             <RouterLink
                 :to="`/admin/clients/${route.params.clientId}`"
@@ -78,6 +88,14 @@ async function replicate() {
 
         <div class="flex justify-end gap-2 mt-4">
             <Button
+                @click="state.showDateDialog = true"
+                label="Modifier la date de la visite"
+                icon="pi pi-calendar"
+                size="small"
+                variant="text"
+                severity="secondary"
+            ></Button>
+            <Button
                 @click="replicate"
                 label="Récupérer dans le ticket"
                 icon="pi pi-clone"
@@ -86,5 +104,11 @@ async function replicate() {
                 severity="secondary"
             ></Button>
         </div>
+
+        <VisitDateDialog
+            v-model:visible="state.showDateDialog"
+            :value="state.visit.visit_date"
+            @save="updateVisitDate"
+        />
     </div>
 </template>

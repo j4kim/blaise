@@ -1,17 +1,17 @@
 <script setup>
 import { Button, DatePicker, Dialog } from "primevue";
-import { useVisitStore } from "../stores/visit";
 import dayjs from "dayjs";
 import { ref } from "vue";
 
-const visit = useVisitStore();
+const props = defineProps({
+    value: String,
+});
 
-const newValue = ref(dayjs(visit.current.visit_date).toDate());
+const newValue = ref(dayjs(props.value).toDate());
 </script>
 
 <template>
     <Dialog
-        v-model:visible="visit.showDateDialog"
         modal
         dismissableMask
         header="Date de la visite"
@@ -30,7 +30,7 @@ const newValue = ref(dayjs(visit.current.visit_date).toDate());
                 <Button
                     type="button"
                     label="Valider"
-                    @click="visit.updateVisitDate(dayjs(newValue).format())"
+                    @click="$emit('save', dayjs(newValue).format())"
                 ></Button>
             </div>
         </div>
