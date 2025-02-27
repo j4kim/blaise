@@ -65,8 +65,8 @@ class VisitController extends Controller
 
     public function destroy(Visit $visit)
     {
-        $visit->sales()->delete();
-        return $visit->delete();
+        $visit->sales()->forceDelete();
+        return $visit->forceDelete();
     }
 
     public function addService(Visit $visit, Service $service)
@@ -124,7 +124,7 @@ class VisitController extends Controller
 
     public function deleteSale(Visit $visit, Sale $sale)
     {
-        $sale->delete();
+        $sale->forceDelete();
         return $visit->load('sales')->append('total');
     }
 
