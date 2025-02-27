@@ -2,6 +2,9 @@
 import { Button } from "primevue";
 import { useVisitStore } from "../stores/visit";
 import { formatDate } from "../tools";
+import SaleDialog from "../dialogs/SaleDialog.vue";
+import DiscountDialog from "../dialogs/DiscountDialog.vue";
+import VoucherPaymentDialog from "../dialogs/VoucherPaymentDialog.vue";
 
 const visit = useVisitStore();
 
@@ -135,5 +138,9 @@ async function del() {
         <Button @click="del" variant="text" severity="secondary" size="small">
             Annuler
         </Button>
+
+        <SaleDialog />
+        <DiscountDialog />
+        <VoucherPaymentDialog />
     </aside>
 </template>

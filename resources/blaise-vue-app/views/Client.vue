@@ -8,9 +8,6 @@ import {
 import LastVisits from "../components/LastVisits.vue";
 import { Button } from "primevue";
 import { useVisitStore } from "../stores/visit";
-import SaleDialog from "../dialogs/SaleDialog.vue";
-import DiscountDialog from "../dialogs/DiscountDialog.vue";
-import VoucherPaymentDialog from "../dialogs/VoucherPaymentDialog.vue";
 import { useClientStore } from "../stores/client";
 import ClientDetails from "../components/ClientDetails.vue";
 
@@ -93,9 +90,5 @@ onBeforeRouteLeave(() => (visit.current = null));
         </div>
 
         <RouterView class="mb-6 md:mb-8" v-if="visit.current" />
-
-        <SaleDialog />
-        <DiscountDialog />
-        <VoucherPaymentDialog />
     </div>
 </template>
