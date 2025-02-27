@@ -37,6 +37,10 @@ fetchVisits(route.params.clientId);
             stateStorage="session"
             :stateKey="`${$route.params.clientId}-visits`"
             :alwaysShowPaginator="false"
+            :rowClass="
+                (row) =>
+                    row.deleted_at ? '!text-muted-color line-through' : ''
+            "
         >
             <Column
                 field="created_at"

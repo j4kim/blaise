@@ -133,4 +133,16 @@ class VisitController extends Controller
     {
         return $visit->load('sales')->append('total');
     }
+
+    public function cancel(Visit $visit)
+    {
+        $visit->sales()->where('type', 'article')->with('article')->each(function (Sale $sale) {
+            $art = $sale->article;
+            $art->stock = $art->stock + $sale->quantity;
+            $art->save();
+        });
+        $visit->sales()->delete();
+        $visit->delete();
+        return $visit->load('sales')->append('total');
+    }
 }

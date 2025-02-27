@@ -1,11 +1,11 @@
 <script setup>
 import { reactive } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { get, put } from "../../api";
+import { del, get, put } from "../../api";
 import Attributes from "../../components/Attributes.vue";
 import Attribute from "../../components/Attribute.vue";
-import { Button, Column, DataTable } from "primevue";
-import { formatDate } from "../../tools";
+import { Button, Column, DataTable, Message } from "primevue";
+import { confirmDelete, formatDate } from "../../tools";
 import { useVisitStore } from "../../stores/visit";
 import VisitDateDialog from "../../dialogs/VisitDateDialog.vue";
 
@@ -27,6 +27,14 @@ fetchVisit(route.params.visitId);
 async function replicate() {
     visitStore.replicate(state.visit.client_id, state.visit.id);
     router.push(`/clients/${state.visit.client_id}`);
+}
+
+async function cancel() {
+    const { data, response } = await del(
+        `/api/admin/visits/${state.visit.id}/cancel`
+    );
+    if (!response.ok) return;
+    state.visit = data;
 }
 
 async function updateVisitDate(visit_date) {
@@ -57,6 +65,9 @@ async function updateVisitDate(visit_date) {
                 {{ formatDate(state.visit.visit_date, true) }}
             </span>
         </h2>
+        <div class="mb-4" v-if="state.visit.deleted_at">
+            <Message severity="warn"> Visite annulée </Message>
+        </div>
         <Attributes
             :attributes="[
                 { label: 'Total facturé', value: `CHF ${state.visit.billed}` },
@@ -86,8 +97,24 @@ async function updateVisitDate(visit_date) {
             <Column field="price_charged" , header="Prix facturé"></Column>
         </DataTable>
 
-        <div class="flex justify-end gap-2 mt-4">
+        <div class="flex justify-end flex-wrap gap-2 mt-4">
             <Button
+                :disabled="!!state.visit.deleted_at"
+                @click="
+                    confirmDelete(
+                        $confirm,
+                        `Voulez-vous vraiment annuler le ticket ?`,
+                        cancel
+                    )
+                "
+                label="Annuler le ticket"
+                icon="pi pi-trash"
+                size="small"
+                variant="text"
+                severity="danger"
+            ></Button>
+            <Button
+                :disabled="!!state.visit.deleted_at"
                 @click="state.showDateDialog = true"
                 label="Modifier la date de la visite"
                 icon="pi pi-calendar"

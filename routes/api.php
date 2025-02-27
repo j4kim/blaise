@@ -27,7 +27,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/visits/currents', [VisitController::class, 'currents'])->name('visits.currents');
     Route::post('/visits/{client}', [VisitController::class, 'store'])->name('visits.store');
-    Route::post('/visits/replicate/{client}/{originalVisit}', [VisitController::class, 'replicate'])->name('visits.replicate');
+    Route::post('/visits/replicate/{client}/{originalVisit}', [VisitController::class, 'replicate'])->withTrashed()->name('visits.replicate');
     Route::put('/visits/{visit}', [VisitController::class, 'update'])->name('visits.update');
     Route::post('/visits/{visit}/validate', [VisitController::class, 'validate'])->name('visits.validate');
     Route::delete('/visits/{visit}', [VisitController::class, 'destroy'])->name('visits.destroy');
@@ -49,7 +49,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/admin/clients/{client}', [ClientController::class, 'delete'])->withTrashed()->name('clients.delete');
     Route::get('/admin/clients/{client}/visits', [ClientController::class, 'visits'])->name('clients.visits');
 
-    Route::get('/admin/visits/{visit}', [VisitController::class, 'show'])->name('visits.show');
+    Route::get('/admin/visits/{visit}', [VisitController::class, 'show'])->withTrashed()->name('visits.show');
+    Route::delete('/admin/visits/{visit}/cancel', [VisitController::class, 'cancel'])->name('visits.cancel');
 
     Route::post('/admin/service-categories', [ServiceCategoryController::class, 'store'])->name('service-categories.store');
     Route::put('/admin/service-categories/{category}', [ServiceCategoryController::class, 'update'])->name('service-categories.update');
