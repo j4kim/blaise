@@ -69,7 +69,7 @@ class ClientController extends Controller
     {
         return Visit::where('client_id', $client)
             ->whereNotNull('billed')
-            ->orderBy('id', 'desc')
+            ->orderBy('visit_date', 'desc')
             ->get();
     }
 
