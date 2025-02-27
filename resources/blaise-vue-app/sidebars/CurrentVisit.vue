@@ -5,6 +5,7 @@ import { formatDate } from "../tools";
 import SaleDialog from "../dialogs/SaleDialog.vue";
 import DiscountDialog from "../dialogs/DiscountDialog.vue";
 import VoucherPaymentDialog from "../dialogs/VoucherPaymentDialog.vue";
+import VisitDateDialog from "../dialogs/VisitDateDialog.vue";
 
 const visit = useVisitStore();
 
@@ -40,6 +41,11 @@ async function del() {
             <h5 class="text-muted-color text-sm">
                 Visite du
                 {{ formatDate(visit.current.visit_date, true) }}
+                <button
+                    class="pi pi-calendar hover:bg-surface-200 dark:hover:bg-surface-800 rounded-full p-2 -my-2"
+                    style="font-size: 0.8em"
+                    @click="visit.showDateDialog = true"
+                ></button>
             </h5>
         </div>
 
@@ -142,5 +148,6 @@ async function del() {
         <SaleDialog />
         <DiscountDialog />
         <VoucherPaymentDialog />
+        <VisitDateDialog />
     </aside>
 </template>

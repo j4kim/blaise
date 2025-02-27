@@ -12,6 +12,7 @@ export const useVisitStore = defineStore("visit", {
         selectedSale: null,
         showDiscountDialog: false,
         showVoucherPaymentDialog: false,
+        showDateDialog: false,
     }),
 
     actions: {
@@ -121,6 +122,11 @@ export const useVisitStore = defineStore("visit", {
             this.current.voucher_payment = null;
             await this.updateCurrent();
             this.showVoucherPaymentDialog = false;
+        },
+        async updateVisitDate(visitDate) {
+            this.current.visit_date = visitDate;
+            await this.updateCurrent();
+            this.showDateDialog = false;
         },
     },
 });

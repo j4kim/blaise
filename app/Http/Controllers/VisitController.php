@@ -45,6 +45,7 @@ class VisitController extends Controller
     {
         $visit->discount = $request->discount;
         $visit->voucher_payment = $request->voucher_payment;
+        $visit->visit_date = $request->visit_date;
         $visit->save();
         return $visit->load('sales')->append('total');
     }
