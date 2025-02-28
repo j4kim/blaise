@@ -52,9 +52,6 @@ class Visit extends Model
         return new Attribute(
             get: function () {
                 $sum = $this->salessum;
-                if ($this->discount) {
-                    $sum = $sum - ($this->discount * $sum);
-                }
                 if ($this->voucher_payment) {
                     $sum = $sum - $this->voucher_payment;
                 }
