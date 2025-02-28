@@ -78,14 +78,21 @@ function getSalesSummary(sales) {
                     class="flex justify-between mb-2 text-muted-color"
                 >
                     <div>Remise</div>
-                    <div>- {{ visit.discount * 100 }} %</div>
+                    <div>-{{ visit.discount * 100 }} %</div>
                 </div>
                 <div
                     v-if="visit.voucher_payment"
                     class="flex justify-between mb-2 text-muted-color"
                 >
                     <div>Paiement par bon cadeau</div>
-                    <div>- CHF {{ visit.voucher_payment }}</div>
+                    <div>CHF -{{ visit.voucher_payment }}</div>
+                </div>
+                <div
+                    v-if="visit.rounding"
+                    class="flex justify-between mb-2 text-muted-color"
+                >
+                    <div>Arrondi</div>
+                    <div>CHF {{ visit.rounding }}</div>
                 </div>
                 <div class="text-center">
                     <RouterLink
