@@ -38,7 +38,9 @@ class VisitController extends Controller
         foreach ($originalVisit->sales as $sale) {
             $current->sales()->save($sale->replicate(['visit_id']));
         }
-        return $current->load('sales')->append('total');
+        $current->load('sales');
+        $current->computeRounding();
+        return $current->append('total');
     }
 
     public function update(Visit $visit, Request $request)
@@ -126,7 +128,9 @@ class VisitController extends Controller
     public function deleteSale(Visit $visit, Sale $sale)
     {
         $sale->forceDelete();
-        return $visit->load('sales')->append('total');
+        $visit->load('sales');
+        $visit->computeRounding();
+        return $visit->append('total');
     }
 
     // admin
