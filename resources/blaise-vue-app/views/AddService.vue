@@ -22,7 +22,7 @@ async function add(service) {
 </script>
 
 <template>
-    <div>
+    <div v-if="category">
         <h5 class="mb-2">Ajouter {{ category.label }}</h5>
         <div class="flex gap-3 flex-col">
             <Button
