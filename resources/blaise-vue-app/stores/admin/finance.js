@@ -8,6 +8,7 @@ export const useAdminFinanceStore = defineStore("admin-finance", () => {
     const dateTo = ref(dayjs().startOf("day").toDate());
     const result = ref(null);
     const loading = ref(false);
+    const column = ref("billed");
 
     async function computeRevenue() {
         loading.value = true;
@@ -16,6 +17,7 @@ export const useAdminFinanceStore = defineStore("admin-finance", () => {
             {
                 from: dayjs(dateFrom.value).format("YYYY-MM-DD"),
                 to: dayjs(dateTo.value).format("YYYY-MM-DD"),
+                column: column.value,
             }
         );
         loading.value = false;
@@ -23,7 +25,7 @@ export const useAdminFinanceStore = defineStore("admin-finance", () => {
         result.value = data;
     }
 
-    watch([dateFrom, dateTo], computeRevenue);
+    watch([dateFrom, dateTo, column], computeRevenue);
 
-    return { dateFrom, dateTo, result, loading, computeRevenue };
+    return { dateFrom, dateTo, result, loading, column, computeRevenue };
 });
