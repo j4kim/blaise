@@ -74,7 +74,7 @@ async function del() {
                                 -100 *
                                     ((sale.base_price - sale.price_charged) /
                                         sale.base_price)
-                            ) + ' %'
+                            ) + '&nbsp;%'
                         "
                     />
                     <div class="whitespace-nowrap">
