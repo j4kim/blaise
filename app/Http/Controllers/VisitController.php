@@ -118,7 +118,9 @@ class VisitController extends Controller
             $sale->computeLabel();
         }
         $sale->save();
-        return $visit->load('sales')->append('total');
+        $visit->load('sales');
+        $visit->computeRounding();
+        return $visit->append('total');
     }
 
     public function deleteSale(Visit $visit, Sale $sale)

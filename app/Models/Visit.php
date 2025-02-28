@@ -29,7 +29,13 @@ class Visit extends Model
         return $this->belongsTo(Client::class);
     }
 
-    protected function total(): Attribute
+    public function computeRounding()
+    {
+        $this->rounding = round($this->subtotal) - $this->subtotal;
+        $this->save();
+    }
+
+    protected function subtotal(): Attribute
     {
         return new Attribute(
             get: function () {
@@ -40,10 +46,20 @@ class Visit extends Model
                 if ($this->voucher_payment) {
                     $sum = $sum - $this->voucher_payment;
                 }
+                return $sum;
+            },
+        );
+    }
+
+    protected function total(): Attribute
+    {
+        return new Attribute(
+            get: function () {
+                $sum = $this->subtotal;
                 if ($this->rounding) {
                     $sum = $sum + $this->rounding;
                 }
-                return round($sum, 2);
+                return $sum;
             },
         );
     }
