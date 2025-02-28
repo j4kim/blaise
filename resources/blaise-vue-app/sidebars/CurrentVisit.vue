@@ -108,6 +108,16 @@ async function del() {
                     </div>
                 </div>
             </div>
+            <div v-if="visit.current.rounding" class="px-5 py-3">
+                <div
+                    class="flex justify-between sm:text-lg xl:text-xl items-center gap-2"
+                >
+                    <div>Arrondi</div>
+                    <div class="whitespace-nowrap">
+                        CHF {{ visit.current.rounding.toFixed(2) }}
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="flex gap-2 justify-end flex-wrap">

@@ -40,6 +40,9 @@ class Visit extends Model
                 if ($this->voucher_payment) {
                     $sum = $sum - $this->voucher_payment;
                 }
+                if ($this->rounding) {
+                    $sum = $sum + $this->rounding;
+                }
                 return round($sum, 2);
             },
         );
