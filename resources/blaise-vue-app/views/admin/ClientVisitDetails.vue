@@ -84,12 +84,12 @@ async function updateVisitDate(visit_date) {
                 <Attribute
                     v-if="state.visit.discount"
                     label="Remise"
-                    :value="`- ${state.visit.discount * 100} %`"
+                    :value="`-${state.visit.discount * 100} %`"
                 />
                 <Attribute
                     v-if="state.visit.voucher_payment"
                     label="Paiement par bon"
-                    :value="`- CHF ${state.visit.voucher_payment}`"
+                    :value="`CHF -${state.visit.voucher_payment}`"
                 />
                 <Attribute
                     v-if="state.visit.tip"
