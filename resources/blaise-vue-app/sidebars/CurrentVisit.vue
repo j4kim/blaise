@@ -108,6 +108,39 @@ async function del() {
                     </div>
                 </div>
             </div>
+            <div v-if="visit.current.rounding" class="px-5 py-3">
+                <div
+                    class="flex justify-between sm:text-lg xl:text-xl items-center gap-2"
+                >
+                    <div>Arrondi</div>
+                    <Button
+                        class="-my-2"
+                        size="small"
+                        severity="secondary"
+                        icon="pi pi-minus"
+                        rounded
+                        @click="
+                            visit.current.rounding--;
+                            visit.updateCurrent();
+                        "
+                    ></Button>
+                    <Button
+                        class="-my-2"
+                        size="small"
+                        severity="secondary"
+                        icon="pi pi-plus"
+                        rounded
+                        @click="
+                            visit.current.rounding++;
+                            visit.updateCurrent();
+                        "
+                    ></Button>
+                    <div class="grow"></div>
+                    <div class="whitespace-nowrap">
+                        CHF {{ visit.current.rounding.toFixed(2) }}
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="flex gap-2 justify-end flex-wrap">
@@ -136,7 +169,7 @@ async function del() {
         <div class="flex justify-between text-3xl gap-2 flex-wrap">
             <div>Total</div>
             <div class="whitespace-nowrap">
-                CHF {{ (visit.current.total ?? 0).toFixed(2) }}
+                CHF {{ visit.current.total ?? 0 }}
             </div>
         </div>
 

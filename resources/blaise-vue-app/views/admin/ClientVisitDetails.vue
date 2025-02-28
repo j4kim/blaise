@@ -68,11 +68,18 @@ async function updateVisitDate(visit_date) {
         <div class="mb-4" v-if="state.visit.deleted_at">
             <Message severity="warn"> Visite annulée </Message>
         </div>
-        <Attributes
-            :attributes="[
-                { label: 'Total facturé', value: `CHF ${state.visit.billed}` },
-            ]"
-        >
+
+        <div class="text-sm text-muted-color my-2">Ventes</div>
+
+        <DataTable :value="state.visit.sales" size="small">
+            <Column field="label" , header="Libellé"></Column>
+            <Column field="type" , header="Type"></Column>
+            <Column field="notes" , header="Notes"></Column>
+            <Column field="base_price" , header="Prix de base"></Column>
+            <Column field="price_charged" , header="Prix facturé"></Column>
+        </DataTable>
+
+        <Attributes class="my-4">
             <template #extra>
                 <Attribute
                     v-if="state.visit.discount"
@@ -84,18 +91,17 @@ async function updateVisitDate(visit_date) {
                     label="Paiement par bon"
                     :value="`- CHF ${state.visit.voucher_payment}`"
                 />
+                <Attribute
+                    v-if="state.visit.rounding"
+                    label="Arrondi"
+                    :value="`CHF ${state.visit.rounding}`"
+                />
+                <Attribute
+                    label="Total facturé"
+                    :value="`CHF ${state.visit.billed}`"
+                />
             </template>
         </Attributes>
-
-        <div class="text-sm text-muted-color my-2">Ventes</div>
-
-        <DataTable :value="state.visit.sales" size="small">
-            <Column field="label" , header="Libellé"></Column>
-            <Column field="type" , header="Type"></Column>
-            <Column field="notes" , header="Notes"></Column>
-            <Column field="base_price" , header="Prix de base"></Column>
-            <Column field="price_charged" , header="Prix facturé"></Column>
-        </DataTable>
 
         <div class="flex justify-end flex-wrap gap-2 mt-4">
             <Button
