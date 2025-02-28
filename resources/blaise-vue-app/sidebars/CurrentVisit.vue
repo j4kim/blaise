@@ -159,6 +159,7 @@ async function del() {
             />
             <Button
                 @click="visit.showDiscountDialog = true"
+                :disabled="!visit.current.sales?.length"
                 label="Remise"
                 type="button"
                 size="small"
