@@ -99,7 +99,7 @@ function getSalesSummary(sales) {
                     class="flex justify-between mb-2 text-muted-color"
                 >
                     <div>Arrondi</div>
-                    <div>CHF {{ visit.rounding }}</div>
+                    <div>CHF {{ visit.rounding.toFixed(2) }}</div>
                 </div>
                 <div class="text-center">
                     <RouterLink

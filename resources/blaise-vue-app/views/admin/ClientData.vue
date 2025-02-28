@@ -51,7 +51,9 @@ function openEditDialog() {
         "tel_2",
         "tel_3",
         "npa",
-        "location"
+        "location",
+        "type",
+        "email"
     );
     showEditDialog.value = true;
 }

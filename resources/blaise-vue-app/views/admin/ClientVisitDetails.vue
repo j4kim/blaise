@@ -99,7 +99,7 @@ async function updateVisitDate(visit_date) {
                 <Attribute
                     v-if="state.visit.rounding"
                     label="Arrondi"
-                    :value="`CHF ${state.visit.rounding}`"
+                    :value="`CHF ${state.visit.rounding.toFixed(2)}`"
                 />
                 <Attribute
                     label="Total facturé"

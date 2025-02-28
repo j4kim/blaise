@@ -84,6 +84,24 @@ const props = defineProps({
                     <InputText v-model="edited.location" id="location" fluid />
                     <label for="location">Ville</label>
                 </FloatLabel>
+                <FloatLabel class="col-span-12 sm:col-span-4" variant="on">
+                    <Select
+                        v-model="edited.type"
+                        :options="['Standard', 'AVS']"
+                        id="type"
+                        fluid
+                    />
+                    <label for="type">Type</label>
+                </FloatLabel>
+                <FloatLabel class="col-span-12 sm:col-span-8" variant="on">
+                    <InputText
+                        v-model="edited.email"
+                        id="email"
+                        fluid
+                        type="email"
+                    />
+                    <label for="email">Email</label>
+                </FloatLabel>
             </div>
 
             <div class="flex justify-between">

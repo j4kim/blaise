@@ -12,7 +12,7 @@ import PaymentDialog from "../dialogs/PaymentDialog.vue";
 const visit = useVisitStore();
 
 async function validate() {
-    if (visit.current.sales.length) {
+    if (visit.current.sales?.length) {
         visit.showPaymentDialog = true;
     } else if (
         confirm(

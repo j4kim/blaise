@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use App\Mail\TicketMail;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Mail;
 
 class Visit extends Model
 {
@@ -16,6 +18,7 @@ class Visit extends Model
     {
         return [
             'billed' => 'real',
+            'visit_date' => 'datetime',
         ];
     }
 
@@ -35,11 +38,20 @@ class Visit extends Model
         $this->save();
     }
 
+    protected function salessum(): Attribute
+    {
+        return new Attribute(
+            get: function () {
+                return $this->sales->sum('price_charged');
+            },
+        );
+    }
+
     protected function subtotal(): Attribute
     {
         return new Attribute(
             get: function () {
-                $sum = $this->sales->sum('price_charged');
+                $sum = $this->salessum;
                 if ($this->discount) {
                     $sum = $sum - ($this->discount * $sum);
                 }
@@ -65,5 +77,10 @@ class Visit extends Model
                 return $sum;
             },
         );
+    }
+
+    public function sendEmail()
+    {
+        Mail::to($this->client)->send(new TicketMail($this));
     }
 }

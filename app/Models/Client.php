@@ -36,6 +36,15 @@ class Client extends Model
         );
     }
 
+    protected function name(): Attribute
+    {
+        return new Attribute(
+            get: function () {
+                return $this->first_name . ' ' . $this->last_name;
+            },
+        );
+    }
+
     public function getCurrentVisit(): ?Visit
     {
         return $this->visits()->with('sales')->whereNull('billed')->first()?->append('total');
