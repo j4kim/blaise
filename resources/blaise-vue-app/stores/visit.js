@@ -4,6 +4,7 @@ import { toRaw } from "vue";
 import { useClientStore } from "./client";
 import { useArticlesStore } from "./articles";
 import { useServicesStore } from "./services";
+import { pick } from "../tools";
 
 export const useVisitStore = defineStore("visit", {
     state: () => ({
@@ -38,7 +39,7 @@ export const useVisitStore = defineStore("visit", {
         async validateCurrent() {
             const { response } = await post(
                 `/api/visits/${this.current.id}/validate`,
-                this.current
+                pick(this.current, "cash", "twint", "card")
             );
             if (!response.ok) return;
             this.showPaymentDialog = false;
