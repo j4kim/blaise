@@ -16,6 +16,7 @@ class Visit extends Model
     {
         return [
             'billed' => 'real',
+            'visit_date' => 'datetime',
         ];
     }
 
