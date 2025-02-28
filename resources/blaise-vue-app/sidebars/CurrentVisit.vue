@@ -84,20 +84,6 @@ async function del() {
 
         <div class="overflow-y-auto -mx-5">
             <div
-                v-if="visit.current.discount"
-                @click="visit.showDiscountDialog = true"
-                class="cursor-pointer hover:bg-surface-200 dark:hover:bg-surface-800 px-5 py-3"
-            >
-                <div
-                    class="flex justify-between sm:text-lg xl:text-xl items-center gap-2"
-                >
-                    <div>Remise</div>
-                    <div class="whitespace-nowrap">
-                        {{ visit.current.discount * 100 }} %
-                    </div>
-                </div>
-            </div>
-            <div
                 v-if="visit.current.voucher_payment"
                 @click="visit.showVoucherPaymentDialog = true"
                 class="cursor-pointer hover:bg-surface-200 dark:hover:bg-surface-800 px-5 py-3"
@@ -172,8 +158,7 @@ async function del() {
                 variant="outlined"
             />
             <Button
-                v-if="!visit.current.discount"
-                @click="visit.addDiscount"
+                @click="visit.showDiscountDialog = true"
                 label="Remise"
                 type="button"
                 size="small"

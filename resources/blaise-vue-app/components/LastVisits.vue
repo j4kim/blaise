@@ -74,13 +74,6 @@ function getSalesSummary(sales) {
                     </div>
                 </div>
                 <div
-                    v-if="visit.discount"
-                    class="flex justify-between mb-2 text-muted-color"
-                >
-                    <div>Remise</div>
-                    <div>-{{ visit.discount * 100 }} %</div>
-                </div>
-                <div
                     v-if="visit.voucher_payment"
                     class="flex justify-between mb-2 text-muted-color"
                 >

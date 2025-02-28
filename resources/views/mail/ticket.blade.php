@@ -61,12 +61,6 @@
                 <th>Sous-total</th>
                 <td>CHF {{ Number::format($visit->salessum, 2) }}</td>
             </tr>
-            @if ($visit->discount)
-                <tr>
-                    <th>Remise</th>
-                    <td>- {{ $visit->discount * 100 }} %</td>
-                </tr>
-            @endif
             @if ($visit->voucher_payment)
             <tr>
                 <th>Paiement par bon</th>
