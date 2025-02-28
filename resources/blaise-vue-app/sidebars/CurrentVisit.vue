@@ -113,6 +113,29 @@ async function del() {
                     class="flex justify-between sm:text-lg xl:text-xl items-center gap-2"
                 >
                     <div>Arrondi</div>
+                    <Button
+                        class="-my-2"
+                        size="small"
+                        severity="secondary"
+                        icon="pi pi-minus"
+                        rounded
+                        @click="
+                            visit.current.rounding--;
+                            visit.updateCurrent();
+                        "
+                    ></Button>
+                    <Button
+                        class="-my-2"
+                        size="small"
+                        severity="secondary"
+                        icon="pi pi-plus"
+                        rounded
+                        @click="
+                            visit.current.rounding++;
+                            visit.updateCurrent();
+                        "
+                    ></Button>
+                    <div class="grow"></div>
                     <div class="whitespace-nowrap">
                         CHF {{ visit.current.rounding.toFixed(2) }}
                     </div>
