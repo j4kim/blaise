@@ -7,10 +7,9 @@
             body {
                 font-family: Inter, sans-serif;
             }
-            h1 {
+            div.footer {
                 text-align: center;
-                font-weight: 400;
-                color: #8b5cf6;
+                font-size: 0.8em;
             }
             table {
                 width: 100%;
@@ -26,8 +25,6 @@
         </style>
     </head>
     <body>
-        <h1>blaise</h1>
-
         <p>
             @if ($visit->client->gender === 0)
                 Chère cliente,
@@ -96,5 +93,7 @@
                 <td><strong>CHF {{ $visit->billed }}</strong></td>
             </tr>
         </table>
+
+        <div class="footer">blaise</div>
     </body>
 </html>
