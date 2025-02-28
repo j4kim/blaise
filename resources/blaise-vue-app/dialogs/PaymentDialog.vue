@@ -1,15 +1,37 @@
 <script setup>
-import { Button, Dialog, FloatLabel, InputNumber } from "primevue";
+import {
+    Button,
+    Dialog,
+    FloatLabel,
+    InputNumber,
+    InputText,
+    ToggleSwitch,
+} from "primevue";
 import { useVisitStore } from "../stores/visit";
-import { computed } from "vue";
+import { computed, watch } from "vue";
+import { useClientStore } from "../stores/client";
 
 const visit = useVisitStore();
+const client = useClientStore();
 
 const paid = computed(
     () => visit.current.cash + visit.current.twint + visit.current.card
 );
 
 const rest = computed(() => visit.current.total - paid.value);
+
+watch(
+    () => visit.showPaymentDialog,
+    (show) => {
+        if (show) {
+            visit.current.client_email = client.selected.email;
+        }
+    }
+);
+
+const missingEmail = computed(
+    () => visit.current.send_by_email && !visit.current.client_email
+);
 </script>
 
 <template>
@@ -20,7 +42,10 @@ const rest = computed(() => visit.current.total - paid.value);
         header="Paiement"
         class="max-w-full w-96"
     >
-        <div class="flex flex-col gap-6">
+        <form
+            class="flex flex-col gap-6"
+            @submit.prevent="visit.validateCurrent"
+        >
             <template
                 v-for="(label, key) in {
                     cash: 'Cash',
@@ -65,18 +90,46 @@ const rest = computed(() => visit.current.total - paid.value);
                     severity="secondary"
                 ></Button>
             </div>
-            <div class="flex justify-between">
+            <div
+                class="flex justify-between"
+                :class="{
+                    'text-muted-color': rest === 0,
+                }"
+            >
                 <span>Reste à payer</span>
                 <span>CHF {{ rest }}</span>
             </div>
+            <div class="flex gap-2">
+                <ToggleSwitch
+                    v-model="visit.current.send_by_email"
+                    inputId="send_by_email"
+                />
+                <label
+                    :class="{
+                        'text-muted-color': !visit.current.send_by_email,
+                    }"
+                    for="send_by_email"
+                >
+                    Envoyer le ticket par email
+                </label>
+            </div>
+            <FloatLabel v-if="visit.current.send_by_email" variant="on">
+                <InputText
+                    v-model="visit.current.client_email"
+                    @update:modelValue="visit.current.email_changed = true"
+                    id="client_email"
+                    fluid
+                    type="email"
+                />
+                <label for="client_email">Email</label>
+            </FloatLabel>
             <div class="flex justify-end">
                 <Button
-                    type="button"
+                    type="submit"
                     label="Valider"
-                    @click="visit.validateCurrent"
-                    :disabled="rest !== 0"
+                    :disabled="rest !== 0 || missingEmail"
                 ></Button>
             </div>
-        </div>
+        </form>
     </Dialog>
 </template>
