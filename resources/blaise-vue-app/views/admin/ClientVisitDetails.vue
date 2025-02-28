@@ -92,6 +92,11 @@ async function updateVisitDate(visit_date) {
                     :value="`- CHF ${state.visit.voucher_payment}`"
                 />
                 <Attribute
+                    v-if="state.visit.tip"
+                    label="Pourboire"
+                    :value="`CHF ${state.visit.tip}`"
+                />
+                <Attribute
                     v-if="state.visit.rounding"
                     label="Arrondi"
                     :value="`CHF ${state.visit.rounding}`"
