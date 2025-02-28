@@ -13,6 +13,7 @@ export const useVisitStore = defineStore("visit", {
         showDiscountDialog: false,
         showVoucherPaymentDialog: false,
         showDateDialog: false,
+        showTipDialog: false,
     }),
 
     actions: {
@@ -102,6 +103,17 @@ export const useVisitStore = defineStore("visit", {
             this.current = data;
             this.showDiscountDialog = false;
             this.showVoucherPaymentDialog = false;
+            this.showTipDialog = false;
+        },
+        async addTip() {
+            this.current.tip = 1;
+            await this.updateCurrent();
+            this.showTipDialog = true;
+        },
+        async removeTip() {
+            this.current.tip = null;
+            await this.updateCurrent();
+            this.showTipDialog = false;
         },
         async addDiscount() {
             this.current.discount = 0.1;
