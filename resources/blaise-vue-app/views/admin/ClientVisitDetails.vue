@@ -84,6 +84,11 @@ async function updateVisitDate(visit_date) {
                     label="Paiement par bon"
                     :value="`- CHF ${state.visit.voucher_payment}`"
                 />
+                <Attribute
+                    v-if="state.visit.rounding"
+                    label="Arrondi"
+                    :value="`CHF ${state.visit.rounding}`"
+                />
             </template>
         </Attributes>
 
