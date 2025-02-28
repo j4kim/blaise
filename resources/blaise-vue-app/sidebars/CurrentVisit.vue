@@ -7,12 +7,14 @@ import DiscountDialog from "../dialogs/DiscountDialog.vue";
 import VoucherPaymentDialog from "../dialogs/VoucherPaymentDialog.vue";
 import VisitDateDialog from "../dialogs/VisitDateDialog.vue";
 import TipDialog from "../dialogs/TipDialog.vue";
+import PaymentDialog from "../dialogs/PaymentDialog.vue";
 
 const visit = useVisitStore();
 
 async function validate() {
-    if (
-        visit.current.sales?.length ||
+    if (visit.current.sales.length) {
+        visit.showPaymentDialog = true;
+    } else if (
         confirm(
             "Ce ticket n'a pas de vente associée, voulez-vous vraiment le valider ?"
         )
@@ -212,5 +214,6 @@ async function del() {
             :value="visit.current.visit_date"
             @save="visit.updateVisitDate"
         />
+        <PaymentDialog />
     </aside>
 </template>
