@@ -108,6 +108,26 @@ async function updateVisitDate(visit_date) {
             </template>
         </Attributes>
 
+        <Attributes class="my-4">
+            <template #extra>
+                <Attribute
+                    v-if="state.visit.cash"
+                    label="Paiement cash"
+                    :value="`CHF ${state.visit.cash}`"
+                />
+                <Attribute
+                    v-if="state.visit.card"
+                    label="Paiement par carte"
+                    :value="`CHF ${state.visit.card}`"
+                />
+                <Attribute
+                    v-if="state.visit.twint"
+                    label="Paiement par twint"
+                    :value="`CHF ${state.visit.twint}`"
+                />
+            </template>
+        </Attributes>
+
         <div class="flex justify-end flex-wrap gap-2 mt-4">
             <Button
                 :disabled="!!state.visit.deleted_at"

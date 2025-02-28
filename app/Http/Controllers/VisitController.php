@@ -51,9 +51,12 @@ class VisitController extends Controller
         return $visit->load('sales')->append('total');
     }
 
-    public function validate(Visit $visit)
+    public function validate(Visit $visit, Request $request)
     {
         $visit->billed = $visit->total;
+        $visit->cash = $request->cash;
+        $visit->twint = $request->twint;
+        $visit->card = $request->card;
         $visit->save();
         $visit->client()->touch();
         $visit->sales()->where('type', 'article')->with('article')->each(function (Sale $sale) {

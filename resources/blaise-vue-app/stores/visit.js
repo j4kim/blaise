@@ -14,6 +14,7 @@ export const useVisitStore = defineStore("visit", {
         showVoucherPaymentDialog: false,
         showDateDialog: false,
         showTipDialog: false,
+        showPaymentDialog: false,
     }),
 
     actions: {
@@ -36,9 +37,11 @@ export const useVisitStore = defineStore("visit", {
         },
         async validateCurrent() {
             const { response } = await post(
-                `/api/visits/${this.current.id}/validate`
+                `/api/visits/${this.current.id}/validate`,
+                this.current
             );
             if (!response.ok) return;
+            this.showPaymentDialog = false;
             const client = useClientStore();
             await client.fetchClient(client.selected.id);
             useArticlesStore().fetch();
