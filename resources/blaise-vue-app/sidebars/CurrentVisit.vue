@@ -6,6 +6,7 @@ import SaleDialog from "../dialogs/SaleDialog.vue";
 import DiscountDialog from "../dialogs/DiscountDialog.vue";
 import VoucherPaymentDialog from "../dialogs/VoucherPaymentDialog.vue";
 import VisitDateDialog from "../dialogs/VisitDateDialog.vue";
+import TipDialog from "../dialogs/TipDialog.vue";
 
 const visit = useVisitStore();
 
@@ -108,6 +109,20 @@ async function del() {
                     </div>
                 </div>
             </div>
+            <div
+                v-if="visit.current.tip"
+                @click="visit.showTipDialog = true"
+                class="cursor-pointer hover:bg-surface-200 dark:hover:bg-surface-800 px-5 py-3"
+            >
+                <div
+                    class="flex justify-between sm:text-lg xl:text-xl items-center gap-2"
+                >
+                    <div>Pourboire</div>
+                    <div class="whitespace-nowrap">
+                        CHF {{ visit.current.tip }}
+                    </div>
+                </div>
+            </div>
             <div v-if="visit.current.rounding" class="px-5 py-3">
                 <div
                     class="flex justify-between sm:text-lg xl:text-xl items-center gap-2"
@@ -145,6 +160,16 @@ async function del() {
 
         <div class="flex gap-2 justify-end flex-wrap">
             <Button
+                v-if="!visit.current.tip"
+                @click="visit.addTip"
+                label="Pourboire"
+                type="button"
+                size="small"
+                icon="pi pi-wallet"
+                severity="secondary"
+                variant="outlined"
+            />
+            <Button
                 v-if="!visit.current.discount"
                 @click="visit.addDiscount"
                 label="Remise"
@@ -180,6 +205,7 @@ async function del() {
 
         <SaleDialog />
         <DiscountDialog />
+        <TipDialog />
         <VoucherPaymentDialog />
         <VisitDateDialog
             v-model:visible="visit.showDateDialog"

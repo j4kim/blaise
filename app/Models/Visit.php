@@ -46,6 +46,9 @@ class Visit extends Model
                 if ($this->voucher_payment) {
                     $sum = $sum - $this->voucher_payment;
                 }
+                if ($this->tip) {
+                    $sum = $sum + $this->tip;
+                }
                 return $sum;
             },
         );

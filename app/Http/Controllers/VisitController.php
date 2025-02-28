@@ -46,7 +46,7 @@ class VisitController extends Controller
     public function update(Visit $visit, Request $request)
     {
         $visit->forceFill(
-            $request->only(['discount', 'voucher_payment', 'visit_date', 'rounding'])
+            $request->only(['discount', 'voucher_payment', 'visit_date', 'rounding', 'tip'])
         )->save();
         return $visit->load('sales')->append('total');
     }
