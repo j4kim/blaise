@@ -43,7 +43,7 @@ fetchVisits(route.params.clientId);
             "
         >
             <Column
-                field="created_at"
+                field="visit_date"
                 header="Date de la visite"
                 sortable
                 bodyClass="tabular-nums"
