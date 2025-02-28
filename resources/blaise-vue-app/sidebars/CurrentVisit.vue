@@ -1,5 +1,5 @@
 <script setup>
-import { Button } from "primevue";
+import { Button, Chip } from "primevue";
 import { useVisitStore } from "../stores/visit";
 import { formatDate } from "../tools";
 import SaleDialog from "../dialogs/SaleDialog.vue";
@@ -62,18 +62,24 @@ async function del() {
                     class="flex justify-between sm:text-lg xl:text-xl items-center gap-2"
                 >
                     <div>{{ sale.label }}</div>
+                    <div class="grow"></div>
+                    <Chip
+                        v-if="
+                            sale.base_price &&
+                            sale.price_charged != sale.base_price
+                        "
+                        class="text-sm !px-3 !py-1"
+                        :label="
+                            Math.round(
+                                -100 *
+                                    ((sale.base_price - sale.price_charged) /
+                                        sale.base_price)
+                            ) + ' %'
+                        "
+                    />
                     <div class="whitespace-nowrap">
                         CHF
-                        <span
-                            v-if="
-                                sale.base_price &&
-                                sale.price_charged != sale.base_price
-                            "
-                            class="line-through text-muted-color"
-                        >
-                            {{ sale.base_price }}
-                        </span>
-                        {{ sale.price_charged ?? 0 }}
+                        {{ (sale.price_charged ?? 0).toFixed(2) }}
                     </div>
                 </div>
                 <div class="text-sm text-muted-color">{{ sale.notes }}</div>
