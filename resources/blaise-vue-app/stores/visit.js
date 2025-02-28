@@ -39,7 +39,15 @@ export const useVisitStore = defineStore("visit", {
         async validateCurrent() {
             const { response } = await post(
                 `/api/visits/${this.current.id}/validate`,
-                pick(this.current, "cash", "twint", "card")
+                pick(
+                    this.current,
+                    "cash",
+                    "twint",
+                    "card",
+                    "client_email",
+                    "send_by_email",
+                    "email_changed"
+                )
             );
             if (!response.ok) return;
             this.showPaymentDialog = false;
