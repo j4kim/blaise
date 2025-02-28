@@ -88,6 +88,13 @@ function getSalesSummary(sales) {
                     <div>CHF -{{ visit.voucher_payment }}</div>
                 </div>
                 <div
+                    v-if="visit.tip"
+                    class="flex justify-between mb-2 text-muted-color"
+                >
+                    <div>Pourboire</div>
+                    <div>CHF {{ visit.tip }}</div>
+                </div>
+                <div
                     v-if="visit.rounding"
                     class="flex justify-between mb-2 text-muted-color"
                 >
