@@ -41,6 +41,7 @@ export const useVisitStore = defineStore("visit", {
                 pick(
                     this.current,
                     "rounding",
+                    "tip",
                     "cash",
                     "twint",
                     "card",

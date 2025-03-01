@@ -24,7 +24,10 @@ const paid = computed(
 
 const rest = computed(() =>
     Math.round(
-        visit.current.subtotal - paid.value + (visit.current.rounding ?? 0)
+        visit.current.subtotal +
+            visit.current.tip +
+            (visit.current.rounding ?? 0) -
+            paid.value
     )
 );
 
@@ -56,7 +59,7 @@ const methods = ref({
         v-model:visible="visit.showPaymentDialog"
         modal
         dismissableMask
-        header="Paiement"
+        header="Finalisation du ticket"
     >
         <form
             class="flex flex-col gap-6"
@@ -87,17 +90,44 @@ const methods = ref({
                     CHF {{ visit.current.rounding.toFixed(2) }}
                 </div>
             </div>
-            <div
-                class="flex justify-between"
-                :class="{
-                    'text-muted-color': rest === 0,
-                }"
-            >
-                <span>Reste à payer</span>
-                <span>CHF {{ rest.toFixed(2) }}</span>
+            <div>
+                <Button
+                    v-if="visit.current.tip === null"
+                    @click="visit.current.tip = 1"
+                    label="Pourboire"
+                    icon="pi pi-wallet"
+                    rounded
+                    severity="secondary"
+                ></Button>
+                <div v-else class="flex items-baseline gap-2">
+                    <Button
+                        class="mr-1"
+                        icon="pi pi-times"
+                        severity="secondary"
+                        rounded
+                        variant="text"
+                        @click="visit.current.tip = null"
+                    />
+                    <FloatLabel class="grow" variant="on">
+                        <InputNumber
+                            v-model="visit.current.tip"
+                            id="tip"
+                            mode="currency"
+                            currency="CHF"
+                            locale="fr-CH"
+                            showButtons
+                            fluid
+                        />
+                        <label for="tip">Pourboire</label>
+                    </FloatLabel>
+                </div>
             </div>
+            <div>Paiement</div>
             <template v-for="({ label }, key) in methods">
-                <div v-if="visit.current[key]" class="flex items-baseline">
+                <div
+                    v-if="visit.current[key] !== null"
+                    class="flex items-baseline gap-2"
+                >
                     <Button
                         class="mr-1"
                         icon="pi pi-times"
@@ -106,7 +136,7 @@ const methods = ref({
                         variant="text"
                         @click="visit.current[key] = null"
                     />
-                    <FloatLabel class="mt-2 grow" variant="on">
+                    <FloatLabel class="grow" variant="on">
                         <InputNumber
                             v-model="visit.current[key]"
                             :id="`input-${key}`"
@@ -134,6 +164,15 @@ const methods = ref({
                     severity="secondary"
                     :icon="icon"
                 ></Button>
+            </div>
+            <div
+                class="flex justify-between"
+                :class="{
+                    'text-muted-color': rest === 0,
+                }"
+            >
+                <span>Reste à payer</span>
+                <span>CHF {{ rest.toFixed(2) }}</span>
             </div>
             <div class="flex gap-2">
                 <ToggleSwitch
