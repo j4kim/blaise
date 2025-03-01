@@ -61,9 +61,11 @@ const methods = ref({
             class="flex flex-col gap-6"
             @submit.prevent="visit.validateCurrent"
         >
-            <div
-                class="flex justify-between sm:text-lg xl:text-xl items-center gap-2"
-            >
+            <div class="flex justify-between">
+                <span>Total</span>
+                <span>CHF {{ visit.current.subtotal.toFixed(2) }}</span>
+            </div>
+            <div class="flex justify-between items-center gap-2">
                 <div>Arrondi</div>
                 <Button
                     size="small"
