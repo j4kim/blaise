@@ -72,11 +72,11 @@ async function updateVisitDate(visit_date) {
         <div class="text-sm text-muted-color my-2">Ventes</div>
 
         <DataTable :value="state.visit.sales" size="small">
-            <Column field="label" , header="Libellé"></Column>
-            <Column field="type" , header="Type"></Column>
-            <Column field="notes" , header="Notes"></Column>
-            <Column field="base_price" , header="Prix de base"></Column>
-            <Column field="price_charged" , header="Prix facturé"></Column>
+            <Column field="label" header="Libellé"></Column>
+            <Column field="type" header="Type"></Column>
+            <Column field="notes" header="Notes"></Column>
+            <Column field="base_price" header="Prix de base"></Column>
+            <Column field="price_charged" header="Prix facturé"></Column>
         </DataTable>
 
         <Attributes class="my-4">
