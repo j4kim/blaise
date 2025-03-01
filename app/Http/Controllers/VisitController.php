@@ -53,7 +53,6 @@ class VisitController extends Controller
     public function validate(Visit $visit, Request $request)
     {
         $visit->forceFill($request->except([
-            "send_by_email",
             "email_changed",
             "client_email",
         ]));
