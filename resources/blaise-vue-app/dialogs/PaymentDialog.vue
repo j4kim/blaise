@@ -8,7 +8,7 @@ import {
     ToggleSwitch,
 } from "primevue";
 import { useVisitStore } from "../stores/visit";
-import { computed, watch } from "vue";
+import { computed, ref, watch } from "vue";
 import { useClientStore } from "../stores/client";
 
 const visit = useVisitStore();
@@ -35,6 +35,12 @@ watch(
 const missingEmail = computed(
     () => visit.current.send_by_email && !visit.current.client_email
 );
+
+const methods = ref({
+    cash: { label: "Cash", icon: "pi pi-money-bill" },
+    card: { label: "Carte", icon: "pi pi-credit-card" },
+    twint: { label: "Twint", icon: "pi pi-mobile" },
+});
 </script>
 
 <template>
@@ -49,13 +55,7 @@ const missingEmail = computed(
             class="flex flex-col gap-6"
             @submit.prevent="visit.validateCurrent"
         >
-            <template
-                v-for="(label, key) in {
-                    cash: 'Cash',
-                    card: 'Carte',
-                    twint: 'Twint',
-                }"
-            >
+            <template v-for="({ label }, key) in methods">
                 <div v-if="visit.current[key]" class="flex items-baseline">
                     <Button
                         class="mr-1"
@@ -81,16 +81,13 @@ const missingEmail = computed(
             </template>
             <div class="flex flex-wrap gap-2">
                 <Button
-                    v-for="(label, key) in {
-                        cash: 'Cash',
-                        card: 'Carte',
-                        twint: 'Twint',
-                    }"
+                    v-for="({ label, icon }, key) in methods"
                     @click="visit.current[key] = rest"
                     :label="label"
                     rounded
                     :disabled="visit.current[key] || rest === 0"
                     severity="secondary"
+                    :icon="icon"
                 ></Button>
             </div>
             <div
