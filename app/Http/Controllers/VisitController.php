@@ -46,7 +46,7 @@ class VisitController extends Controller
     public function update(Visit $visit, Request $request)
     {
         $visit->forceFill(
-            $request->only(['discount', 'voucher_payment', 'visit_date', 'rounding', 'tip'])
+            $request->only(['voucher_payment', 'visit_date', 'rounding', 'tip'])
         )->save();
         return $visit->load('sales')->append('total');
     }
@@ -131,6 +131,22 @@ class VisitController extends Controller
         $sale->save();
         $visit->load('sales');
         $visit->computeRounding();
+        return $visit->append('total');
+    }
+
+    public function addDiscount(Visit $visit, Request $request)
+    {
+        $discount = $request->percent / 100;
+        $sales = $visit->sales()
+            ->whereNotNull('base_price')
+            ->whereIn('type', $request->filter)
+            ->get();
+        foreach ($sales as $sale) {
+            $bp = $sale->base_price;
+            $sale->price_charged = $bp - ($discount * $bp);
+            $sale->save();
+        }
+        $visit->computeRounding($discount > 0);
         return $visit->append('total');
     }
 

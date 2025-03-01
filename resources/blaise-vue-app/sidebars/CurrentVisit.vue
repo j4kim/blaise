@@ -1,7 +1,7 @@
 <script setup>
-import { Button } from "primevue";
+import { Button, Chip } from "primevue";
 import { useVisitStore } from "../stores/visit";
-import { formatDate } from "../tools";
+import { formatDate, saleDiscountPercentage, saleHasDiscount } from "../tools";
 import SaleDialog from "../dialogs/SaleDialog.vue";
 import DiscountDialog from "../dialogs/DiscountDialog.vue";
 import VoucherPaymentDialog from "../dialogs/VoucherPaymentDialog.vue";
@@ -62,18 +62,15 @@ async function del() {
                     class="flex justify-between sm:text-lg xl:text-xl items-center gap-2"
                 >
                     <div>{{ sale.label }}</div>
+                    <div class="grow"></div>
+                    <Chip
+                        v-if="saleHasDiscount(sale)"
+                        class="text-sm !px-3 !py-1 whitespace-nowrap"
+                        :label="saleDiscountPercentage(sale)"
+                    />
                     <div class="whitespace-nowrap">
                         CHF
-                        <span
-                            v-if="
-                                sale.base_price &&
-                                sale.price_charged != sale.base_price
-                            "
-                            class="line-through text-muted-color"
-                        >
-                            {{ sale.base_price }}
-                        </span>
-                        {{ sale.price_charged ?? 0 }}
+                        {{ (sale.price_charged ?? 0).toFixed(2) }}
                     </div>
                 </div>
                 <div class="text-sm text-muted-color">{{ sale.notes }}</div>
@@ -83,20 +80,6 @@ async function del() {
         <div class="grow"></div>
 
         <div class="overflow-y-auto -mx-5">
-            <div
-                v-if="visit.current.discount"
-                @click="visit.showDiscountDialog = true"
-                class="cursor-pointer hover:bg-surface-200 dark:hover:bg-surface-800 px-5 py-3"
-            >
-                <div
-                    class="flex justify-between sm:text-lg xl:text-xl items-center gap-2"
-                >
-                    <div>Remise</div>
-                    <div class="whitespace-nowrap">
-                        {{ visit.current.discount * 100 }} %
-                    </div>
-                </div>
-            </div>
             <div
                 v-if="visit.current.voucher_payment"
                 @click="visit.showVoucherPaymentDialog = true"
@@ -172,8 +155,8 @@ async function del() {
                 variant="outlined"
             />
             <Button
-                v-if="!visit.current.discount"
-                @click="visit.addDiscount"
+                @click="visit.showDiscountDialog = true"
+                :disabled="!visit.current.sales?.length"
                 label="Remise"
                 type="button"
                 size="small"

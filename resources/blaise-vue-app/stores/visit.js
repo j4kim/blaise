@@ -127,16 +127,6 @@ export const useVisitStore = defineStore("visit", {
             await this.updateCurrent();
             this.showTipDialog = false;
         },
-        async addDiscount() {
-            this.current.discount = 0.1;
-            await this.updateCurrent();
-            this.showDiscountDialog = true;
-        },
-        async removeDiscount() {
-            this.current.discount = null;
-            await this.updateCurrent();
-            this.showDiscountDialog = false;
-        },
         async addVoucherPayment() {
             this.current.voucher_payment = 50;
             await this.updateCurrent();
@@ -151,6 +141,15 @@ export const useVisitStore = defineStore("visit", {
             this.current.visit_date = visitDate;
             await this.updateCurrent();
             this.showDateDialog = false;
+        },
+        async addDiscount(percent, filter) {
+            const { response, data } = await put(
+                `/api/visits/${this.current.id}/discount`,
+                { percent, filter }
+            );
+            if (!response.ok) return;
+            this.current = data;
+            this.showDiscountDialog = false;
         },
     },
 });

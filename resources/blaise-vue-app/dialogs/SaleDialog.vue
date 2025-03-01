@@ -8,7 +8,7 @@ import {
     Textarea,
 } from "primevue";
 import { useVisitStore } from "../stores/visit";
-import { watch } from "vue";
+import { computed, watch } from "vue";
 
 const visit = useVisitStore();
 
@@ -22,6 +22,19 @@ watch(
         visit.selectedSale.price_charged = unitPriceCharged * newQty;
     }
 );
+
+const discount = computed({
+    get: () => {
+        const bp = visit.selectedSale.base_price;
+        const pc = visit.selectedSale.price_charged;
+        return Math.round(100 * ((bp - pc) / bp));
+    },
+    set: (percent) => {
+        const discount = percent / 100;
+        const bp = visit.selectedSale.base_price;
+        visit.selectedSale.price_charged = bp - discount * bp;
+    },
+});
 </script>
 
 <template>
@@ -65,6 +78,17 @@ watch(
                     :step="visit.selectedSale.type === 'voucher' ? 10 : 1"
                 />
                 <label for="price_charged">Prix facturé</label>
+            </FloatLabel>
+            <FloatLabel variant="on">
+                <InputNumber
+                    v-model="discount"
+                    id="discount"
+                    suffix="%"
+                    showButtons
+                    fluid
+                    :step="5"
+                />
+                <label for="price_charged">Remise</label>
             </FloatLabel>
             <FloatLabel
                 variant="on"

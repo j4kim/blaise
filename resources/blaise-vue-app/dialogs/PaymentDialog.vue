@@ -15,7 +15,10 @@ const visit = useVisitStore();
 const client = useClientStore();
 
 const paid = computed(
-    () => visit.current.cash + visit.current.twint + visit.current.card
+    () =>
+        (visit.current.cash ?? 0) +
+        (visit.current.twint ?? 0) +
+        (visit.current.card ?? 0)
 );
 
 const rest = computed(() => visit.current.total - paid.value);

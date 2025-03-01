@@ -5,7 +5,12 @@ import { del, get, put } from "../../api";
 import Attributes from "../../components/Attributes.vue";
 import Attribute from "../../components/Attribute.vue";
 import { Button, Column, DataTable, Message } from "primevue";
-import { confirmDelete, formatDate } from "../../tools";
+import {
+    confirmDelete,
+    formatDate,
+    saleDiscountPercentage,
+    saleHasDiscount,
+} from "../../tools";
 import { useVisitStore } from "../../stores/visit";
 import VisitDateDialog from "../../dialogs/VisitDateDialog.vue";
 
@@ -72,20 +77,22 @@ async function updateVisitDate(visit_date) {
         <div class="text-sm text-muted-color my-2">Ventes</div>
 
         <DataTable :value="state.visit.sales" size="small">
-            <Column field="label" , header="Libellé"></Column>
-            <Column field="type" , header="Type"></Column>
-            <Column field="notes" , header="Notes"></Column>
-            <Column field="base_price" , header="Prix de base"></Column>
-            <Column field="price_charged" , header="Prix facturé"></Column>
+            <Column field="label" header="Libellé"></Column>
+            <Column field="type" header="Type"></Column>
+            <Column field="notes" header="Notes"></Column>
+            <Column field="base_price" header="Prix de base"></Column>
+            <Column header="Remise">
+                <template #body="{ data }">
+                    <span v-if="saleHasDiscount(data)">
+                        {{ saleDiscountPercentage(data) }}
+                    </span>
+                </template>
+            </Column>
+            <Column field="price_charged" header="Prix facturé"></Column>
         </DataTable>
 
         <Attributes class="my-4">
             <template #extra>
-                <Attribute
-                    v-if="state.visit.discount"
-                    label="Remise"
-                    :value="`-${state.visit.discount * 100} %`"
-                />
                 <Attribute
                     v-if="state.visit.voucher_payment"
                     label="Paiement par bon"
