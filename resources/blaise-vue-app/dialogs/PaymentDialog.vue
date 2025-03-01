@@ -2,6 +2,7 @@
 import {
     Button,
     Dialog,
+    Fieldset,
     FloatLabel,
     InputNumber,
     InputText,
@@ -22,13 +23,12 @@ const paid = computed(
         (visit.current.voucher_payment ?? 0)
 );
 
+const total = computed(() =>
+    Math.round(visit.current.subtotal + (visit.current.rounding ?? 0))
+);
+
 const rest = computed(() =>
-    Math.round(
-        visit.current.subtotal +
-            visit.current.tip +
-            (visit.current.rounding ?? 0) -
-            paid.value
-    )
+    Math.round(total.value + visit.current.tip - paid.value)
 );
 
 watch(
@@ -62,42 +62,53 @@ const methods = ref({
         header="Finalisation du ticket"
     >
         <form
-            class="flex flex-col gap-6"
+            class="flex flex-col gap-3"
             @submit.prevent="visit.validateCurrent"
         >
-            <div class="flex justify-between">
-                <span>Total</span>
-                <span>CHF {{ visit.current.subtotal.toFixed(2) }}</span>
-            </div>
-            <div class="flex justify-between items-center gap-2">
-                <div>Arrondi</div>
+            <Fieldset legend="Sous-total">
+                <div class="flex justify-between">
+                    <span>Total ventes</span>
+                    <span>CHF {{ visit.current.subtotal.toFixed(2) }}</span>
+                </div>
+                <div class="flex justify-between items-center gap-2">
+                    <div>Arrondi</div>
+                    <Button
+                        size="small"
+                        severity="secondary"
+                        icon="pi pi-minus"
+                        rounded
+                        variant="text"
+                        @click="visit.current.rounding--"
+                    ></Button>
+                    <Button
+                        size="small"
+                        severity="secondary"
+                        icon="pi pi-plus"
+                        rounded
+                        variant="text"
+                        @click="visit.current.rounding++"
+                    ></Button>
+                    <div class="grow"></div>
+                    <div class="whitespace-nowrap">
+                        CHF {{ visit.current.rounding.toFixed(2) }}
+                    </div>
+                </div>
+                <div class="flex justify-between font-semibold">
+                    <span>Total</span>
+                    <span>CHF {{ total.toFixed(2) }}</span>
+                </div>
+            </Fieldset>
+
+            <Fieldset legend="Pourboire">
                 <Button
-                    size="small"
-                    severity="secondary"
-                    icon="pi pi-minus"
-                    rounded
-                    @click="visit.current.rounding--"
-                ></Button>
-                <Button
+                    v-if="visit.current.tip === null"
+                    @click="visit.current.tip = 1"
                     size="small"
                     severity="secondary"
                     icon="pi pi-plus"
                     rounded
-                    @click="visit.current.rounding++"
-                ></Button>
-                <div class="grow"></div>
-                <div class="whitespace-nowrap">
-                    CHF {{ visit.current.rounding.toFixed(2) }}
-                </div>
-            </div>
-            <div>
-                <Button
-                    v-if="visit.current.tip === null"
-                    @click="visit.current.tip = 1"
-                    label="Pourboire"
-                    icon="pi pi-wallet"
-                    rounded
-                    severity="secondary"
+                    variant="text"
+                    class="-my-2"
                 ></Button>
                 <div v-else class="flex items-baseline gap-2">
                     <Button
@@ -108,96 +119,100 @@ const methods = ref({
                         variant="text"
                         @click="visit.current.tip = null"
                     />
-                    <FloatLabel class="grow" variant="on">
-                        <InputNumber
-                            v-model="visit.current.tip"
-                            id="tip"
-                            mode="currency"
-                            currency="CHF"
-                            locale="fr-CH"
-                            showButtons
-                            fluid
-                        />
-                        <label for="tip">Pourboire</label>
-                    </FloatLabel>
-                </div>
-            </div>
-            <div>Paiement</div>
-            <template v-for="({ label }, key) in methods">
-                <div
-                    v-if="visit.current[key] !== null"
-                    class="flex items-baseline gap-2"
-                >
-                    <Button
-                        class="mr-1"
-                        icon="pi pi-times"
-                        severity="secondary"
-                        rounded
-                        variant="text"
-                        @click="visit.current[key] = null"
+                    <InputNumber
+                        v-model="visit.current.tip"
+                        id="tip"
+                        mode="currency"
+                        currency="CHF"
+                        locale="fr-CH"
+                        showButtons
+                        fluid
                     />
-                    <FloatLabel class="grow" variant="on">
-                        <InputNumber
-                            v-model="visit.current[key]"
-                            :id="`input-${key}`"
-                            mode="currency"
-                            currency="CHF"
-                            locale="fr-CH"
-                            showButtons
-                            fluid
-                            :step="key === 'voucher_payment' ? 10 : 1"
-                        />
-                        <label :for="`input-${key}`">{{ label }}</label>
-                    </FloatLabel>
                 </div>
-            </template>
-            <div class="flex flex-wrap gap-2">
-                <Button
-                    v-for="({ label, icon }, key) in methods"
-                    @click="
-                        visit.current[key] =
-                            key === 'voucher_payment' ? 50 : rest
-                    "
-                    :label="label"
-                    rounded
-                    :disabled="visit.current[key] || rest === 0"
-                    severity="secondary"
-                    :icon="icon"
-                ></Button>
-            </div>
+            </Fieldset>
+
+            <Fieldset legend="Paiement" pt:content="flex flex-col gap-4">
+                <template v-for="({ label }, key) in methods">
+                    <div
+                        v-if="visit.current[key] !== null"
+                        class="flex items-baseline gap-2"
+                    >
+                        <Button
+                            class="mr-1"
+                            icon="pi pi-times"
+                            severity="secondary"
+                            rounded
+                            variant="text"
+                            @click="visit.current[key] = null"
+                        />
+                        <FloatLabel class="grow" variant="on">
+                            <InputNumber
+                                v-model="visit.current[key]"
+                                :id="`input-${key}`"
+                                mode="currency"
+                                currency="CHF"
+                                locale="fr-CH"
+                                showButtons
+                                fluid
+                                :step="key === 'voucher_payment' ? 10 : 1"
+                            />
+                            <label :for="`input-${key}`">{{ label }}</label>
+                        </FloatLabel>
+                    </div>
+                </template>
+                <div class="flex flex-wrap gap-2">
+                    <Button
+                        v-for="({ label, icon }, key) in methods"
+                        @click="
+                            visit.current[key] =
+                                key === 'voucher_payment' ? 50 : rest
+                        "
+                        :label="label"
+                        rounded
+                        :disabled="visit.current[key] || rest === 0"
+                        severity="secondary"
+                        :icon="icon"
+                    ></Button>
+                </div>
+            </Fieldset>
+
             <div
-                class="flex justify-between"
+                class="flex justify-between font-semibold mt-2"
                 :class="{
-                    'text-muted-color': rest === 0,
+                    'opacity-50': rest === 0,
                 }"
             >
                 <span>Reste à payer</span>
                 <span>CHF {{ rest.toFixed(2) }}</span>
             </div>
-            <div class="flex gap-2">
-                <ToggleSwitch
-                    v-model="visit.current.send_by_email"
-                    inputId="send_by_email"
-                />
-                <label
-                    :class="{
-                        'text-muted-color': !visit.current.send_by_email,
-                    }"
-                    for="send_by_email"
-                >
-                    Envoyer le ticket par email
-                </label>
-            </div>
-            <FloatLabel v-if="visit.current.send_by_email" variant="on">
-                <InputText
-                    v-model="visit.current.client_email"
-                    @update:modelValue="visit.current.email_changed = true"
-                    id="client_email"
-                    fluid
-                    type="email"
-                />
-                <label for="client_email">Email</label>
-            </FloatLabel>
+
+            <Fieldset legend="Mail" pt:content="flex flex-col gap-5">
+                <div class="flex gap-2">
+                    <ToggleSwitch
+                        v-model="visit.current.send_by_email"
+                        inputId="send_by_email"
+                    />
+                    <label
+                        :class="{
+                            'text-muted-color': !visit.current.send_by_email,
+                        }"
+                        for="send_by_email"
+                    >
+                        Envoyer le ticket par email
+                    </label>
+                </div>
+                <FloatLabel v-if="visit.current.send_by_email" variant="on">
+                    <InputText
+                        v-model="visit.current.client_email"
+                        @update:modelValue="visit.current.email_changed = true"
+                        id="client_email"
+                        fluid
+                        type="email"
+                    />
+                    <label for="client_email">Email</label>
+                </FloatLabel>
+            </Fieldset>
+
             <div class="flex justify-end">
                 <Button
                     type="submit"
