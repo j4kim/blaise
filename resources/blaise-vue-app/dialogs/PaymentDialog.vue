@@ -99,36 +99,21 @@ const methods = ref({
                 </div>
             </Fieldset>
 
-            <Fieldset legend="Pourboire">
-                <Button
-                    v-if="visit.current.tip === null"
-                    @click="visit.current.tip = 1"
-                    size="small"
-                    severity="secondary"
-                    icon="pi pi-plus"
-                    rounded
-                    variant="text"
-                    class="-my-2"
-                ></Button>
-                <div v-else class="flex items-baseline gap-2">
-                    <Button
-                        class="mr-1"
-                        icon="pi pi-times"
-                        severity="secondary"
-                        rounded
-                        variant="text"
-                        @click="visit.current.tip = null"
-                    />
-                    <InputNumber
-                        v-model="visit.current.tip"
-                        id="tip"
-                        mode="currency"
-                        currency="CHF"
-                        locale="fr-CH"
-                        showButtons
-                        fluid
-                    />
-                </div>
+            <Fieldset
+                legend="Pourboire"
+                toggleable
+                :collapsed="visit.current.tip === null"
+                @toggle="(e) => (visit.current.tip = e.value ? null : 1)"
+            >
+                <InputNumber
+                    v-model="visit.current.tip"
+                    id="tip"
+                    mode="currency"
+                    currency="CHF"
+                    locale="fr-CH"
+                    showButtons
+                    fluid
+                />
             </Fieldset>
 
             <Fieldset legend="Paiement" pt:content="flex flex-col gap-4">
