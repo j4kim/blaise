@@ -134,6 +134,22 @@ class VisitController extends Controller
         return $visit->append('total');
     }
 
+    public function addDiscount(Visit $visit, Request $request)
+    {
+        $discount = $request->percent / 100;
+        $sales = $visit->sales()
+            ->whereNotNull('base_price')
+            ->whereIn('type', $request->filter)
+            ->get();
+        foreach ($sales as $sale) {
+            $bp = $sale->base_price;
+            $sale->price_charged = $bp - ($discount * $bp);
+            $sale->save();
+        }
+        $visit->computeRounding($discount > 0);
+        return $visit->append('total');
+    }
+
     public function deleteSale(Visit $visit, Sale $sale)
     {
         $sale->forceDelete();

@@ -142,5 +142,14 @@ export const useVisitStore = defineStore("visit", {
             await this.updateCurrent();
             this.showDateDialog = false;
         },
+        async addDiscount(percent, filter) {
+            const { response, data } = await put(
+                `/api/visits/${this.current.id}/discount`,
+                { percent, filter }
+            );
+            if (!response.ok) return;
+            this.current = data;
+            this.showDiscountDialog = false;
+        },
     },
 });
