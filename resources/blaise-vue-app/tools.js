@@ -29,3 +29,13 @@ export function confirmDelete(confirmService, message, accept) {
         accept,
     });
 }
+
+export function saleHasDiscount(sale) {
+    return sale.base_price && sale.price_charged != sale.base_price;
+}
+
+export function saleDiscountPercentage(sale) {
+    const bp = sale.base_price;
+    const pc = sale.price_charged;
+    return Math.round(-100 * ((bp - pc) / bp)) + " %";
+}

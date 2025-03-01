@@ -9,7 +9,7 @@ import {
 } from "primevue";
 import { ref } from "vue";
 import { RouterLink } from "vue-router";
-import { formatDate } from "../tools";
+import { formatDate, saleDiscountPercentage, saleHasDiscount } from "../tools";
 import { useVisitStore } from "../stores/visit";
 
 defineProps({
@@ -61,26 +61,14 @@ function getSalesSummary(sales) {
                         </span>
                     </div>
                     <div class="grow flex gap-2 items-center justify-end">
-                        <template
-                            v-if="
-                                sale.base_price &&
-                                sale.price_charged != sale.base_price
-                            "
-                        >
+                        <template v-if="saleHasDiscount(sale)">
                             <span class="line-through text-muted-color">
                                 CHF {{ sale.base_price }}
                             </span>
-                            <Chip class="text-sm !px-3 !py-1 whitespace-nowrap">
-                                {{
-                                    Math.round(
-                                        -100 *
-                                            ((sale.base_price -
-                                                sale.price_charged) /
-                                                sale.base_price)
-                                    )
-                                }}
-                                %
-                            </Chip>
+                            <Chip
+                                class="text-sm !px-3 !py-1 whitespace-nowrap"
+                                :label="saleDiscountPercentage(sale)"
+                            />
                         </template>
                         <span> CHF {{ sale.price_charged.toFixed(2) }} </span>
                     </div>

@@ -1,7 +1,7 @@
 <script setup>
 import { Button, Chip } from "primevue";
 import { useVisitStore } from "../stores/visit";
-import { formatDate } from "../tools";
+import { formatDate, saleDiscountPercentage, saleHasDiscount } from "../tools";
 import SaleDialog from "../dialogs/SaleDialog.vue";
 import DiscountDialog from "../dialogs/DiscountDialog.vue";
 import VoucherPaymentDialog from "../dialogs/VoucherPaymentDialog.vue";
@@ -64,18 +64,9 @@ async function del() {
                     <div>{{ sale.label }}</div>
                     <div class="grow"></div>
                     <Chip
-                        v-if="
-                            sale.base_price &&
-                            sale.price_charged != sale.base_price
-                        "
-                        class="text-sm !px-3 !py-1"
-                        :label="
-                            Math.round(
-                                -100 *
-                                    ((sale.base_price - sale.price_charged) /
-                                        sale.base_price)
-                            ) + '&nbsp;%'
-                        "
+                        v-if="saleHasDiscount(sale)"
+                        class="text-sm !px-3 !py-1 whitespace-nowrap"
+                        :label="saleDiscountPercentage(sale)"
                     />
                     <div class="whitespace-nowrap">
                         CHF
