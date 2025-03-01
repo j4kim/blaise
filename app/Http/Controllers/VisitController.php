@@ -52,11 +52,12 @@ class VisitController extends Controller
 
     public function validate(Visit $visit, Request $request)
     {
-        $visit->rounding = $request->rounding;
+        $visit->forceFill($request->except([
+            "send_by_email",
+            "email_changed",
+            "client_email",
+        ]));
         $visit->billed = $visit->total;
-        $visit->cash = $request->cash;
-        $visit->twint = $request->twint;
-        $visit->card = $request->card;
         $visit->save();
         $visit->client()->touch();
         $visit->sales()->where('type', 'article')->with('article')->each(function (Sale $sale) {

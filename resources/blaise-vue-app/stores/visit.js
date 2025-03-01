@@ -44,6 +44,7 @@ export const useVisitStore = defineStore("visit", {
                     "cash",
                     "twint",
                     "card",
+                    "voucher_payment",
                     "client_email",
                     "send_by_email",
                     "email_changed"
