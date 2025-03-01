@@ -13,7 +13,6 @@ export const useVisitStore = defineStore("visit", {
         selectedSale: null,
         showDiscountDialog: false,
         showDateDialog: false,
-        showTipDialog: false,
         showPaymentDialog: false,
     }),
 
@@ -116,17 +115,6 @@ export const useVisitStore = defineStore("visit", {
             if (!response.ok) return;
             this.current = data;
             this.showDiscountDialog = false;
-            this.showTipDialog = false;
-        },
-        async addTip() {
-            this.current.tip = 1;
-            await this.updateCurrent();
-            this.showTipDialog = true;
-        },
-        async removeTip() {
-            this.current.tip = null;
-            await this.updateCurrent();
-            this.showTipDialog = false;
         },
         async updateVisitDate(visitDate) {
             this.current.visit_date = visitDate;

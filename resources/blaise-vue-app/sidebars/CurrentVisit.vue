@@ -5,7 +5,6 @@ import { formatDate, saleDiscountPercentage, saleHasDiscount } from "../tools";
 import SaleDialog from "../dialogs/SaleDialog.vue";
 import DiscountDialog from "../dialogs/DiscountDialog.vue";
 import VisitDateDialog from "../dialogs/VisitDateDialog.vue";
-import TipDialog from "../dialogs/TipDialog.vue";
 import PaymentDialog from "../dialogs/PaymentDialog.vue";
 
 const visit = useVisitStore();
@@ -66,34 +65,7 @@ async function del() {
 
         <div class="grow"></div>
 
-        <div class="overflow-y-auto -mx-5">
-            <div
-                v-if="visit.current.tip"
-                @click="visit.showTipDialog = true"
-                class="cursor-pointer hover:bg-surface-200 dark:hover:bg-surface-800 px-5 py-3"
-            >
-                <div
-                    class="flex justify-between sm:text-lg xl:text-xl items-center gap-2"
-                >
-                    <div>Pourboire</div>
-                    <div class="whitespace-nowrap">
-                        CHF {{ visit.current.tip }}
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <div class="flex gap-2 justify-end flex-wrap">
-            <Button
-                v-if="!visit.current.tip"
-                @click="visit.addTip"
-                label="Pourboire"
-                type="button"
-                size="small"
-                icon="pi pi-wallet"
-                severity="secondary"
-                variant="outlined"
-            />
             <Button
                 @click="visit.showDiscountDialog = true"
                 :disabled="!visit.current.sales?.length"
@@ -126,7 +98,6 @@ async function del() {
 
         <SaleDialog />
         <DiscountDialog />
-        <TipDialog />
         <VisitDateDialog
             v-model:visible="visit.showDateDialog"
             :value="visit.current.visit_date"

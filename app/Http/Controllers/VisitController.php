@@ -44,9 +44,8 @@ class VisitController extends Controller
 
     public function update(Visit $visit, Request $request)
     {
-        $visit->forceFill(
-            $request->only(['visit_date', 'tip'])
-        )->save();
+        $visit->visit_date = $request->visit_date;
+        $visit->save();
         return $visit->load('sales')->append('subtotal');
     }
 
