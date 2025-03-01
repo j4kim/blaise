@@ -179,7 +179,7 @@ async function del() {
         <div class="flex justify-between text-3xl gap-2 flex-wrap">
             <div>Total</div>
             <div class="whitespace-nowrap">
-                CHF {{ visit.current.total ?? 0 }}
+                CHF {{ visit.current.subtotal ?? 0 }}
             </div>
         </div>
 

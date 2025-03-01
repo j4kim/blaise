@@ -21,7 +21,7 @@ const paid = computed(
         (visit.current.card ?? 0)
 );
 
-const rest = computed(() => visit.current.total - paid.value);
+const rest = computed(() => visit.current.subtotal - paid.value);
 
 watch(
     () => visit.showPaymentDialog,
