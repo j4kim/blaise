@@ -17,7 +17,7 @@ return new class extends Migration
         });
 
         $coloration = ServiceCategory::find(4);
-        $coloration->options = ['preventDelete' => true, 'proposePreviousSales' => true];
+        $coloration->options = ['preventDelete' => true, 'proposePreviousSales' => true, 'forceNote' => true];
         $coloration->save();
     }
 
