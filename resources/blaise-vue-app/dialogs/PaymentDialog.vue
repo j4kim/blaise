@@ -87,6 +87,15 @@ const methods = ref({
                     CHF {{ visit.current.rounding.toFixed(2) }}
                 </div>
             </div>
+            <div
+                class="flex justify-between"
+                :class="{
+                    'text-muted-color': rest === 0,
+                }"
+            >
+                <span>Reste à payer</span>
+                <span>CHF {{ rest.toFixed(2) }}</span>
+            </div>
             <template v-for="({ label }, key) in methods">
                 <div v-if="visit.current[key]" class="flex items-baseline">
                     <Button
@@ -125,15 +134,6 @@ const methods = ref({
                     severity="secondary"
                     :icon="icon"
                 ></Button>
-            </div>
-            <div
-                class="flex justify-between"
-                :class="{
-                    'text-muted-color': rest === 0,
-                }"
-            >
-                <span>Reste à payer</span>
-                <span>CHF {{ rest.toFixed(2) }}</span>
             </div>
             <div class="flex gap-2">
                 <ToggleSwitch
