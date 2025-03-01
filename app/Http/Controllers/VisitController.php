@@ -52,6 +52,7 @@ class VisitController extends Controller
 
     public function validate(Visit $visit, Request $request)
     {
+        $visit->rounding = $request->rounding;
         $visit->billed = $visit->total;
         $visit->cash = $request->cash;
         $visit->twint = $request->twint;

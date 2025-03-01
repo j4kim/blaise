@@ -21,13 +21,19 @@ const paid = computed(
         (visit.current.card ?? 0)
 );
 
-const rest = computed(() => visit.current.subtotal - paid.value);
+const rest = computed(() =>
+    Math.round(
+        visit.current.subtotal - paid.value + (visit.current.rounding ?? 0)
+    )
+);
 
 watch(
     () => visit.showPaymentDialog,
     (show) => {
         if (show) {
             visit.current.client_email = client.selected.email;
+            const rounded = Math.round(visit.current.subtotal);
+            visit.current.rounding = rounded - visit.current.subtotal;
         }
     }
 );
@@ -55,6 +61,29 @@ const methods = ref({
             class="flex flex-col gap-6"
             @submit.prevent="visit.validateCurrent"
         >
+            <div
+                class="flex justify-between sm:text-lg xl:text-xl items-center gap-2"
+            >
+                <div>Arrondi</div>
+                <Button
+                    size="small"
+                    severity="secondary"
+                    icon="pi pi-minus"
+                    rounded
+                    @click="visit.current.rounding--"
+                ></Button>
+                <Button
+                    size="small"
+                    severity="secondary"
+                    icon="pi pi-plus"
+                    rounded
+                    @click="visit.current.rounding++"
+                ></Button>
+                <div class="grow"></div>
+                <div class="whitespace-nowrap">
+                    CHF {{ visit.current.rounding.toFixed(2) }}
+                </div>
+            </div>
             <template v-for="({ label }, key) in methods">
                 <div v-if="visit.current[key]" class="flex items-baseline">
                     <Button
@@ -97,7 +126,7 @@ const methods = ref({
                 }"
             >
                 <span>Reste à payer</span>
-                <span>CHF {{ rest }}</span>
+                <span>CHF {{ rest.toFixed(2) }}</span>
             </div>
             <div class="flex gap-2">
                 <ToggleSwitch

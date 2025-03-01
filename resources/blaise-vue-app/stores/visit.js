@@ -41,6 +41,7 @@ export const useVisitStore = defineStore("visit", {
                 `/api/visits/${this.current.id}/validate`,
                 pick(
                     this.current,
+                    "rounding",
                     "cash",
                     "twint",
                     "card",
