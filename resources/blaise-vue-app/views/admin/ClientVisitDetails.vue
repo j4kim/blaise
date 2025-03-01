@@ -5,7 +5,12 @@ import { del, get, put } from "../../api";
 import Attributes from "../../components/Attributes.vue";
 import Attribute from "../../components/Attribute.vue";
 import { Button, Column, DataTable, Message } from "primevue";
-import { confirmDelete, formatDate } from "../../tools";
+import {
+    confirmDelete,
+    formatDate,
+    saleDiscountPercentage,
+    saleHasDiscount,
+} from "../../tools";
 import { useVisitStore } from "../../stores/visit";
 import VisitDateDialog from "../../dialogs/VisitDateDialog.vue";
 
@@ -76,6 +81,13 @@ async function updateVisitDate(visit_date) {
             <Column field="type" header="Type"></Column>
             <Column field="notes" header="Notes"></Column>
             <Column field="base_price" header="Prix de base"></Column>
+            <Column header="Remise">
+                <template #body="{ data }">
+                    <span v-if="saleHasDiscount(data)">
+                        {{ saleDiscountPercentage(data) }}
+                    </span>
+                </template>
+            </Column>
             <Column field="price_charged" header="Prix facturé"></Column>
         </DataTable>
 
