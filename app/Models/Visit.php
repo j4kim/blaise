@@ -32,13 +32,6 @@ class Visit extends Model
         return $this->belongsTo(Client::class);
     }
 
-    public function computeRounding($ceil = false)
-    {
-        $rounded = $ceil ? ceil($this->subtotal) : floor($this->subtotal);
-        $this->rounding = $rounded - $this->subtotal;
-        $this->save();
-    }
-
     protected function salessum(): Attribute
     {
         return new Attribute(
@@ -52,14 +45,7 @@ class Visit extends Model
     {
         return new Attribute(
             get: function () {
-                $sum = $this->salessum;
-                if ($this->voucher_payment) {
-                    $sum = $sum - $this->voucher_payment;
-                }
-                if ($this->tip) {
-                    $sum = $sum + $this->tip;
-                }
-                return $sum;
+                return $this->salessum;
             },
         );
     }
@@ -71,6 +57,9 @@ class Visit extends Model
                 $sum = $this->subtotal;
                 if ($this->rounding) {
                     $sum = $sum + $this->rounding;
+                }
+                if ($this->tip) {
+                    $sum = $sum + $this->tip;
                 }
                 return $sum;
             },

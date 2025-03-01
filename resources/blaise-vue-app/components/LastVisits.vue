@@ -74,13 +74,6 @@ function getSalesSummary(sales) {
                     </div>
                 </div>
                 <div
-                    v-if="visit.voucher_payment"
-                    class="flex justify-between mb-2 text-muted-color"
-                >
-                    <div>Paiement par bon cadeau</div>
-                    <div>CHF -{{ visit.voucher_payment }}</div>
-                </div>
-                <div
                     v-if="visit.tip"
                     class="flex justify-between mb-2 text-muted-color"
                 >

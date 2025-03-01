@@ -4,24 +4,10 @@ import { useVisitStore } from "../stores/visit";
 import { formatDate, saleDiscountPercentage, saleHasDiscount } from "../tools";
 import SaleDialog from "../dialogs/SaleDialog.vue";
 import DiscountDialog from "../dialogs/DiscountDialog.vue";
-import VoucherPaymentDialog from "../dialogs/VoucherPaymentDialog.vue";
 import VisitDateDialog from "../dialogs/VisitDateDialog.vue";
-import TipDialog from "../dialogs/TipDialog.vue";
 import PaymentDialog from "../dialogs/PaymentDialog.vue";
 
 const visit = useVisitStore();
-
-async function validate() {
-    if (visit.current.sales?.length) {
-        visit.showPaymentDialog = true;
-    } else if (
-        confirm(
-            "Ce ticket n'a pas de vente associée, voulez-vous vraiment le valider ?"
-        )
-    ) {
-        await visit.validateCurrent();
-    }
-}
 
 async function del() {
     if (
@@ -79,81 +65,7 @@ async function del() {
 
         <div class="grow"></div>
 
-        <div class="overflow-y-auto -mx-5">
-            <div
-                v-if="visit.current.voucher_payment"
-                @click="visit.showVoucherPaymentDialog = true"
-                class="cursor-pointer hover:bg-surface-200 dark:hover:bg-surface-800 px-5 py-3"
-            >
-                <div
-                    class="flex justify-between sm:text-lg xl:text-xl items-center gap-2"
-                >
-                    <div>Paiement par bon</div>
-                    <div class="whitespace-nowrap">
-                        CHF {{ visit.current.voucher_payment }}
-                    </div>
-                </div>
-            </div>
-            <div
-                v-if="visit.current.tip"
-                @click="visit.showTipDialog = true"
-                class="cursor-pointer hover:bg-surface-200 dark:hover:bg-surface-800 px-5 py-3"
-            >
-                <div
-                    class="flex justify-between sm:text-lg xl:text-xl items-center gap-2"
-                >
-                    <div>Pourboire</div>
-                    <div class="whitespace-nowrap">
-                        CHF {{ visit.current.tip }}
-                    </div>
-                </div>
-            </div>
-            <div v-if="visit.current.rounding" class="px-5 py-3">
-                <div
-                    class="flex justify-between sm:text-lg xl:text-xl items-center gap-2"
-                >
-                    <div>Arrondi</div>
-                    <Button
-                        class="-my-2"
-                        size="small"
-                        severity="secondary"
-                        icon="pi pi-minus"
-                        rounded
-                        @click="
-                            visit.current.rounding--;
-                            visit.updateCurrent();
-                        "
-                    ></Button>
-                    <Button
-                        class="-my-2"
-                        size="small"
-                        severity="secondary"
-                        icon="pi pi-plus"
-                        rounded
-                        @click="
-                            visit.current.rounding++;
-                            visit.updateCurrent();
-                        "
-                    ></Button>
-                    <div class="grow"></div>
-                    <div class="whitespace-nowrap">
-                        CHF {{ visit.current.rounding.toFixed(2) }}
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <div class="flex gap-2 justify-end flex-wrap">
-            <Button
-                v-if="!visit.current.tip"
-                @click="visit.addTip"
-                label="Pourboire"
-                type="button"
-                size="small"
-                icon="pi pi-wallet"
-                severity="secondary"
-                variant="outlined"
-            />
             <Button
                 @click="visit.showDiscountDialog = true"
                 :disabled="!visit.current.sales?.length"
@@ -164,34 +76,28 @@ async function del() {
                 severity="secondary"
                 variant="outlined"
             />
-            <Button
-                v-if="!visit.current.voucher_payment"
-                @click="visit.addVoucherPayment"
-                label="Paiement par bon"
-                type="button"
-                size="small"
-                icon="pi pi-gift"
-                severity="secondary"
-                variant="outlined"
-            />
         </div>
 
         <div class="flex justify-between text-3xl gap-2 flex-wrap">
             <div>Total</div>
             <div class="whitespace-nowrap">
-                CHF {{ visit.current.total ?? 0 }}
+                CHF {{ (visit.current.subtotal ?? 0).toFixed(2) }}
             </div>
         </div>
 
-        <Button @click="validate" size="large">Valider</Button>
+        <Button
+            @click="visit.showPaymentDialog = true"
+            :disabled="!visit.current.sales?.length"
+            size="large"
+        >
+            Vers paiement
+        </Button>
         <Button @click="del" variant="text" severity="secondary" size="small">
             Annuler
         </Button>
 
         <SaleDialog />
         <DiscountDialog />
-        <TipDialog />
-        <VoucherPaymentDialog />
         <VisitDateDialog
             v-model:visible="visit.showDateDialog"
             :value="visit.current.visit_date"

@@ -143,6 +143,7 @@ const buttons = [
                             ['Cash', 'cash'],
                             ['Carte', 'card'],
                             ['Twint', 'twint'],
+                            ['Bon', 'voucher_payment'],
                         ]"
                     />
                 </div>

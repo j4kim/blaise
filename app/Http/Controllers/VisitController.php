@@ -39,24 +39,23 @@ class VisitController extends Controller
             $current->sales()->save($sale->replicate(['visit_id']));
         }
         $current->load('sales');
-        $current->computeRounding();
-        return $current->append('total');
+        return $current->append('subtotal');
     }
 
     public function update(Visit $visit, Request $request)
     {
-        $visit->forceFill(
-            $request->only(['voucher_payment', 'visit_date', 'rounding', 'tip'])
-        )->save();
-        return $visit->load('sales')->append('total');
+        $visit->visit_date = $request->visit_date;
+        $visit->save();
+        return $visit->load('sales')->append('subtotal');
     }
 
     public function validate(Visit $visit, Request $request)
     {
+        $visit->forceFill($request->except([
+            "email_changed",
+            "client_email",
+        ]));
         $visit->billed = $visit->total;
-        $visit->cash = $request->cash;
-        $visit->twint = $request->twint;
-        $visit->card = $request->card;
         $visit->save();
         $visit->client()->touch();
         $visit->sales()->where('type', 'article')->with('article')->each(function (Sale $sale) {
@@ -89,7 +88,7 @@ class VisitController extends Controller
             'service_id' => $service->id,
             'label' => $service->label,
         ]);
-        return $visit->load('sales')->append('total');
+        return $visit->load('sales')->append('subtotal');
     }
 
     public function addArticle(Visit $visit, Article $article)
@@ -102,7 +101,7 @@ class VisitController extends Controller
             'article_id' => $article->id,
             'label' => $article->label,
         ]);
-        return $visit->load('sales')->append('total');
+        return $visit->load('sales')->append('subtotal');
     }
 
     public function addSale(Visit $visit, Request $request)
@@ -113,7 +112,7 @@ class VisitController extends Controller
             'label' => $request->label,
         ]);
         return [
-            'visit' => $visit->load('sales')->append('total'),
+            'visit' => $visit->load('sales')->append('subtotal'),
             'sale' => $sale,
         ];
     }
@@ -130,8 +129,7 @@ class VisitController extends Controller
         }
         $sale->save();
         $visit->load('sales');
-        $visit->computeRounding();
-        return $visit->append('total');
+        return $visit->append('subtotal');
     }
 
     public function addDiscount(Visit $visit, Request $request)
@@ -146,23 +144,21 @@ class VisitController extends Controller
             $sale->price_charged = $bp - ($discount * $bp);
             $sale->save();
         }
-        $visit->computeRounding($discount > 0);
-        return $visit->append('total');
+        return $visit->append('subtotal');
     }
 
     public function deleteSale(Visit $visit, Sale $sale)
     {
         $sale->forceDelete();
         $visit->load('sales');
-        $visit->computeRounding();
-        return $visit->append('total');
+        return $visit->append('subtotal');
     }
 
     // admin
 
     public function show(Visit $visit)
     {
-        return $visit->load('sales')->append('total');
+        return $visit->load('sales')->append('subtotal');
     }
 
     public function cancel(Visit $visit)
@@ -174,6 +170,6 @@ class VisitController extends Controller
         });
         $visit->sales()->delete();
         $visit->delete();
-        return $visit->load('sales')->append('total');
+        return $visit->load('sales')->append('subtotal');
     }
 }

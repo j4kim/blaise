@@ -79,7 +79,7 @@ const discount = computed({
                 />
                 <label for="price_charged">Prix facturé</label>
             </FloatLabel>
-            <FloatLabel variant="on">
+            <FloatLabel variant="on" v-if="visit.selectedSale.base_price">
                 <InputNumber
                     v-model="discount"
                     id="discount"
