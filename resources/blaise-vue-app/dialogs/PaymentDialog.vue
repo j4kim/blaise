@@ -18,7 +18,8 @@ const paid = computed(
     () =>
         (visit.current.cash ?? 0) +
         (visit.current.twint ?? 0) +
-        (visit.current.card ?? 0)
+        (visit.current.card ?? 0) +
+        (visit.current.voucher_payment ?? 0)
 );
 
 const rest = computed(() =>
@@ -46,6 +47,7 @@ const methods = ref({
     cash: { label: "Cash", icon: "pi pi-money-bill" },
     card: { label: "Carte", icon: "pi pi-credit-card" },
     twint: { label: "Twint", icon: "pi pi-mobile" },
+    voucher_payment: { label: "Bon", icon: "pi pi-gift" },
 });
 </script>
 
@@ -55,7 +57,6 @@ const methods = ref({
         modal
         dismissableMask
         header="Paiement"
-        class="max-w-full w-96"
     >
         <form
             class="flex flex-col gap-6"
@@ -105,6 +106,7 @@ const methods = ref({
                             locale="fr-CH"
                             showButtons
                             fluid
+                            :step="key === 'voucher_payment' ? 10 : 1"
                         />
                         <label :for="`input-${key}`">{{ label }}</label>
                     </FloatLabel>
@@ -113,7 +115,10 @@ const methods = ref({
             <div class="flex flex-wrap gap-2">
                 <Button
                     v-for="({ label, icon }, key) in methods"
-                    @click="visit.current[key] = rest"
+                    @click="
+                        visit.current[key] =
+                            key === 'voucher_payment' ? 50 : rest
+                    "
                     :label="label"
                     rounded
                     :disabled="visit.current[key] || rest === 0"

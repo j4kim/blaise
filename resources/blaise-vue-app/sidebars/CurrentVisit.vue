@@ -4,7 +4,6 @@ import { useVisitStore } from "../stores/visit";
 import { formatDate, saleDiscountPercentage, saleHasDiscount } from "../tools";
 import SaleDialog from "../dialogs/SaleDialog.vue";
 import DiscountDialog from "../dialogs/DiscountDialog.vue";
-import VoucherPaymentDialog from "../dialogs/VoucherPaymentDialog.vue";
 import VisitDateDialog from "../dialogs/VisitDateDialog.vue";
 import TipDialog from "../dialogs/TipDialog.vue";
 import PaymentDialog from "../dialogs/PaymentDialog.vue";
@@ -81,20 +80,6 @@ async function del() {
 
         <div class="overflow-y-auto -mx-5">
             <div
-                v-if="visit.current.voucher_payment"
-                @click="visit.showVoucherPaymentDialog = true"
-                class="cursor-pointer hover:bg-surface-200 dark:hover:bg-surface-800 px-5 py-3"
-            >
-                <div
-                    class="flex justify-between sm:text-lg xl:text-xl items-center gap-2"
-                >
-                    <div>Paiement par bon</div>
-                    <div class="whitespace-nowrap">
-                        CHF {{ visit.current.voucher_payment }}
-                    </div>
-                </div>
-            </div>
-            <div
                 v-if="visit.current.tip"
                 @click="visit.showTipDialog = true"
                 class="cursor-pointer hover:bg-surface-200 dark:hover:bg-surface-800 px-5 py-3"
@@ -131,16 +116,6 @@ async function del() {
                 severity="secondary"
                 variant="outlined"
             />
-            <Button
-                v-if="!visit.current.voucher_payment"
-                @click="visit.addVoucherPayment"
-                label="Paiement par bon"
-                type="button"
-                size="small"
-                icon="pi pi-gift"
-                severity="secondary"
-                variant="outlined"
-            />
         </div>
 
         <div class="flex justify-between text-3xl gap-2 flex-wrap">
@@ -158,7 +133,6 @@ async function del() {
         <SaleDialog />
         <DiscountDialog />
         <TipDialog />
-        <VoucherPaymentDialog />
         <VisitDateDialog
             v-model:visible="visit.showDateDialog"
             :value="visit.current.visit_date"

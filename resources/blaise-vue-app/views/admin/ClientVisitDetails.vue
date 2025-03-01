@@ -94,11 +94,6 @@ async function updateVisitDate(visit_date) {
         <Attributes class="my-4">
             <template #extra>
                 <Attribute
-                    v-if="state.visit.voucher_payment"
-                    label="Paiement par bon"
-                    :value="`CHF -${state.visit.voucher_payment}`"
-                />
-                <Attribute
                     v-if="state.visit.tip"
                     label="Pourboire"
                     :value="`CHF ${state.visit.tip}`"
@@ -131,6 +126,11 @@ async function updateVisitDate(visit_date) {
                     v-if="state.visit.twint"
                     label="Paiement par twint"
                     :value="`CHF ${state.visit.twint}`"
+                />
+                <Attribute
+                    v-if="state.visit.voucher_payment"
+                    label="Paiement par bon"
+                    :value="`CHF ${state.visit.voucher_payment}`"
                 />
             </template>
         </Attributes>

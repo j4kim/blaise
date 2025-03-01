@@ -12,7 +12,6 @@ export const useVisitStore = defineStore("visit", {
         showSaleDialog: false,
         selectedSale: null,
         showDiscountDialog: false,
-        showVoucherPaymentDialog: false,
         showDateDialog: false,
         showTipDialog: false,
         showPaymentDialog: false,
@@ -115,7 +114,6 @@ export const useVisitStore = defineStore("visit", {
             if (!response.ok) return;
             this.current = data;
             this.showDiscountDialog = false;
-            this.showVoucherPaymentDialog = false;
             this.showTipDialog = false;
         },
         async addTip() {
@@ -127,16 +125,6 @@ export const useVisitStore = defineStore("visit", {
             this.current.tip = null;
             await this.updateCurrent();
             this.showTipDialog = false;
-        },
-        async addVoucherPayment() {
-            this.current.voucher_payment = 50;
-            await this.updateCurrent();
-            this.showVoucherPaymentDialog = true;
-        },
-        async removeVoucherPayment() {
-            this.current.voucher_payment = null;
-            await this.updateCurrent();
-            this.showVoucherPaymentDialog = false;
         },
         async updateVisitDate(visitDate) {
             this.current.visit_date = visitDate;
