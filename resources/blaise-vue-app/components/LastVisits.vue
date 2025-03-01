@@ -5,6 +5,7 @@ import {
     AccordionHeader,
     AccordionPanel,
     Button,
+    Chip,
 } from "primevue";
 import { ref } from "vue";
 import { RouterLink } from "vue-router";
@@ -51,26 +52,37 @@ function getSalesSummary(sales) {
             <AccordionContent>
                 <div
                     v-for="sale in visit.sales"
-                    class="flex justify-between mb-2"
+                    class="flex justify-between mb-2 gap-1 flex-wrap"
                 >
-                    <div>
+                    <div class="grow">
                         {{ sale.label }}
                         <span class="text-muted-color" v-if="sale.notes">
                             ({{ sale.notes }})
                         </span>
                     </div>
-                    <div>
-                        CHF
-                        <span
+                    <div class="grow flex gap-2 items-center justify-end">
+                        <template
                             v-if="
                                 sale.base_price &&
                                 sale.price_charged != sale.base_price
                             "
-                            class="line-through text-muted-color"
                         >
-                            {{ sale.base_price }}
-                        </span>
-                        {{ sale.price_charged }}
+                            <span class="line-through text-muted-color">
+                                CHF {{ sale.base_price }}
+                            </span>
+                            <Chip class="text-sm !px-3 !py-1 whitespace-nowrap">
+                                {{
+                                    Math.round(
+                                        -100 *
+                                            ((sale.base_price -
+                                                sale.price_charged) /
+                                                sale.base_price)
+                                    )
+                                }}
+                                %
+                            </Chip>
+                        </template>
+                        <span> CHF {{ sale.price_charged.toFixed(2) }} </span>
                     </div>
                 </div>
                 <div
