@@ -56,7 +56,7 @@ const store = useServicesStore();
                                 () => store.deleteCategory(data.id)
                             )
                         "
-                        :disabled="data.id === 4"
+                        :disabled="data.options?.preventDelete"
                     />
                 </template>
             </Column>

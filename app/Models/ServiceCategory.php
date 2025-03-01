@@ -10,6 +10,13 @@ class ServiceCategory extends Model
 {
     use SoftDeletes;
 
+    protected function casts(): array
+    {
+        return [
+            'options' => 'array',
+        ];
+    }
+
     public function services(): HasMany
     {
         return $this->hasMany(Service::class)->withCount('sales')->orderBy("sort_order");
