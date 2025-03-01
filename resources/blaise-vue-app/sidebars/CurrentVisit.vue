@@ -10,18 +10,6 @@ import PaymentDialog from "../dialogs/PaymentDialog.vue";
 
 const visit = useVisitStore();
 
-async function validate() {
-    if (visit.current.sales?.length) {
-        visit.showPaymentDialog = true;
-    } else if (
-        confirm(
-            "Ce ticket n'a pas de vente associée, voulez-vous vraiment le valider ?"
-        )
-    ) {
-        await visit.validateCurrent();
-    }
-}
-
 async function del() {
     if (
         !visit.current.sales?.length ||
@@ -125,7 +113,13 @@ async function del() {
             </div>
         </div>
 
-        <Button @click="validate" size="large">Valider</Button>
+        <Button
+            @click="visit.showPaymentDialog = true"
+            :disabled="!visit.current.sales?.length"
+            size="large"
+        >
+            Vers paiement
+        </Button>
         <Button @click="del" variant="text" severity="secondary" size="small">
             Annuler
         </Button>
