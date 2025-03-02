@@ -195,6 +195,7 @@ class VisitController extends Controller
         });
         $visit->sales()->delete();
         $visit->delete();
+        $visit->technicalSheet()->delete();
         return $visit->load('sales', 'technicalSheet')->append('subtotal');
     }
 }
