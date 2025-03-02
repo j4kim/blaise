@@ -30,6 +30,11 @@ function openEditDialog() {
 
 <template>
     <div class="py-2 px-3">
+        <h2 class="text-xl font-extralight mb-4">
+            Coordonnées
+            <span v-if="store.client.gender === 0"> de la cliente </span>
+            <span v-else-if="store.client.gender === 1"> du client </span>
+        </h2>
         <ClientDetails :client="store.client"></ClientDetails>
         <div class="flex justify-end gap-2 mt-4">
             <Button

@@ -49,6 +49,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/admin/clients/{client}', [ClientController::class, 'details'])->withTrashed()->name('clients.details');
     Route::delete('/admin/clients/{client}', [ClientController::class, 'delete'])->withTrashed()->name('clients.delete');
     Route::get('/admin/clients/{client}/visits', [ClientController::class, 'visits'])->name('clients.visits');
+    Route::get('/admin/clients/{client}/sheets', [ClientController::class, 'sheets'])->name('clients.sheets');
 
     Route::get('/admin/visits/{visit}', [VisitController::class, 'show'])->withTrashed()->name('visits.show');
     Route::delete('/admin/visits/{visit}/cancel', [VisitController::class, 'cancel'])->name('visits.cancel');

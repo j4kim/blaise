@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
+use App\Models\TechnicalSheet;
 use App\Models\Visit;
 use Illuminate\Http\Request;
 
@@ -71,6 +72,13 @@ class ClientController extends Controller
             ->withTrashed()
             ->whereNotNull('billed')
             ->orderBy('visit_date', 'desc')
+            ->get();
+    }
+
+    public function sheets(int $client)
+    {
+        return TechnicalSheet::where('client_id', $client)
+            ->orderBy('created_at', 'desc')
             ->get();
     }
 

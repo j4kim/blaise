@@ -15,6 +15,7 @@ store.fetchClient(route.params.clientId);
 const tabRoutes = {
     clientData: `/admin/clients/${route.params.clientId}`,
     clientVisits: `/admin/clients/${route.params.clientId}/visits`,
+    clientSheets: `/admin/clients/${route.params.clientId}/sheets`,
 };
 
 const tab = computed({
@@ -63,6 +64,7 @@ const tab = computed({
             <TabList>
                 <Tab value="clientData"> Coordonnées </Tab>
                 <Tab value="clientVisits"> Visites </Tab>
+                <Tab value="clientSheets"> Fiches techniques </Tab>
             </TabList>
         </Tabs>
         <RouterView class="mt-4" />
