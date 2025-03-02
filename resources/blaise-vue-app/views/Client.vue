@@ -106,7 +106,10 @@ onBeforeRouteLeave(() => (visit.current = null));
                 ></i>
                 Fiches techniques
             </h5>
-            <LastTechnicalSheets v-if="client.showTechnicalSheets" />
+            <LastTechnicalSheets
+                v-if="client.showTechnicalSheets"
+                :client="client.selected"
+            />
         </div>
 
         <RouterView class="mb-6 md:mb-8" v-if="visit.current" />

@@ -1,28 +1,50 @@
 <script setup>
-import { Button, Column, DataTable } from "primevue";
+import {
+    Accordion,
+    AccordionContent,
+    AccordionHeader,
+    AccordionPanel,
+    Button,
+} from "primevue";
 import { RouterLink } from "vue-router";
 import { formatDate } from "../tools";
-import { useClientStore } from "../stores/client";
+import { ref } from "vue";
 
-const client = useClientStore();
+defineProps({
+    client: Object,
+});
+
+const selected = ref(null);
 </script>
 
 <template>
-    <DataTable :value="client.selected.last_technical_sheets" size="small">
-        <template #empty> Aucune fiche technique </template>
-        <Column field="created_at" header="Date de création">
-            <template #body="{ data }">
-                {{ formatDate(data.created_at) }}
-            </template>
-        </Column>
-        <Column field="notes" header="Notes"></Column>
-    </DataTable>
+    <Accordion v-model:value="selected" expand-icon=" " collapse-icon=" ">
+        <AccordionPanel
+            v-for="sheet in client.last_technical_sheets"
+            :key="sheet.id"
+            :value="sheet.id"
+        >
+            <AccordionHeader>
+                <div class="flex justify-between w-full">
+                    <div class="w-28 shrink-0">
+                        {{ formatDate(sheet.created_at) }}
+                    </div>
+                    <div class="w-full truncate" v-if="sheet.id != selected">
+                        {{ sheet.notes }}
+                    </div>
+                </div>
+            </AccordionHeader>
+            <AccordionContent class="whitespace-pre-line">
+                {{ sheet.notes }}
+            </AccordionContent>
+        </AccordionPanel>
+    </Accordion>
     <RouterLink
-        v-if="client.selected.technical_sheets_count > 5"
-        :to="`/admin/clients/${client.selected.id}/sheets`"
+        v-if="client.technical_sheets_count > 5"
+        :to="`/admin/clients/${client.id}/sheets`"
     >
         <Button
-            :label="`Voir toutes les fiches techniques (${client.selected.technical_sheets_count})`"
+            :label="`Voir toutes les fiches techniques (${client.technical_sheets_count})`"
             size="small"
             variant="text"
             severity="secondary"
