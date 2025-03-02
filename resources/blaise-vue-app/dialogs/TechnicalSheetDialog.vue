@@ -25,8 +25,14 @@ function save() {
         header="Fiche technique"
         class="max-w-full w-96"
     >
-        <div class="flex flex-col gap-6">
-            <Textarea v-model="notes" rows="3" autofocus placeholder="notes" />
+        <form class="flex flex-col gap-6" @submit.prevent="save">
+            <Textarea
+                v-model="notes"
+                rows="3"
+                autofocus
+                placeholder="Notes"
+                required
+            />
             <div class="flex justify-between">
                 <Button
                     type="button"
@@ -36,8 +42,8 @@ function save() {
                     variant="outlined"
                     @click="visit.deleteTechnicalSheet"
                 ></Button>
-                <Button type="button" label="Sauver" @click="save"></Button>
+                <Button type="submit" label="Sauver"></Button>
             </div>
-        </div>
+        </form>
     </Dialog>
 </template>
