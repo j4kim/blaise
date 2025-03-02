@@ -10,6 +10,7 @@ import { Button } from "primevue";
 import { useVisitStore } from "../stores/visit";
 import { useClientStore } from "../stores/client";
 import ClientDetails from "../components/ClientDetails.vue";
+import LastTechnicalSheets from "../components/LastTechnicalSheets.vue";
 
 const route = useRoute();
 
@@ -105,7 +106,7 @@ onBeforeRouteLeave(() => (visit.current = null));
                 ></i>
                 Fiches techniques
             </h5>
-            <div v-if="client.showTechnicalSheets">Fiches techniques ici</div>
+            <LastTechnicalSheets v-if="client.showTechnicalSheets" />
         </div>
 
         <RouterView class="mb-6 md:mb-8" v-if="visit.current" />

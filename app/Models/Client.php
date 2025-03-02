@@ -24,6 +24,16 @@ class Client extends Model
         return $this->visits()->orderBy('visit_date', 'desc')->take(5);
     }
 
+    public function technicalSheets(): HasMany
+    {
+        return $this->hasMany(TechnicalSheet::class);
+    }
+
+    public function lastTechnicalSheets(): HasMany
+    {
+        return $this->technicalSheets()->orderBy('created_at', 'desc')->take(5);
+    }
+
     public function title(): Attribute
     {
         return new Attribute(
