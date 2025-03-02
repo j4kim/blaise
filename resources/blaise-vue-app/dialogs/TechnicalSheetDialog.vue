@@ -34,7 +34,7 @@ function save() {
                     severity="danger"
                     icon="pi pi-trash"
                     variant="outlined"
-                    @click="visit.removeTechnicalSheet"
+                    @click="visit.deleteTechnicalSheet"
                 ></Button>
                 <Button type="button" label="Sauver" @click="save"></Button>
             </div>

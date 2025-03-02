@@ -140,5 +140,13 @@ export const useVisitStore = defineStore("visit", {
             this.current = data;
             this.showTechnicalSheetDialog = false;
         },
+        async deleteTechnicalSheet() {
+            const { response, data } = await del(
+                `/api/visits/${this.current.id}/technical-sheet`
+            );
+            if (!response.ok) return;
+            this.current = data;
+            this.showTechnicalSheetDialog = false;
+        },
     },
 });

@@ -169,6 +169,12 @@ class VisitController extends Controller
         return $visit->load('sales')->append('subtotal');
     }
 
+    public function deleteTechnicalSheet(Visit $visit)
+    {
+        $visit->technicalSheet()->forceDelete();
+        return $visit->load('sales')->append('subtotal');
+    }
+
     // admin
 
     public function show(Visit $visit)

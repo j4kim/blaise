@@ -38,6 +38,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/visits/{visit}/sale/{sale}', [VisitController::class, 'deleteSale'])->name('visits.deleteSale');
     Route::post('/visits/{visit}/sale', [VisitController::class, 'addSale'])->name('visits.addSale');
     Route::put('/visits/{visit}/technical-sheet', [VisitController::class, 'updateTechnicalSheet'])->name('visits.updateTechnicalSheet');
+    Route::delete('/visits/{visit}/technical-sheet', [VisitController::class, 'deleteTechnicalSheet'])->name('visits.deleteTechnicalSheet');
 
     Route::get('/articles', [ArticleController::class, 'index'])->name('articles.index');
 
