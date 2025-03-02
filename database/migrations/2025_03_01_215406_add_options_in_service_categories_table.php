@@ -16,9 +16,9 @@ return new class extends Migration
             $table->json("options")->nullable();
         });
 
-        $coloration = ServiceCategory::find(4);
-        $coloration->options = ['preventDelete' => true, 'proposePreviousSales' => true, 'forceNote' => true];
-        $coloration->save();
+        ServiceCategory::where('id', 4)->update([
+            'options' => ['preventDelete' => true, 'forceTechnicalSheet' => true]
+        ]);
     }
 
     /**
