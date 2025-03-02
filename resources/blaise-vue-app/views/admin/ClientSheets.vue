@@ -42,7 +42,12 @@ fetchSheets(route.params.clientId);
                     {{ formatDate(data.created_at) }}
                 </template>
             </Column>
-            <Column field="notes" header="Notes" sortable> </Column>
+            <Column
+                field="notes"
+                header="Notes"
+                sortable
+                bodyClass="whitespace-pre-line"
+            ></Column>
             <Column field="visit_id" header="ID visite" sortable>
                 <template #body="{ data }">
                     <RouterLink
