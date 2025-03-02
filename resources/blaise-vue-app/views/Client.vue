@@ -71,7 +71,7 @@ onBeforeRouteLeave(() => (visit.current = null));
             ></ClientDetails>
         </div>
 
-        <div>
+        <div v-if="client.selected.visits_count > 0">
             <h5
                 class="inline-block cursor-pointer hover:text-color"
                 @click="client.showLastVisits = !client.showLastVisits"
@@ -92,7 +92,7 @@ onBeforeRouteLeave(() => (visit.current = null));
             ></LastVisits>
         </div>
 
-        <div>
+        <div v-if="client.selected.technical_sheets_count > 0">
             <h5
                 class="inline-block cursor-pointer hover:text-color"
                 @click="
