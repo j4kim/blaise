@@ -11,7 +11,7 @@ class ClientController extends Controller
 {
     public function show(Client $client)
     {
-        $client->load('lastVisits.sales')->append('title');
+        $client->loadCount('visits')->load('lastVisits.sales')->append('title');
         return [
             ...$client->toArray(),
             'currentVisit' => $client->getCurrentVisit(),

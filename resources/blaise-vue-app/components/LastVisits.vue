@@ -109,4 +109,16 @@ function getSalesSummary(sales) {
             </AccordionContent>
         </AccordionPanel>
     </Accordion>
+    <RouterLink
+        v-if="client.visits_count > 5"
+        :to="`/admin/clients/${client.id}/visits`"
+    >
+        <Button
+            :label="`Voir toutes les visites (${client.visits_count})`"
+            size="small"
+            variant="text"
+            severity="secondary"
+            class="mt-2"
+        ></Button>
+    </RouterLink>
 </template>
