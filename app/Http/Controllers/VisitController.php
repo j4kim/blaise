@@ -158,7 +158,7 @@ class VisitController extends Controller
 
     public function show(Visit $visit)
     {
-        return $visit->load('sales')->append('subtotal');
+        return $visit->load('sales', 'technicalSheet')->append('subtotal');
     }
 
     public function cancel(Visit $visit)
@@ -170,6 +170,6 @@ class VisitController extends Controller
         });
         $visit->sales()->delete();
         $visit->delete();
-        return $visit->load('sales')->append('subtotal');
+        return $visit->load('sales', 'technicalSheet')->append('subtotal');
     }
 }

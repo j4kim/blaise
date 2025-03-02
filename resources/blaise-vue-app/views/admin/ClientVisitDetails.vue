@@ -135,6 +135,13 @@ async function updateVisitDate(visit_date) {
             </template>
         </Attributes>
 
+        <Attribute
+            v-if="state.visit.technical_sheet"
+            label="Fiche technique"
+            class="whitespace-pre-line"
+            :value="state.visit.technical_sheet.notes"
+        />
+
         <div class="flex justify-end flex-wrap gap-2 mt-4">
             <Button
                 :disabled="!!state.visit.deleted_at"
