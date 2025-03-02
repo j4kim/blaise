@@ -45,8 +45,7 @@ class ClientController extends Controller
 
     public function previousSales(int $client, int $category)
     {
-        return Sale::whereRelation('service', 'service_category_id', $category)
-            ->whereRelation('visit', 'client_id', $client)
+        return Sale::clientCategorySales($client, $category)
             ->with('service', 'visit')
             ->latest()
             ->take(5)
