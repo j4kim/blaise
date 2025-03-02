@@ -4,6 +4,7 @@ import { useRoute, useRouter } from "vue-router";
 import { computed } from "vue";
 import { useVisitStore } from "../stores/visit";
 import { useServicesStore } from "../stores/services";
+import PreviousSales from "../components/PreviousSales.vue";
 
 const store = useServicesStore();
 const visit = useVisitStore();
@@ -23,6 +24,10 @@ async function add(service) {
 
 <template>
     <div v-if="category">
+        <PreviousSales
+            v-if="category.options?.proposePreviousSales"
+            :category
+        />
         <h5 class="mb-2">Ajouter {{ category.label }}</h5>
         <div class="flex gap-3 flex-col">
             <Button

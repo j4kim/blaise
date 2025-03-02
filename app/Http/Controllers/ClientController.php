@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
+use App\Models\Sale;
+use App\Models\ServiceCategory;
 use App\Models\Visit;
 use Illuminate\Http\Request;
 
@@ -39,6 +41,15 @@ class ClientController extends Controller
             'first_name' => ucfirst($exploded[0]),
             'last_name' => @ucfirst($exploded[1]),
         ]);
+    }
+
+    public function previousSales(int $client, int $category)
+    {
+        return Sale::clientCategorySales($client, $category)
+            ->with('service', 'visit')
+            ->latest()
+            ->take(5)
+            ->get();
     }
 
     // Admin routes
