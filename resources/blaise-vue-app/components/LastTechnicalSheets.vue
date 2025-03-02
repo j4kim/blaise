@@ -9,10 +9,13 @@ import {
 import { RouterLink } from "vue-router";
 import { formatDate } from "../tools";
 import { ref } from "vue";
+import { useVisitStore } from "../stores/visit";
 
 defineProps({
     client: Object,
 });
+
+const visitStore = useVisitStore();
 
 const selected = ref(null);
 </script>
@@ -38,8 +41,21 @@ const selected = ref(null);
                         </div>
                     </div>
                 </AccordionHeader>
-                <AccordionContent class="whitespace-pre-line">
-                    {{ sheet.notes }}
+                <AccordionContent>
+                    <div class="whitespace-pre-line">
+                        {{ sheet.notes }}
+                    </div>
+                    <div class="text-center mt-1" v-if="visitStore.current">
+                        <Button
+                            label="Copier dans le ticket en cours"
+                            size="small"
+                            variant="text"
+                            severity="secondary"
+                            @click="
+                                visitStore.updateTechnicalSheet(sheet.notes)
+                            "
+                        ></Button>
+                    </div>
                 </AccordionContent>
             </AccordionPanel>
         </Accordion>
