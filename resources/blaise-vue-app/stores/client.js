@@ -8,6 +8,7 @@ export const useClientStore = defineStore("client", {
         showDetails: false,
         showLastVisits: false,
         edited: {},
+        previousSales: {},
     }),
 
     actions: {
