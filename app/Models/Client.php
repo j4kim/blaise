@@ -14,9 +14,14 @@ class Client extends Model
     use SoftDeletes;
     use HasFactory;
 
+    public function allVisits(): HasMany
+    {
+        return $this->hasMany(Visit::class);
+    }
+
     public function visits(): HasMany
     {
-        return $this->hasMany(Visit::class)->whereNotNull('billed');
+        return $this->allVisits()->whereNotNull('billed');
     }
 
     public function lastVisits(): HasMany
@@ -57,7 +62,7 @@ class Client extends Model
 
     public function getCurrentVisit(): ?Visit
     {
-        return $this->visits()->with('sales')->whereNull('billed')->first()?->append('subtotal');
+        return $this->allVisits()->with('sales')->whereNull('billed')->first()?->append('subtotal');
     }
 
     public function scopeSearch(Builder $builder, string $query)
