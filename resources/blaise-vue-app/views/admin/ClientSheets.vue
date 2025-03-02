@@ -1,8 +1,8 @@
 <script setup>
 import { reactive } from "vue";
-import { useRoute } from "vue-router";
+import { RouterLink, useRoute } from "vue-router";
 import { get } from "../../api";
-import { Column, DataTable } from "primevue";
+import { Button, Column, DataTable } from "primevue";
 import { formatDate } from "../../tools";
 
 const route = useRoute();
@@ -25,17 +25,11 @@ fetchSheets(route.params.clientId);
             :value="state.sheets"
             paginator
             :rows="10"
-            @row-click="console.log"
-            selectionMode="single"
             paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink"
             currentPageReportTemplate="fiches {first} à {last} sur {totalRecords}"
             stateStorage="session"
             :stateKey="`${$route.params.clientId}-sheets`"
             :alwaysShowPaginator="false"
-            :rowClass="
-                (row) =>
-                    row.deleted_at ? '!text-muted-color line-through' : ''
-            "
         >
             <template #empty> Aucune fiche technique </template>
             <Column
@@ -49,7 +43,22 @@ fetchSheets(route.params.clientId);
                 </template>
             </Column>
             <Column field="notes" header="Notes" sortable> </Column>
-            <Column field="visit_id" header="ID visite" sortable> </Column>
+            <Column field="visit_id" header="ID visite" sortable>
+                <template #body="{ data }">
+                    <RouterLink
+                        v-if="data.visit_id"
+                        :to="`/admin/clients/${$route.params.clientId}/visits/${data.visit_id}`"
+                    >
+                        <Button
+                            class="tabular-nums"
+                            size="small"
+                            variant="text"
+                        >
+                            {{ data.visit_id }}
+                        </Button>
+                    </RouterLink>
+                </template>
+            </Column>
         </DataTable>
     </div>
 </template>
