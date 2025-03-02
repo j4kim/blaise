@@ -3,6 +3,7 @@ import { ref } from "vue";
 import { useClientStore } from "../stores/client";
 import { useVisitStore } from "../stores/visit";
 import { get } from "../api";
+import { Column, DataTable } from "primevue";
 
 const props = defineProps({
     category: Object,
@@ -26,7 +27,11 @@ fetch();
 
 <template>
     <h5>Dernières ventes {{ category.label }}</h5>
-    <div class="my-2">
-        <div v-for="sale in sales">{{ sale.label }}</div>
+    <div class="mt-1 mb-4">
+        <DataTable :value="sales" size="small">
+            <Column field="label" header="Libellé"></Column>
+            <Column field="notes" header="Notes"></Column>
+            <Column field="price_charged" header="Prix facturé"></Column>
+        </DataTable>
     </div>
 </template>
