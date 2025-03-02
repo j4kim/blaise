@@ -39,7 +39,6 @@ class VisitController extends Controller
         foreach ($originalVisit->sales as $sale) {
             $current->sales()->save($sale->replicate(['visit_id']));
         }
-        $current->load('sales');
         return $current->append('subtotal');
     }
 
@@ -47,7 +46,7 @@ class VisitController extends Controller
     {
         $visit->visit_date = $request->visit_date;
         $visit->save();
-        return $visit->load('sales')->append('subtotal');
+        return $visit->load('technicalSheet')->append('subtotal');
     }
 
     public function validate(Visit $visit, Request $request)
@@ -92,7 +91,7 @@ class VisitController extends Controller
             'service_id' => $service->id,
             'label' => $service->label,
         ]);
-        return $visit->load('sales')->append('subtotal');
+        return $visit->load('technicalSheet')->append('subtotal');
     }
 
     public function addArticle(Visit $visit, Article $article)
@@ -105,7 +104,7 @@ class VisitController extends Controller
             'article_id' => $article->id,
             'label' => $article->label,
         ]);
-        return $visit->load('sales')->append('subtotal');
+        return $visit->load('technicalSheet')->append('subtotal');
     }
 
     public function addSale(Visit $visit, Request $request)
@@ -116,7 +115,7 @@ class VisitController extends Controller
             'label' => $request->label,
         ]);
         return [
-            'visit' => $visit->load('sales')->append('subtotal'),
+            'visit' => $visit->load('technicalSheet')->append('subtotal'),
             'sale' => $sale,
         ];
     }
@@ -132,8 +131,7 @@ class VisitController extends Controller
             $sale->computeLabel();
         }
         $sale->save();
-        $visit->load('sales');
-        return $visit->append('subtotal');
+        return $visit->load('technicalSheet')->append('subtotal');
     }
 
     public function addDiscount(Visit $visit, Request $request)
@@ -148,14 +146,14 @@ class VisitController extends Controller
             $sale->price_charged = $bp - ($discount * $bp);
             $sale->save();
         }
-        return $visit->append('subtotal');
+        return $visit->load('technicalSheet')->append('subtotal');
     }
 
     public function deleteSale(Visit $visit, Sale $sale)
     {
         $sale->forceDelete();
         $visit->load('sales');
-        return $visit->append('subtotal');
+        return $visit->load('technicalSheet')->append('subtotal');
     }
 
     public function updateTechnicalSheet(Visit $visit, Request $request)
