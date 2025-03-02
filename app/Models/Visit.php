@@ -35,7 +35,7 @@ class Visit extends Model
 
     public function technicalSheet(): HasOne
     {
-        return $this->hasOne(TechnicalSheet::class);
+        return $this->hasOne(TechnicalSheet::class)->withTrashed();
     }
 
     protected function salessum(): Attribute

@@ -64,6 +64,9 @@ class VisitController extends Controller
             $art->stock = $art->stock - $sale->quantity;
             $art->save();
         });
+        if ($visit->technicalSheet()->exists()) {
+            $visit->technicalSheet->restore();
+        }
         if ($request->send_by_email) {
             if ($request->email_changed) {
                 $visit->client()->update(['email' => $request->client_email]);
@@ -162,6 +165,7 @@ class VisitController extends Controller
             $sheet = new TechnicalSheet();
             $sheet->client_id = $visit->client_id;
             $sheet->visit_id = $visit->id;
+            $sheet->deleted_at = now();
         }
         $sheet->notes = $request->notes;
         $sheet->save();
