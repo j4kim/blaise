@@ -6,6 +6,7 @@ import SaleDialog from "../dialogs/SaleDialog.vue";
 import DiscountDialog from "../dialogs/DiscountDialog.vue";
 import VisitDateDialog from "../dialogs/VisitDateDialog.vue";
 import PaymentDialog from "../dialogs/PaymentDialog.vue";
+import TechnicalSheetDialog from "../dialogs/TechnicalSheetDialog.vue";
 
 const visit = useVisitStore();
 
@@ -65,7 +66,30 @@ async function del() {
 
         <div class="grow"></div>
 
+        <div class="overflow-y-auto -mx-5">
+            <div
+                v-if="visit.current.technical_sheet"
+                @click="visit.showTechnicalSheetDialog = true"
+                class="cursor-pointer hover:bg-surface-200 dark:hover:bg-surface-800 px-5 py-3"
+            >
+                <div class="text-sm text-muted-color">Fiche technique</div>
+                <div class="whitespace-pre-line">
+                    {{ visit.current.technical_sheet.notes }}
+                </div>
+            </div>
+        </div>
+
         <div class="flex gap-2 justify-end flex-wrap">
+            <Button
+                v-if="!visit.current.technical_sheet"
+                @click="visit.showTechnicalSheetDialog = true"
+                label="Fiche technique"
+                type="button"
+                size="small"
+                icon="pi pi-file-edit"
+                severity="secondary"
+                variant="outlined"
+            />
             <Button
                 @click="visit.showDiscountDialog = true"
                 :disabled="!visit.current.sales?.length"
@@ -98,6 +122,7 @@ async function del() {
 
         <SaleDialog />
         <DiscountDialog />
+        <TechnicalSheetDialog />
         <VisitDateDialog
             v-model:visible="visit.showDateDialog"
             :value="visit.current.visit_date"
