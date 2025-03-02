@@ -38,20 +38,11 @@ class Visit extends Model
         return $this->hasOne(TechnicalSheet::class)->withTrashed();
     }
 
-    protected function salessum(): Attribute
-    {
-        return new Attribute(
-            get: function () {
-                return $this->sales->sum('price_charged');
-            },
-        );
-    }
-
     protected function subtotal(): Attribute
     {
         return new Attribute(
             get: function () {
-                return $this->salessum;
+                return $this->sales->sum('price_charged');
             },
         );
     }
