@@ -6,6 +6,7 @@ use App\Models\Article;
 use App\Models\Client;
 use App\Models\Sale;
 use App\Models\Service;
+use App\Models\TechnicalSheet;
 use App\Models\Visit;
 use Illuminate\Http\Request;
 
@@ -152,6 +153,20 @@ class VisitController extends Controller
         $sale->forceDelete();
         $visit->load('sales');
         return $visit->append('subtotal');
+    }
+
+    public function updateTechnicalSheet(Visit $visit, Request $request)
+    {
+        $sheet = $visit->technicalSheet;
+        if (!$sheet) {
+            $sheet = new TechnicalSheet();
+            $sheet->client_id = $visit->client_id;
+            $sheet->visit_id = $visit->id;
+        }
+        $sheet->notes = $request->notes;
+        $sheet->save();
+        $visit->setRelation('technicalSheet', $sheet);
+        return $visit->load('sales')->append('subtotal');
     }
 
     // admin

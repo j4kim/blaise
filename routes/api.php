@@ -37,6 +37,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/visits/{visit}/discount', [VisitController::class, 'addDiscount'])->name('visits.addDiscount');
     Route::delete('/visits/{visit}/sale/{sale}', [VisitController::class, 'deleteSale'])->name('visits.deleteSale');
     Route::post('/visits/{visit}/sale', [VisitController::class, 'addSale'])->name('visits.addSale');
+    Route::put('/visits/{visit}/technical-sheet', [VisitController::class, 'updateTechnicalSheet'])->name('visits.updateTechnicalSheet');
 
     Route::get('/articles', [ArticleController::class, 'index'])->name('articles.index');
 
