@@ -89,6 +89,25 @@ onBeforeRouteLeave(() => (visit.current = null));
             ></LastVisits>
         </div>
 
+        <div class="mb-8">
+            <h5
+                class="mb-2 inline-block cursor-pointer hover:text-color"
+                @click="
+                    client.showTechnicalSheets = !client.showTechnicalSheets
+                "
+                :class="{
+                    'text-muted-color': !client.showTechnicalSheets,
+                }"
+            >
+                <i
+                    class="pi pi-angle-right transition"
+                    :class="{ 'rotate-90': client.showTechnicalSheets }"
+                ></i>
+                Fiches techniques
+            </h5>
+            <div v-if="client.showTechnicalSheets">Fiches techniques ici</div>
+        </div>
+
         <RouterView class="mb-6 md:mb-8" v-if="visit.current" />
     </div>
 </template>
