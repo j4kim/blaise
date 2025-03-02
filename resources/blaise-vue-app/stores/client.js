@@ -29,6 +29,7 @@ export const useClientStore = defineStore("client", {
         hidePanels() {
             this.showDetails = false;
             this.showLastVisits = false;
+            this.showTechnicalSheets = false;
         },
     },
 });
