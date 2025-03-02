@@ -62,7 +62,11 @@ class Client extends Model
 
     public function getCurrentVisit(): ?Visit
     {
-        return $this->allVisits()->with('sales')->whereNull('billed')->first()?->append('subtotal');
+        return $this->allVisits()
+            ->with('sales', 'technicalSheet')
+            ->whereNull('billed')
+            ->first()
+            ?->append('subtotal');
     }
 
     public function scopeSearch(Builder $builder, string $query)
