@@ -71,7 +71,7 @@ async function updateVisitDate(visit_date) {
             </span>
         </h2>
         <div class="mb-4" v-if="state.visit.deleted_at">
-            <Message severity="warn"> Visite annulée </Message>
+            <Message severity="warn"> Ticket annulé </Message>
         </div>
 
         <div class="text-sm text-muted-color my-2">Ventes</div>
