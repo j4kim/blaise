@@ -24,6 +24,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/clients/{client}', [ClientController::class, 'update'])->withTrashed()->name('clients.update');
     Route::get('/clients/search/{query}', [ClientController::class, 'search'])->name('clients.search');
     Route::post('/clients/{query}', [ClientController::class, 'createFromQuery'])->name('clients.createFromQuery');
+    Route::get('/clients/{client}/previous-sales/{category}', [ClientController::class, 'previousSales'])->name('clients.previousSales');
 
     Route::get('/visits/currents', [VisitController::class, 'currents'])->name('visits.currents');
     Route::post('/visits/{client}', [VisitController::class, 'store'])->name('visits.store');

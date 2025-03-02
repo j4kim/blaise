@@ -20,6 +20,11 @@ class Sale extends Model
         return $this->belongsTo(Article::class);
     }
 
+    public function visit(): BelongsTo
+    {
+        return $this->belongsTo(Visit::class);
+    }
+
     public function computeLabel()
     {
         if ($this->quantity == 1) {
