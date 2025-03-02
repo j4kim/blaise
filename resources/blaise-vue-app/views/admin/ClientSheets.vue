@@ -39,7 +39,7 @@ fetchSheets(route.params.clientId);
                 bodyClass="tabular-nums"
             >
                 <template #body="{ data }">
-                    {{ formatDate(data.created_at, true) }}
+                    {{ formatDate(data.created_at) }}
                 </template>
             </Column>
             <Column field="notes" header="Notes" sortable> </Column>
