@@ -89,7 +89,7 @@ function getSalesSummary(sales) {
                 </div>
                 <div class="text-center">
                     <RouterLink
-                        :to="`/admin/clients/${visit.client_id}/visit/${visit.id}`"
+                        :to="`/admin/clients/${visit.client_id}/visits/${visit.id}`"
                     >
                         <Button
                             label="Détails"

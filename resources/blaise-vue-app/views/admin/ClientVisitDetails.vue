@@ -56,7 +56,7 @@ async function updateVisitDate(visit_date) {
     <div class="py-2 px-3" v-if="state.visit">
         <h2 class="text-xl font-extralight mb-4">
             <RouterLink
-                :to="`/admin/clients/${route.params.clientId}`"
+                :to="`/admin/clients/${route.params.clientId}/visits`"
                 class="text-muted-color hover:text-color"
             >
                 Toutes les visites
