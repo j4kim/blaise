@@ -35,7 +35,9 @@ onBeforeRouteLeave(() => (visit.current = null));
     >
         <div class="flex justify-between items-end flex-wrap gap-3">
             <div>
-                <h5 class="mb-1">{{ client.selected.title }}</h5>
+                <h5 class="mb-1">
+                    {{ client.selected.gender === 0 ? "Cliente" : "Client" }}
+                </h5>
                 <h2 class="text-3xl font-extralight">
                     {{ client.selected.first_name }}
                     {{ client.selected.last_name }}

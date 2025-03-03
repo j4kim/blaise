@@ -39,18 +39,6 @@ class Client extends Model
         return $this->technicalSheets()->orderBy('created_at', 'desc')->take(5);
     }
 
-    public function title(): Attribute
-    {
-        return new Attribute(
-            get: fn() =>
-            match ($this->gender) {
-                0 => 'Cliente',
-                1 => 'Client',
-                default => 'Client·e',
-            }
-        );
-    }
-
     protected function name(): Attribute
     {
         return new Attribute(
