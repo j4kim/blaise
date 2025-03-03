@@ -1,25 +1,17 @@
 <script setup>
-import { reactive } from "vue";
-import { useRoute, useRouter } from "vue-router";
-import { get } from "../../api";
+import { useRouter } from "vue-router";
 import { Column, DataTable } from "primevue";
 import { formatDate } from "../../tools";
+import { useAdminClientsStore } from "../../stores/admin/clients";
 
-const route = useRoute();
 const router = useRouter();
 
-const state = reactive({ visits: [] });
+const store = useAdminClientsStore();
 
-async function fetchVisits(id) {
-    const { data, response } = await get(`/api/admin/clients/${id}/visits`);
-    if (!response.ok) return;
-    state.visits = data;
-}
-
-fetchVisits(route.params.clientId);
+store.fetchVisits();
 
 function goToVisitDetails({ data }) {
-    router.push(`/admin/clients/${route.params.clientId}/visits/${data.id}`);
+    router.push(`/admin/clients/${store.client.id}/visits/${data.id}`);
 }
 </script>
 
@@ -27,7 +19,7 @@ function goToVisitDetails({ data }) {
     <div class="py-2 px-3">
         <h2 class="text-xl font-extralight mb-4">Toutes les visites</h2>
         <DataTable
-            :value="state.visits"
+            :value="store.visits"
             paginator
             :rows="10"
             @row-click="goToVisitDetails"
