@@ -153,7 +153,7 @@ export const useVisitStore = defineStore("visit", {
     getters: {
         techSheetRequired() {
             const serviceIds = useServicesStore().idsThatRequiresTechSheet;
-            return this.current?.sales.some((s) =>
+            return this.current?.sales?.some((s) =>
                 serviceIds.includes(s.service_id)
             );
         },
