@@ -55,7 +55,11 @@ function openEditDialog() {
                         store.deleteClient
                     )
                 "
-                :label="`Supprimer ${store.client.title?.toLowerCase()}`"
+                :label="
+                    store.client.gender === 0
+                        ? 'Supprimer cliente'
+                        : 'Supprimer client'
+                "
                 icon="pi pi-trash"
                 size="small"
                 variant="text"

@@ -22,9 +22,7 @@ export async function request(uri, options = {}) {
     const data = await response.json();
 
     if (response.status === 401) {
-        if (confirm("Vous êtes déconnecté, aller à la page de login ?")) {
-            router.push("/login");
-        }
+        router.push("/login");
     } else if (response.status === 419) {
         if (confirm(`Session expriée. Recharger la page ?`)) {
             location.reload();

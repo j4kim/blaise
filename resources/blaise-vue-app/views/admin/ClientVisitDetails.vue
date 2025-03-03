@@ -1,7 +1,7 @@
 <script setup>
-import { reactive } from "vue";
+import { ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { del, get, put } from "../../api";
+import { del, put } from "../../api";
 import Attributes from "../../components/Attributes.vue";
 import Attribute from "../../components/Attribute.vue";
 import { Button, Column, DataTable, Message } from "primevue";
@@ -13,47 +13,43 @@ import {
 } from "../../tools";
 import { useVisitStore } from "../../stores/visit";
 import VisitDateDialog from "../../dialogs/VisitDateDialog.vue";
+import { useAdminClientsStore } from "../../stores/admin/clients";
 
 const route = useRoute();
 const router = useRouter();
 
-const state = reactive({ visit: null, showDateDialog: false });
-
+const store = useAdminClientsStore();
 const visitStore = useVisitStore();
 
-async function fetchVisit(id) {
-    const { data, response } = await get(`/api/admin/visits/${id}`);
-    if (!response.ok) return;
-    state.visit = data;
-}
+const showDateDialog = ref(false);
 
-fetchVisit(route.params.visitId);
+store.fetchVisit(route.params.visitId);
 
 async function replicate() {
-    visitStore.replicate(state.visit.client_id, state.visit.id);
-    router.push(`/clients/${state.visit.client_id}`);
+    visitStore.replicate(store.visit.client_id, store.visit.id);
+    router.push(`/clients/${store.visit.client_id}`);
 }
 
 async function cancel() {
     const { data, response } = await del(
-        `/api/admin/visits/${state.visit.id}/cancel`
+        `/api/admin/visits/${store.visit.id}/cancel`
     );
     if (!response.ok) return;
-    state.visit = data;
+    store.visit = data;
 }
 
 async function updateVisitDate(visit_date) {
-    const { response, data } = await put(`/api/visits/${state.visit.id}`, {
+    const { response, data } = await put(`/api/visits/${store.visit.id}`, {
         visit_date,
     });
     if (!response.ok) return;
-    state.visit = data;
-    state.showDateDialog = false;
+    store.visit = data;
+    showDateDialog.value = false;
 }
 </script>
 
 <template>
-    <div class="py-2 px-3 flex flex-col gap-6" v-if="state.visit">
+    <div class="py-2 px-3 flex flex-col gap-6">
         <h2 class="text-xl font-extralight">
             <RouterLink
                 :to="`/admin/clients/${route.params.clientId}/visits`"
@@ -61,128 +57,133 @@ async function updateVisitDate(visit_date) {
             >
                 Toutes les visites
             </RouterLink>
-            <span v-if="state.visit.visit_date">
+            <span v-if="store.visit?.visit_date">
                 <i
                     class="pi pi-chevron-right text-muted-color"
                     style="font-size: 0.7rem"
                 ></i>
                 Visite du
-                {{ formatDate(state.visit.visit_date, true) }}
+                {{ formatDate(store.visit.visit_date, true) }}
             </span>
         </h2>
 
-        <Message v-if="state.visit.deleted_at" severity="warn">
-            Ticket annulé
-        </Message>
+        <template v-if="store.visit">
+            <Message v-if="store.visit.deleted_at" severity="warn">
+                Ticket annulé
+            </Message>
 
-        <div>
-            <div class="text-sm text-muted-color">Ventes</div>
-            <DataTable :value="state.visit.sales" size="small">
-                <Column field="label" header="Libellé"></Column>
-                <Column field="type" header="Type"></Column>
-                <Column field="notes" header="Notes"></Column>
-                <Column field="base_price" header="Prix de base"></Column>
-                <Column header="Remise">
-                    <template #body="{ data }">
-                        <span v-if="saleHasDiscount(data)">
-                            {{ saleDiscountPercentage(data) }}
-                        </span>
-                    </template>
-                </Column>
-                <Column field="price_charged" header="Prix facturé"></Column>
-            </DataTable>
-        </div>
+            <div>
+                <div class="text-sm text-muted-color">Ventes</div>
+                <DataTable :value="store.visit.sales" size="small">
+                    <Column field="label" header="Libellé"></Column>
+                    <Column field="type" header="Type"></Column>
+                    <Column field="notes" header="Notes"></Column>
+                    <Column field="base_price" header="Prix de base"></Column>
+                    <Column header="Remise">
+                        <template #body="{ data }">
+                            <span v-if="saleHasDiscount(data)">
+                                {{ saleDiscountPercentage(data) }}
+                            </span>
+                        </template>
+                    </Column>
+                    <Column
+                        field="price_charged"
+                        header="Prix facturé"
+                    ></Column>
+                </DataTable>
+            </div>
 
-        <Attributes>
-            <template #extra>
-                <Attribute
-                    v-if="state.visit.tip"
-                    label="Pourboire"
-                    :value="`CHF ${state.visit.tip}`"
-                />
-                <Attribute
-                    v-if="state.visit.rounding"
-                    label="Arrondi"
-                    :value="`CHF ${state.visit.rounding.toFixed(2)}`"
-                />
-                <Attribute
-                    label="Total facturé"
-                    :value="`CHF ${state.visit.billed}`"
-                />
-            </template>
-        </Attributes>
+            <Attributes>
+                <template #extra>
+                    <Attribute
+                        v-if="store.visit.tip"
+                        label="Pourboire"
+                        :value="`CHF ${store.visit.tip}`"
+                    />
+                    <Attribute
+                        v-if="store.visit.rounding"
+                        label="Arrondi"
+                        :value="`CHF ${store.visit.rounding.toFixed(2)}`"
+                    />
+                    <Attribute
+                        label="Total facturé"
+                        :value="`CHF ${store.visit.billed}`"
+                    />
+                </template>
+            </Attributes>
 
-        <Attributes>
-            <template #extra>
-                <Attribute
-                    v-if="state.visit.cash_payment"
-                    label="Paiement cash"
-                    :value="`CHF ${state.visit.cash_payment}`"
-                />
-                <Attribute
-                    v-if="state.visit.card_payment"
-                    label="Paiement par carte"
-                    :value="`CHF ${state.visit.card_payment}`"
-                />
-                <Attribute
-                    v-if="state.visit.twint_payment"
-                    label="Paiement par twint"
-                    :value="`CHF ${state.visit.twint_payment}`"
-                />
-                <Attribute
-                    v-if="state.visit.voucher_payment"
-                    label="Paiement par bon"
-                    :value="`CHF ${state.visit.voucher_payment}`"
-                />
-            </template>
-        </Attributes>
+            <Attributes>
+                <template #extra>
+                    <Attribute
+                        v-if="store.visit.cash_payment"
+                        label="Paiement cash"
+                        :value="`CHF ${store.visit.cash_payment}`"
+                    />
+                    <Attribute
+                        v-if="store.visit.card_payment"
+                        label="Paiement par carte"
+                        :value="`CHF ${store.visit.card_payment}`"
+                    />
+                    <Attribute
+                        v-if="store.visit.twint_payment"
+                        label="Paiement par twint"
+                        :value="`CHF ${store.visit.twint_payment}`"
+                    />
+                    <Attribute
+                        v-if="store.visit.voucher_payment"
+                        label="Paiement par bon"
+                        :value="`CHF ${store.visit.voucher_payment}`"
+                    />
+                </template>
+            </Attributes>
 
-        <Attribute
-            v-if="state.visit.technical_sheet"
-            label="Fiche technique"
-            class="whitespace-pre-line"
-            :value="state.visit.technical_sheet.notes"
-        />
+            <Attribute
+                v-if="store.visit.technical_sheet"
+                label="Fiche technique"
+                class="whitespace-pre-line"
+                :value="store.visit.technical_sheet.notes"
+            />
 
-        <div class="flex justify-end flex-wrap gap-2">
-            <Button
-                :disabled="!!state.visit.deleted_at"
-                @click="
-                    confirmDelete(
-                        $confirm,
-                        `Voulez-vous vraiment annuler le ticket ?`,
-                        cancel
-                    )
-                "
-                label="Annuler le ticket"
-                icon="pi pi-trash"
-                size="small"
-                variant="text"
-                severity="danger"
-            ></Button>
-            <Button
-                :disabled="!!state.visit.deleted_at"
-                @click="state.showDateDialog = true"
-                label="Modifier la date de la visite"
-                icon="pi pi-calendar"
-                size="small"
-                variant="text"
-                severity="secondary"
-            ></Button>
-            <Button
-                @click="replicate"
-                label="Récupérer dans le ticket"
-                icon="pi pi-clone"
-                size="small"
-                variant="text"
-                severity="secondary"
-            ></Button>
-        </div>
+            <div class="flex justify-end flex-wrap gap-2">
+                <Button
+                    :disabled="!!store.visit.deleted_at"
+                    @click="
+                        confirmDelete(
+                            $confirm,
+                            `Voulez-vous vraiment annuler le ticket ?`,
+                            cancel
+                        )
+                    "
+                    label="Annuler le ticket"
+                    icon="pi pi-trash"
+                    size="small"
+                    variant="text"
+                    severity="danger"
+                ></Button>
+                <Button
+                    :disabled="!!store.visit.deleted_at"
+                    @click="showDateDialog = true"
+                    label="Modifier la date de la visite"
+                    icon="pi pi-calendar"
+                    size="small"
+                    variant="text"
+                    severity="secondary"
+                ></Button>
+                <Button
+                    @click="replicate"
+                    label="Récupérer dans le ticket"
+                    icon="pi pi-clone"
+                    size="small"
+                    variant="text"
+                    severity="secondary"
+                ></Button>
+            </div>
 
-        <VisitDateDialog
-            v-model:visible="state.showDateDialog"
-            :value="state.visit.visit_date"
-            @save="updateVisitDate"
-        />
+            <VisitDateDialog
+                v-model:visible="showDateDialog"
+                :value="store.visit.visit_date"
+                @save="updateVisitDate"
+            />
+        </template>
     </div>
 </template>

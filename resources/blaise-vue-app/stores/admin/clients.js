@@ -20,6 +20,9 @@ export const useAdminClientsStore = defineStore("admin-clients", () => {
     });
 
     const client = ref(null);
+    const visits = ref([]);
+    const visit = ref(null);
+    const sheets = ref([]);
 
     const router = useRouter();
 
@@ -71,6 +74,25 @@ export const useAdminClientsStore = defineStore("admin-clients", () => {
         client.value = data;
     }
 
+    async function fetchVisits() {
+        const id = client.value.id;
+        const { data, response } = await get(`/api/admin/clients/${id}/visits`);
+        if (!response.ok) return;
+        visits.value = data;
+    }
+
+    async function fetchVisit(id) {
+        const { data, response } = await get(`/api/admin/visits/${id}`);
+        if (!response.ok) return;
+        visit.value = data;
+    }
+
+    async function fetchSheets(id) {
+        const { data, response } = await get(`/api/admin/clients/${id}/sheets`);
+        if (!response.ok) return;
+        sheets.value = data;
+    }
+
     return {
         paginator,
         loading,
@@ -79,11 +101,17 @@ export const useAdminClientsStore = defineStore("admin-clients", () => {
         showEditDialog,
         queryParams,
         client,
+        visits,
+        visit,
+        sheets,
         fetchClients,
         fetchClient,
         create,
         sort,
         save,
         deleteClient,
+        fetchVisits,
+        fetchVisit,
+        fetchSheets,
     };
 });

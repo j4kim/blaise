@@ -15,8 +15,7 @@ class ClientController extends Controller
             ->loadCount('visits')
             ->load('lastVisits.sales')
             ->loadCount('technicalSheets')
-            ->load('lastTechnicalSheets')
-            ->append('title');
+            ->load('lastTechnicalSheets');
         return [
             ...$client->toArray(),
             'currentVisit' => $client->getCurrentVisit(),
@@ -26,7 +25,7 @@ class ClientController extends Controller
     public function update(Client $client, Request $request)
     {
         $client->forceFill($request->all())->save();
-        return $client->append('title');
+        return $client;
     }
 
     public function search(Request $request, string $query)
@@ -68,7 +67,7 @@ class ClientController extends Controller
 
     public function details(Client $client)
     {
-        return $client->append('title');
+        return $client;
     }
 
     public function visits(int $client)
@@ -95,6 +94,6 @@ class ClientController extends Controller
     public function delete(Client $client)
     {
         $client->delete();
-        return $client->fresh()->append('title');
+        return $client->fresh();
     }
 }
