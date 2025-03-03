@@ -22,9 +22,9 @@ return new class extends Migration
             $table->decimal('rounding', 4, 2)->nullable();
             $table->decimal('tip', 4, 2)->nullable();
             $table->decimal('voucher_payment', 5, 2)->nullable();
-            $table->decimal('cash', 5, 2)->nullable();
-            $table->decimal('twint', 5, 2)->nullable();
-            $table->decimal('card', 5, 2)->nullable();
+            $table->decimal('cash_payment', 5, 2)->nullable();
+            $table->decimal('twint_payment', 5, 2)->nullable();
+            $table->decimal('card_payment', 5, 2)->nullable();
             $table->boolean('send_by_email')->nullable();
         });
     }

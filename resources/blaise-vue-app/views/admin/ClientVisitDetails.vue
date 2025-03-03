@@ -115,19 +115,19 @@ async function updateVisitDate(visit_date) {
         <Attributes>
             <template #extra>
                 <Attribute
-                    v-if="state.visit.cash"
+                    v-if="state.visit.cash_payment"
                     label="Paiement cash"
-                    :value="`CHF ${state.visit.cash}`"
+                    :value="`CHF ${state.visit.cash_payment}`"
                 />
                 <Attribute
-                    v-if="state.visit.card"
+                    v-if="state.visit.card_payment"
                     label="Paiement par carte"
-                    :value="`CHF ${state.visit.card}`"
+                    :value="`CHF ${state.visit.card_payment}`"
                 />
                 <Attribute
-                    v-if="state.visit.twint"
+                    v-if="state.visit.twint_payment"
                     label="Paiement par twint"
-                    :value="`CHF ${state.visit.twint}`"
+                    :value="`CHF ${state.visit.twint_payment}`"
                 />
                 <Attribute
                     v-if="state.visit.voucher_payment"

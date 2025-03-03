@@ -17,9 +17,9 @@ const client = useClientStore();
 
 const paid = computed(
     () =>
-        (visit.current.cash ?? 0) +
-        (visit.current.twint ?? 0) +
-        (visit.current.card ?? 0) +
+        (visit.current.cash_payment ?? 0) +
+        (visit.current.twint_payment ?? 0) +
+        (visit.current.card_payment ?? 0) +
         (visit.current.voucher_payment ?? 0)
 );
 
@@ -47,9 +47,9 @@ const missingEmail = computed(
 );
 
 const methods = ref({
-    cash: { label: "Cash", icon: "pi pi-money-bill" },
-    card: { label: "Carte", icon: "pi pi-credit-card" },
-    twint: { label: "Twint", icon: "pi pi-mobile" },
+    cash_payment: { label: "Cash", icon: "pi pi-money-bill" },
+    card_payment: { label: "Carte", icon: "pi pi-credit-card" },
+    twint_payment: { label: "Twint", icon: "pi pi-mobile" },
     voucher_payment: { label: "Bon", icon: "pi pi-gift" },
 });
 </script>

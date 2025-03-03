@@ -140,9 +140,9 @@ const buttons = [
                         optionValue="1"
                         :options="[
                             ['Tout', 'billed'],
-                            ['Cash', 'cash'],
-                            ['Carte', 'card'],
-                            ['Twint', 'twint'],
+                            ['Cash', 'cash_payment'],
+                            ['Carte', 'card_payment'],
+                            ['Twint', 'twint_payment'],
                             ['Bon', 'voucher_payment'],
                         ]"
                     />

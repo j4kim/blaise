@@ -39,7 +39,7 @@ class FillPaymentInVisits extends Command
         });
         $byCardVisits = Visit::whereIn('id', $byCardIds);
         $byCashVisits = Visit::whereIn('id', $byCashIds);
-        Visit::withoutTimestamps(fn() => $byCardVisits->update(['card' => DB::raw('`billed`')]));
-        Visit::withoutTimestamps(fn() => $byCashVisits->update(['cash' => DB::raw('`billed`')]));
+        Visit::withoutTimestamps(fn() => $byCardVisits->update(['card_payment' => DB::raw('`billed`')]));
+        Visit::withoutTimestamps(fn() => $byCashVisits->update(['cash_payment' => DB::raw('`billed`')]));
     }
 }
