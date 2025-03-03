@@ -12,10 +12,18 @@ import {
 import EditClientDialog from "../../dialogs/EditClientDialog.vue";
 import { useAdminClientsStore } from "../../stores/admin/clients";
 import { formatDate } from "../../tools";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 
 const store = useAdminClientsStore();
 
 store.fetchClients();
+
+function goToClient({ data }) {
+    store.client = data;
+    router.push(`/admin/clients/${data.id}`);
+}
 </script>
 
 <template>
@@ -75,7 +83,7 @@ store.fetchClients();
             :rowClass="(row) => (row.deleted_at ? '!text-muted-color' : '')"
             lazy
             @sort="store.sort"
-            @row-click="({ data }) => $router.push(`/admin/clients/${data.id}`)"
+            @row-click="goToClient"
             selectionMode="single"
             sortField="updated_at"
             :sortOrder="-1"
