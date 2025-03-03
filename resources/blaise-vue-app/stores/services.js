@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { ref, toRaw } from "vue";
+import { computed, ref, toRaw } from "vue";
 import { del, get, post, put } from "../api";
 import { pick } from "../tools";
 
@@ -80,6 +80,13 @@ export const useServicesStore = defineStore("services", () => {
         await fetch();
     }
 
+    const idsThatRequiresTechSheet = computed(() =>
+        categories.value
+            .filter((c) => c.options?.forceTechnicalSheet)
+            .flatMap((c) => c.services)
+            .map((s) => s.id)
+    );
+
     return {
         categories,
         expandedRows,
@@ -97,5 +104,6 @@ export const useServicesStore = defineStore("services", () => {
         updateService,
         deleteService,
         createService,
+        idsThatRequiresTechSheet,
     };
 });

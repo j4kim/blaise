@@ -83,11 +83,14 @@ async function del() {
             <Button
                 v-if="!visit.current.technical_sheet"
                 @click="visit.showTechnicalSheetDialog = true"
-                label="Fiche technique"
+                :label="
+                    `Fiche technique` +
+                    (visit.techSheetRequired ? ' requise' : '')
+                "
                 type="button"
                 size="small"
                 icon="pi pi-file-edit"
-                severity="secondary"
+                :severity="visit.techSheetRequired ? 'warn' : 'secondary'"
                 variant="outlined"
             />
             <Button
@@ -111,7 +114,10 @@ async function del() {
 
         <Button
             @click="visit.showPaymentDialog = true"
-            :disabled="!visit.current.sales?.length"
+            :disabled="
+                !visit.current.sales?.length ||
+                (visit.techSheetRequired && !visit.current.technical_sheet)
+            "
             size="large"
         >
             Vers paiement

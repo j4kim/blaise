@@ -149,4 +149,13 @@ export const useVisitStore = defineStore("visit", {
             this.showTechnicalSheetDialog = false;
         },
     },
+
+    getters: {
+        techSheetRequired() {
+            const serviceIds = useServicesStore().idsThatRequiresTechSheet;
+            return this.current?.sales.some((s) =>
+                serviceIds.includes(s.service_id)
+            );
+        },
+    },
 });
