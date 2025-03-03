@@ -14,7 +14,6 @@
         <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png')}}" />
         <meta name="apple-mobile-web-app-title" content="blaise" />
         <link rel="manifest" href="{{ asset('site.webmanifest')}}" />
-        <meta name="theme-color" content="#8b5cf6">
 
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
