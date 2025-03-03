@@ -28,7 +28,7 @@ fetchVisits(route.params.clientId);
             @row-click="
                 ({ data }) =>
                     $router.push(
-                        `/admin/clients/${route.params.clientId}/visit/${data.id}`
+                        `/admin/clients/${route.params.clientId}/visits/${data.id}`
                     )
             "
             selectionMode="single"

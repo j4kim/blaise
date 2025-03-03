@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Mail;
 
@@ -32,20 +33,16 @@ class Visit extends Model
         return $this->belongsTo(Client::class);
     }
 
-    protected function salessum(): Attribute
+    public function technicalSheet(): HasOne
     {
-        return new Attribute(
-            get: function () {
-                return $this->sales->sum('price_charged');
-            },
-        );
+        return $this->hasOne(TechnicalSheet::class)->withTrashed();
     }
 
     protected function subtotal(): Attribute
     {
         return new Attribute(
             get: function () {
-                return $this->salessum;
+                return $this->sales->sum('price_charged');
             },
         );
     }

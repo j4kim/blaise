@@ -14,6 +14,7 @@ export const useVisitStore = defineStore("visit", {
         showDiscountDialog: false,
         showDateDialog: false,
         showPaymentDialog: false,
+        showTechnicalSheetDialog: false,
     }),
 
     actions: {
@@ -129,6 +130,32 @@ export const useVisitStore = defineStore("visit", {
             if (!response.ok) return;
             this.current = data;
             this.showDiscountDialog = false;
+        },
+        async updateTechnicalSheet(notes) {
+            const { response, data } = await put(
+                `/api/visits/${this.current.id}/technical-sheet`,
+                { notes }
+            );
+            if (!response.ok) return;
+            this.current = data;
+            this.showTechnicalSheetDialog = false;
+        },
+        async deleteTechnicalSheet() {
+            const { response, data } = await del(
+                `/api/visits/${this.current.id}/technical-sheet`
+            );
+            if (!response.ok) return;
+            this.current = data;
+            this.showTechnicalSheetDialog = false;
+        },
+    },
+
+    getters: {
+        techSheetRequired() {
+            const serviceIds = useServicesStore().idsThatRequiresTechSheet;
+            return this.current?.sales.some((s) =>
+                serviceIds.includes(s.service_id)
+            );
         },
     },
 });

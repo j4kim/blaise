@@ -59,7 +59,7 @@
         <table>
             <tr>
                 <th>Sous-total</th>
-                <td>CHF {{ Number::format($visit->salessum, 2) }}</td>
+                <td>CHF {{ Number::format($visit->subtotal, 2) }}</td>
             </tr>
             @if ($visit->tip)
             <tr>

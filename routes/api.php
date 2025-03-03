@@ -37,6 +37,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/visits/{visit}/discount', [VisitController::class, 'addDiscount'])->name('visits.addDiscount');
     Route::delete('/visits/{visit}/sale/{sale}', [VisitController::class, 'deleteSale'])->name('visits.deleteSale');
     Route::post('/visits/{visit}/sale', [VisitController::class, 'addSale'])->name('visits.addSale');
+    Route::put('/visits/{visit}/technical-sheet', [VisitController::class, 'updateTechnicalSheet'])->name('visits.updateTechnicalSheet');
+    Route::delete('/visits/{visit}/technical-sheet', [VisitController::class, 'deleteTechnicalSheet'])->name('visits.deleteTechnicalSheet');
 
     Route::get('/articles', [ArticleController::class, 'index'])->name('articles.index');
 
@@ -49,6 +51,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/admin/clients/{client}', [ClientController::class, 'details'])->withTrashed()->name('clients.details');
     Route::delete('/admin/clients/{client}', [ClientController::class, 'delete'])->withTrashed()->name('clients.delete');
     Route::get('/admin/clients/{client}/visits', [ClientController::class, 'visits'])->name('clients.visits');
+    Route::get('/admin/clients/{client}/sheets', [ClientController::class, 'sheets'])->name('clients.sheets');
 
     Route::get('/admin/visits/{visit}', [VisitController::class, 'show'])->withTrashed()->name('visits.show');
     Route::delete('/admin/visits/{visit}/cancel', [VisitController::class, 'cancel'])->name('visits.cancel');

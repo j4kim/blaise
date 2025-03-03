@@ -53,10 +53,10 @@ async function updateVisitDate(visit_date) {
 </script>
 
 <template>
-    <div class="py-2 px-3" v-if="state.visit">
-        <h2 class="text-xl font-extralight mb-4">
+    <div class="py-2 px-3 flex flex-col gap-6" v-if="state.visit">
+        <h2 class="text-xl font-extralight">
             <RouterLink
-                :to="`/admin/clients/${route.params.clientId}`"
+                :to="`/admin/clients/${route.params.clientId}/visits`"
                 class="text-muted-color hover:text-color"
             >
                 Toutes les visites
@@ -70,28 +70,30 @@ async function updateVisitDate(visit_date) {
                 {{ formatDate(state.visit.visit_date, true) }}
             </span>
         </h2>
-        <div class="mb-4" v-if="state.visit.deleted_at">
-            <Message severity="warn"> Visite annulée </Message>
+
+        <Message v-if="state.visit.deleted_at" severity="warn">
+            Ticket annulé
+        </Message>
+
+        <div>
+            <div class="text-sm text-muted-color">Ventes</div>
+            <DataTable :value="state.visit.sales" size="small">
+                <Column field="label" header="Libellé"></Column>
+                <Column field="type" header="Type"></Column>
+                <Column field="notes" header="Notes"></Column>
+                <Column field="base_price" header="Prix de base"></Column>
+                <Column header="Remise">
+                    <template #body="{ data }">
+                        <span v-if="saleHasDiscount(data)">
+                            {{ saleDiscountPercentage(data) }}
+                        </span>
+                    </template>
+                </Column>
+                <Column field="price_charged" header="Prix facturé"></Column>
+            </DataTable>
         </div>
 
-        <div class="text-sm text-muted-color my-2">Ventes</div>
-
-        <DataTable :value="state.visit.sales" size="small">
-            <Column field="label" header="Libellé"></Column>
-            <Column field="type" header="Type"></Column>
-            <Column field="notes" header="Notes"></Column>
-            <Column field="base_price" header="Prix de base"></Column>
-            <Column header="Remise">
-                <template #body="{ data }">
-                    <span v-if="saleHasDiscount(data)">
-                        {{ saleDiscountPercentage(data) }}
-                    </span>
-                </template>
-            </Column>
-            <Column field="price_charged" header="Prix facturé"></Column>
-        </DataTable>
-
-        <Attributes class="my-4">
+        <Attributes>
             <template #extra>
                 <Attribute
                     v-if="state.visit.tip"
@@ -110,7 +112,7 @@ async function updateVisitDate(visit_date) {
             </template>
         </Attributes>
 
-        <Attributes class="my-4">
+        <Attributes>
             <template #extra>
                 <Attribute
                     v-if="state.visit.cash"
@@ -135,7 +137,14 @@ async function updateVisitDate(visit_date) {
             </template>
         </Attributes>
 
-        <div class="flex justify-end flex-wrap gap-2 mt-4">
+        <Attribute
+            v-if="state.visit.technical_sheet"
+            label="Fiche technique"
+            class="whitespace-pre-line"
+            :value="state.visit.technical_sheet.notes"
+        />
+
+        <div class="flex justify-end flex-wrap gap-2">
             <Button
                 :disabled="!!state.visit.deleted_at"
                 @click="

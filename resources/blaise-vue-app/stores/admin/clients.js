@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { reactive, ref, watch } from "vue";
-import { get, post } from "../../api";
+import { del, get, post, put } from "../../api";
 import { useRouter } from "vue-router";
 import { watchDebounced } from "@vueuse/core";
 
@@ -9,6 +9,7 @@ export const useAdminClientsStore = defineStore("admin-clients", () => {
     const loading = ref(false);
     const search = ref("");
     const showAddDialog = ref(false);
+    const showEditDialog = ref(false);
 
     const queryParams = reactive({
         page: 1,
@@ -17,6 +18,8 @@ export const useAdminClientsStore = defineStore("admin-clients", () => {
         sortField: "updated_at",
         sortOrder: "desc",
     });
+
+    const client = ref(null);
 
     const router = useRouter();
 
@@ -47,14 +50,40 @@ export const useAdminClientsStore = defineStore("admin-clients", () => {
         debounce: 500,
     });
 
+    async function fetchClient(id) {
+        const { data, response } = await get(`/api/admin/clients/${id}`);
+        if (!response.ok) return;
+        client.value = data;
+    }
+
+    async function save(edited) {
+        const id = client.value.id;
+        const { data, response } = await put(`/api/clients/${id}`, edited);
+        if (!response.ok) return;
+        client.value = data;
+        showEditDialog.value = false;
+    }
+
+    async function deleteClient() {
+        const id = client.value.id;
+        const { data, response } = await del(`/api/admin/clients/${id}`);
+        if (!response.ok) return;
+        client.value = data;
+    }
+
     return {
         paginator,
         loading,
         search,
         showAddDialog,
+        showEditDialog,
         queryParams,
+        client,
         fetchClients,
+        fetchClient,
         create,
         sort,
+        save,
+        deleteClient,
     };
 });

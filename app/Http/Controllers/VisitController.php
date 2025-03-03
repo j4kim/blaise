@@ -6,6 +6,7 @@ use App\Models\Article;
 use App\Models\Client;
 use App\Models\Sale;
 use App\Models\Service;
+use App\Models\TechnicalSheet;
 use App\Models\Visit;
 use Illuminate\Http\Request;
 
@@ -38,7 +39,6 @@ class VisitController extends Controller
         foreach ($originalVisit->sales as $sale) {
             $current->sales()->save($sale->replicate(['visit_id']));
         }
-        $current->load('sales');
         return $current->append('subtotal');
     }
 
@@ -46,7 +46,7 @@ class VisitController extends Controller
     {
         $visit->visit_date = $request->visit_date;
         $visit->save();
-        return $visit->load('sales')->append('subtotal');
+        return $visit->load('technicalSheet')->append('subtotal');
     }
 
     public function validate(Visit $visit, Request $request)
@@ -63,6 +63,9 @@ class VisitController extends Controller
             $art->stock = $art->stock - $sale->quantity;
             $art->save();
         });
+        if ($visit->technicalSheet()->exists()) {
+            $visit->technicalSheet->restore();
+        }
         if ($request->send_by_email) {
             if ($request->email_changed) {
                 $visit->client()->update(['email' => $request->client_email]);
@@ -88,7 +91,7 @@ class VisitController extends Controller
             'service_id' => $service->id,
             'label' => $service->label,
         ]);
-        return $visit->load('sales')->append('subtotal');
+        return $visit->load('technicalSheet')->append('subtotal');
     }
 
     public function addArticle(Visit $visit, Article $article)
@@ -101,7 +104,7 @@ class VisitController extends Controller
             'article_id' => $article->id,
             'label' => $article->label,
         ]);
-        return $visit->load('sales')->append('subtotal');
+        return $visit->load('technicalSheet')->append('subtotal');
     }
 
     public function addSale(Visit $visit, Request $request)
@@ -112,7 +115,7 @@ class VisitController extends Controller
             'label' => $request->label,
         ]);
         return [
-            'visit' => $visit->load('sales')->append('subtotal'),
+            'visit' => $visit->load('technicalSheet')->append('subtotal'),
             'sale' => $sale,
         ];
     }
@@ -128,8 +131,7 @@ class VisitController extends Controller
             $sale->computeLabel();
         }
         $sale->save();
-        $visit->load('sales');
-        return $visit->append('subtotal');
+        return $visit->load('technicalSheet')->append('subtotal');
     }
 
     public function addDiscount(Visit $visit, Request $request)
@@ -144,21 +146,42 @@ class VisitController extends Controller
             $sale->price_charged = $bp - ($discount * $bp);
             $sale->save();
         }
-        return $visit->append('subtotal');
+        return $visit->load('technicalSheet')->append('subtotal');
     }
 
     public function deleteSale(Visit $visit, Sale $sale)
     {
         $sale->forceDelete();
         $visit->load('sales');
-        return $visit->append('subtotal');
+        return $visit->load('technicalSheet')->append('subtotal');
+    }
+
+    public function updateTechnicalSheet(Visit $visit, Request $request)
+    {
+        $sheet = $visit->technicalSheet;
+        if (!$sheet) {
+            $sheet = new TechnicalSheet();
+            $sheet->client_id = $visit->client_id;
+            $sheet->visit_id = $visit->id;
+            $sheet->deleted_at = now();
+        }
+        $sheet->notes = $request->notes;
+        $sheet->save();
+        $visit->setRelation('technicalSheet', $sheet);
+        return $visit->load('sales')->append('subtotal');
+    }
+
+    public function deleteTechnicalSheet(Visit $visit)
+    {
+        $visit->technicalSheet()->forceDelete();
+        return $visit->load('sales')->append('subtotal');
     }
 
     // admin
 
     public function show(Visit $visit)
     {
-        return $visit->load('sales')->append('subtotal');
+        return $visit->load('sales', 'technicalSheet')->append('subtotal');
     }
 
     public function cancel(Visit $visit)
@@ -170,6 +193,7 @@ class VisitController extends Controller
         });
         $visit->sales()->delete();
         $visit->delete();
-        return $visit->load('sales')->append('subtotal');
+        $visit->technicalSheet()->delete();
+        return $visit->load('sales', 'technicalSheet')->append('subtotal');
     }
 }

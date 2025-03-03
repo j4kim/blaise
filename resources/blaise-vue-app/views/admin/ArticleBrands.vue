@@ -36,9 +36,12 @@ const search = ref("");
             :globalFilterFields="['name']"
             stateStorage="local"
             stateKey="dt-brands"
+            size="small"
         >
             <template #header>
-                <div class="flex justify-end gap-3">
+                <div class="flex justify-between items-center gap-3">
+                    <h2 class="text-xl font-extralight">Marques</h2>
+                    <div class="grow"></div>
                     <Button
                         label="Ajouter"
                         size="small"

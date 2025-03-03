@@ -10,6 +10,7 @@ import { Button } from "primevue";
 import { useVisitStore } from "../stores/visit";
 import { useClientStore } from "../stores/client";
 import ClientDetails from "../components/ClientDetails.vue";
+import LastTechnicalSheets from "../components/LastTechnicalSheets.vue";
 
 const route = useRoute();
 
@@ -29,10 +30,10 @@ onBeforeRouteLeave(() => (visit.current = null));
 
 <template>
     <div
-        class="sm:max-w-screen-md sm:mx-auto px-2 py-4 h-full"
+        class="sm:max-w-screen-md sm:mx-auto px-2 py-4 h-full flex flex-col gap-7"
         v-if="client.selected"
     >
-        <div class="mt-2 mb-8 flex justify-between items-end flex-wrap gap-3">
+        <div class="flex justify-between items-end flex-wrap gap-3">
             <div>
                 <h5 class="mb-1">{{ client.selected.title }}</h5>
                 <h2 class="text-3xl font-extralight">
@@ -49,9 +50,9 @@ onBeforeRouteLeave(() => (visit.current = null));
             ></Button>
         </div>
 
-        <div class="mb-8">
+        <div>
             <h5
-                class="mb-2 inline-block cursor-pointer hover:text-color"
+                class="inline-block cursor-pointer hover:text-color"
                 @click="client.showDetails = !client.showDetails"
                 :class="{
                     'text-muted-color': !client.showDetails,
@@ -66,12 +67,13 @@ onBeforeRouteLeave(() => (visit.current = null));
             <ClientDetails
                 v-if="client.showDetails"
                 :client="client.selected"
+                class="mt-2 mb-4"
             ></ClientDetails>
         </div>
 
-        <div class="mb-8">
+        <div v-if="client.selected.visits_count > 0">
             <h5
-                class="mb-2 inline-block cursor-pointer hover:text-color"
+                class="inline-block cursor-pointer hover:text-color"
                 @click="client.showLastVisits = !client.showLastVisits"
                 :class="{
                     'text-muted-color': !client.showLastVisits,
@@ -86,7 +88,31 @@ onBeforeRouteLeave(() => (visit.current = null));
             <LastVisits
                 v-if="client.showLastVisits"
                 :client="client.selected"
+                class="mb-4"
             ></LastVisits>
+        </div>
+
+        <div v-if="client.selected.technical_sheets_count > 0">
+            <h5
+                class="inline-block cursor-pointer hover:text-color"
+                @click="
+                    client.showTechnicalSheets = !client.showTechnicalSheets
+                "
+                :class="{
+                    'text-muted-color': !client.showTechnicalSheets,
+                }"
+            >
+                <i
+                    class="pi pi-angle-right transition"
+                    :class="{ 'rotate-90': client.showTechnicalSheets }"
+                ></i>
+                Fiches techniques
+            </h5>
+            <LastTechnicalSheets
+                v-if="client.showTechnicalSheets"
+                :client="client.selected"
+                class="mb-4"
+            />
         </div>
 
         <RouterView class="mb-6 md:mb-8" v-if="visit.current" />

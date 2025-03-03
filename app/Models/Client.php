@@ -14,14 +14,29 @@ class Client extends Model
     use SoftDeletes;
     use HasFactory;
 
-    public function visits(): HasMany
+    public function allVisits(): HasMany
     {
         return $this->hasMany(Visit::class);
     }
 
+    public function visits(): HasMany
+    {
+        return $this->allVisits()->whereNotNull('billed');
+    }
+
     public function lastVisits(): HasMany
     {
-        return $this->visits()->whereNotNull('billed')->orderBy('visit_date', 'desc')->take(5);
+        return $this->visits()->orderBy('visit_date', 'desc')->take(5);
+    }
+
+    public function technicalSheets(): HasMany
+    {
+        return $this->hasMany(TechnicalSheet::class);
+    }
+
+    public function lastTechnicalSheets(): HasMany
+    {
+        return $this->technicalSheets()->orderBy('created_at', 'desc')->take(5);
     }
 
     public function title(): Attribute
@@ -47,7 +62,11 @@ class Client extends Model
 
     public function getCurrentVisit(): ?Visit
     {
-        return $this->visits()->with('sales')->whereNull('billed')->first()?->append('subtotal');
+        return $this->allVisits()
+            ->with('sales', 'technicalSheet')
+            ->whereNull('billed')
+            ->first()
+            ?->append('subtotal');
     }
 
     public function scopeSearch(Builder $builder, string $query)

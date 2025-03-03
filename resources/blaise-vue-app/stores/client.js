@@ -7,6 +7,7 @@ export const useClientStore = defineStore("client", {
         selected: null,
         showDetails: false,
         showLastVisits: false,
+        showTechnicalSheets: false,
         edited: {},
     }),
 
@@ -23,10 +24,12 @@ export const useClientStore = defineStore("client", {
             this.showDetails = false;
             const visit = useVisitStore();
             this.showLastVisits = !visit.current;
+            this.showTechnicalSheets = false;
         },
         hidePanels() {
             this.showDetails = false;
             this.showLastVisits = false;
+            this.showTechnicalSheets = false;
         },
     },
 });
