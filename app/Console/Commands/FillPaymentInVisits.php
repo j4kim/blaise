@@ -28,6 +28,8 @@ class FillPaymentInVisits extends Command
      */
     public function handle()
     {
+        $this->line("Fill payment in visits");
+
         $byCashIds = collect();
         $byCardIds = collect();
         new Import('CaisseLigPaiement.csv', function (array $row) use ($byCashIds, $byCardIds) {

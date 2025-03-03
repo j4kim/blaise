@@ -31,6 +31,8 @@ class AttachSheets extends Command
      */
     public function handle()
     {
+        $this->line("Attach sheets");
+
         $sheets = TechnicalSheet::all();
 
         foreach ($sheets as $sheet) {
