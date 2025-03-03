@@ -10,6 +10,14 @@ class Sale extends Model
 {
     use SoftDeletes;
 
+    protected function casts(): array
+    {
+        return [
+            'price_charged' => 'real',
+            'base_price' => 'real',
+        ];
+    }
+
     public function service(): BelongsTo
     {
         return $this->belongsTo(Service::class);
