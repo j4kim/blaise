@@ -4,6 +4,7 @@ import { toRaw } from "vue";
 import { useClientStore } from "./client";
 import { useArticlesStore } from "./articles";
 import { useServicesStore } from "./services";
+import { pick } from "../tools";
 
 export const useVisitStore = defineStore("visit", {
     state: () => ({
@@ -11,7 +12,9 @@ export const useVisitStore = defineStore("visit", {
         showSaleDialog: false,
         selectedSale: null,
         showDiscountDialog: false,
-        showVoucherPaymentDialog: false,
+        showDateDialog: false,
+        showPaymentDialog: false,
+        showTechnicalSheetDialog: false,
     }),
 
     actions: {
@@ -34,9 +37,22 @@ export const useVisitStore = defineStore("visit", {
         },
         async validateCurrent() {
             const { response } = await post(
-                `/api/visits/${this.current.id}/validate`
+                `/api/visits/${this.current.id}/validate`,
+                pick(
+                    this.current,
+                    "rounding",
+                    "tip",
+                    "cash_payment",
+                    "twint_payment",
+                    "card_payment",
+                    "voucher_payment",
+                    "client_email",
+                    "send_by_email",
+                    "email_changed"
+                )
             );
             if (!response.ok) return;
+            this.showPaymentDialog = false;
             const client = useClientStore();
             await client.fetchClient(client.selected.id);
             useArticlesStore().fetch();
@@ -100,27 +116,46 @@ export const useVisitStore = defineStore("visit", {
             if (!response.ok) return;
             this.current = data;
             this.showDiscountDialog = false;
-            this.showVoucherPaymentDialog = false;
         },
-        async addDiscount() {
-            this.current.discount = 0.1;
+        async updateVisitDate(visitDate) {
+            this.current.visit_date = visitDate;
             await this.updateCurrent();
-            this.showDiscountDialog = true;
+            this.showDateDialog = false;
         },
-        async removeDiscount() {
-            this.current.discount = null;
-            await this.updateCurrent();
+        async addDiscount(percent, filter) {
+            const { response, data } = await put(
+                `/api/visits/${this.current.id}/discount`,
+                { percent, filter }
+            );
+            if (!response.ok) return;
+            this.current = data;
             this.showDiscountDialog = false;
         },
-        async addVoucherPayment() {
-            this.current.voucher_payment = 50;
-            await this.updateCurrent();
-            this.showVoucherPaymentDialog = true;
+        async updateTechnicalSheet(notes) {
+            const { response, data } = await put(
+                `/api/visits/${this.current.id}/technical-sheet`,
+                { notes }
+            );
+            if (!response.ok) return;
+            this.current = data;
+            this.showTechnicalSheetDialog = false;
         },
-        async removeVoucherPayment() {
-            this.current.voucher_payment = null;
-            await this.updateCurrent();
-            this.showVoucherPaymentDialog = false;
+        async deleteTechnicalSheet() {
+            const { response, data } = await del(
+                `/api/visits/${this.current.id}/technical-sheet`
+            );
+            if (!response.ok) return;
+            this.current = data;
+            this.showTechnicalSheetDialog = false;
+        },
+    },
+
+    getters: {
+        techSheetRequired() {
+            const serviceIds = useServicesStore().idsThatRequiresTechSheet;
+            return this.current?.sales.some((s) =>
+                serviceIds.includes(s.service_id)
+            );
         },
     },
 });

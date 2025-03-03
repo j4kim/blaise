@@ -6,6 +6,7 @@ use App\Models\Article;
 use App\Models\Client;
 use App\Models\Sale;
 use App\Models\Service;
+use App\Models\TechnicalSheet;
 use App\Models\Visit;
 use Illuminate\Http\Request;
 
@@ -38,19 +39,22 @@ class VisitController extends Controller
         foreach ($originalVisit->sales as $sale) {
             $current->sales()->save($sale->replicate(['visit_id']));
         }
-        return $current->load('sales')->append('total');
+        return $current->append('subtotal');
     }
 
     public function update(Visit $visit, Request $request)
     {
-        $visit->discount = $request->discount;
-        $visit->voucher_payment = $request->voucher_payment;
+        $visit->visit_date = $request->visit_date;
         $visit->save();
-        return $visit->load('sales')->append('total');
+        return $visit->load('technicalSheet')->append('subtotal');
     }
 
-    public function validate(Visit $visit)
+    public function validate(Visit $visit, Request $request)
     {
+        $visit->forceFill($request->except([
+            "email_changed",
+            "client_email",
+        ]));
         $visit->billed = $visit->total;
         $visit->save();
         $visit->client()->touch();
@@ -59,13 +63,22 @@ class VisitController extends Controller
             $art->stock = $art->stock - $sale->quantity;
             $art->save();
         });
+        if ($visit->technicalSheet()->exists()) {
+            $visit->technicalSheet->restore();
+        }
+        if ($request->send_by_email) {
+            if ($request->email_changed) {
+                $visit->client()->update(['email' => $request->client_email]);
+            }
+            $visit->sendEmail();
+        }
         return $visit;
     }
 
     public function destroy(Visit $visit)
     {
-        $visit->sales()->delete();
-        return $visit->delete();
+        $visit->sales()->forceDelete();
+        return $visit->forceDelete();
     }
 
     public function addService(Visit $visit, Service $service)
@@ -78,7 +91,7 @@ class VisitController extends Controller
             'service_id' => $service->id,
             'label' => $service->label,
         ]);
-        return $visit->load('sales')->append('total');
+        return $visit->load('technicalSheet')->append('subtotal');
     }
 
     public function addArticle(Visit $visit, Article $article)
@@ -91,7 +104,7 @@ class VisitController extends Controller
             'article_id' => $article->id,
             'label' => $article->label,
         ]);
-        return $visit->load('sales')->append('total');
+        return $visit->load('technicalSheet')->append('subtotal');
     }
 
     public function addSale(Visit $visit, Request $request)
@@ -102,7 +115,7 @@ class VisitController extends Controller
             'label' => $request->label,
         ]);
         return [
-            'visit' => $visit->load('sales')->append('total'),
+            'visit' => $visit->load('technicalSheet')->append('subtotal'),
             'sale' => $sale,
         ];
     }
@@ -118,19 +131,69 @@ class VisitController extends Controller
             $sale->computeLabel();
         }
         $sale->save();
-        return $visit->load('sales')->append('total');
+        return $visit->load('technicalSheet')->append('subtotal');
+    }
+
+    public function addDiscount(Visit $visit, Request $request)
+    {
+        $discount = $request->percent / 100;
+        $sales = $visit->sales()
+            ->whereNotNull('base_price')
+            ->whereIn('type', $request->filter)
+            ->get();
+        foreach ($sales as $sale) {
+            $bp = $sale->base_price;
+            $sale->price_charged = $bp - ($discount * $bp);
+            $sale->save();
+        }
+        return $visit->load('technicalSheet')->append('subtotal');
     }
 
     public function deleteSale(Visit $visit, Sale $sale)
     {
-        $sale->delete();
-        return $visit->load('sales')->append('total');
+        $sale->forceDelete();
+        $visit->load('sales');
+        return $visit->load('technicalSheet')->append('subtotal');
+    }
+
+    public function updateTechnicalSheet(Visit $visit, Request $request)
+    {
+        $sheet = $visit->technicalSheet;
+        if (!$sheet) {
+            $sheet = new TechnicalSheet();
+            $sheet->client_id = $visit->client_id;
+            $sheet->visit_id = $visit->id;
+            $sheet->deleted_at = now();
+        }
+        $sheet->notes = $request->notes;
+        $sheet->save();
+        $visit->setRelation('technicalSheet', $sheet);
+        return $visit->load('sales')->append('subtotal');
+    }
+
+    public function deleteTechnicalSheet(Visit $visit)
+    {
+        $visit->technicalSheet()->forceDelete();
+        return $visit->load('sales')->append('subtotal');
     }
 
     // admin
 
     public function show(Visit $visit)
     {
-        return $visit->load('sales')->append('total');
+        return $visit->load('sales', 'technicalSheet')->append('subtotal');
+    }
+
+    public function cancel(Visit $visit)
+    {
+        $visit->sales()->where('type', 'article')->with('article')->each(function (Sale $sale) {
+            $art = $sale->article;
+            $art->stock = $art->stock + $sale->quantity;
+            $art->save();
+        });
+        $visit->sales()->delete();
+        $visit->delete();
+        $visit->technicalSheet()->delete();
+        return $visit->load('sales', 'technicalSheet')->append('subtotal');
     }
 }

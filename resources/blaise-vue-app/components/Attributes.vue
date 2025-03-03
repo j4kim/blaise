@@ -2,7 +2,7 @@
 import Attribute from "./Attribute.vue";
 
 defineProps<{
-    attributes: { label: String; value: String }[];
+    attributes?: { label: String; value: String }[];
 }>();
 </script>
 

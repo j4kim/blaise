@@ -28,7 +28,7 @@ fetchVisits(route.params.clientId);
             @row-click="
                 ({ data }) =>
                     $router.push(
-                        `/admin/clients/${route.params.clientId}/visit/${data.id}`
+                        `/admin/clients/${route.params.clientId}/visits/${data.id}`
                     )
             "
             selectionMode="single"
@@ -37,9 +37,13 @@ fetchVisits(route.params.clientId);
             stateStorage="session"
             :stateKey="`${$route.params.clientId}-visits`"
             :alwaysShowPaginator="false"
+            :rowClass="
+                (row) =>
+                    row.deleted_at ? '!text-muted-color line-through' : ''
+            "
         >
             <Column
-                field="created_at"
+                field="visit_date"
                 header="Date de la visite"
                 sortable
                 bodyClass="tabular-nums"

@@ -29,6 +29,8 @@ class FillSaleLabels extends Command
      */
     public function handle()
     {
+        $this->line("Fill sales labels");
+
         $services = Service::withTrashed()->get();
         $articles = Article::withTrashed()->get();
 

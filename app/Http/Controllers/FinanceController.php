@@ -12,12 +12,10 @@ class FinanceController extends Controller
     {
         $from = Carbon::parse($request->from, 'UTC')->startOfDay();
         $to = Carbon::parse($request->to, 'UTC')->next('day');
-        $visits = Visit::whereNotNull('billed')->whereBetween('visit_date', [$from, $to]);
+        $visits = Visit::whereNotNull($request->column)->whereBetween('visit_date', [$from, $to]);
         return [
-            'from' => $from,
-            'to' => $to,
             'visits_count' => $visits->count(),
-            'total_billed' => floatval($visits->sum('billed')),
+            'total_billed' => floatval($visits->sum($request->column)),
         ];
     }
 }

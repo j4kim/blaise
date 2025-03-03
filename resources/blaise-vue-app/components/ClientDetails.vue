@@ -27,6 +27,8 @@ const props = defineProps({
                     .join('<br>'),
             },
             { label: 'Genre', value: ['Femme', 'Homme'][client.gender] },
+            { label: 'Type', value: client.type },
+            { label: 'Email', value: client.email },
         ]"
     />
 </template>

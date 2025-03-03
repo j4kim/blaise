@@ -1,5 +1,5 @@
 <script setup>
-import { Button, Card, DatePicker, FloatLabel } from "primevue";
+import { Button, Card, DatePicker, FloatLabel, SelectButton } from "primevue";
 import { useAdminFinanceStore } from "../../stores/admin/finance";
 import dayjs from "dayjs";
 import quarterOfYear from "dayjs/plugin/quarterOfYear";
@@ -7,6 +7,8 @@ import quarterOfYear from "dayjs/plugin/quarterOfYear";
 dayjs.extend(quarterOfYear);
 
 const store = useAdminFinanceStore();
+
+store.computeRevenue();
 
 const today = dayjs().startOf("day");
 const yesterday = today.subtract(1, "day");
@@ -128,6 +130,23 @@ const buttons = [
                     />
                     <label for="date-to">Jusqu'au</label>
                 </FloatLabel>
+                <div class="col-span-2">
+                    <div class="text-sm text-muted-color mb-2">
+                        Filtre par moyen de paiement
+                    </div>
+                    <SelectButton
+                        v-model="store.column"
+                        optionLabel="0"
+                        optionValue="1"
+                        :options="[
+                            ['Tout', 'billed'],
+                            ['Cash', 'cash_payment'],
+                            ['Carte', 'card_payment'],
+                            ['Twint', 'twint_payment'],
+                            ['Bon', 'voucher_payment'],
+                        ]"
+                    />
+                </div>
                 <template v-if="store.result">
                     <Card
                         pt:content="text-4xl text-center py-8 text-primary font-mono"

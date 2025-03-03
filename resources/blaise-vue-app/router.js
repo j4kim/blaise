@@ -17,6 +17,8 @@ import ClientVisitDetails from "./views/admin/ClientVisitDetails.vue";
 import ArticleArticles from "./views/admin/ArticleArticles.vue";
 import ArticleBrands from "./views/admin/ArticleBrands.vue";
 import ArticleLines from "./views/admin/ArticleLines.vue";
+import AdminClient from "./views/admin/Client.vue";
+import ClientSheets from "./views/admin/ClientSheets.vue";
 
 function adminHook(to) {
     localStorage["last-admin-path"] = to.path;
@@ -74,15 +76,31 @@ const routes = [
                     },
                     {
                         path: ":clientId",
-                        component: ClientData,
+                        component: AdminClient,
                         children: [
                             {
                                 path: "",
-                                component: ClientVisits,
+                                meta: { tabRoute: "clientData" },
+                                component: ClientData,
                             },
                             {
-                                path: "visit/:visitId",
-                                component: ClientVisitDetails,
+                                path: "visits",
+                                meta: { tabRoute: "clientVisits" },
+                                children: [
+                                    {
+                                        path: "",
+                                        component: ClientVisits,
+                                    },
+                                    {
+                                        path: ":visitId",
+                                        component: ClientVisitDetails,
+                                    },
+                                ],
+                            },
+                            {
+                                path: "sheets",
+                                meta: { tabRoute: "clientSheets" },
+                                component: ClientSheets,
                             },
                         ],
                     },

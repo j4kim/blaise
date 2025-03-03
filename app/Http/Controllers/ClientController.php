@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
+use App\Models\TechnicalSheet;
 use App\Models\Visit;
 use Illuminate\Http\Request;
 
@@ -10,7 +11,12 @@ class ClientController extends Controller
 {
     public function show(Client $client)
     {
-        $client->load('lastVisits.sales')->append('title');
+        $client
+            ->loadCount('visits')
+            ->load('lastVisits.sales')
+            ->loadCount('technicalSheets')
+            ->load('lastTechnicalSheets')
+            ->append('title');
         return [
             ...$client->toArray(),
             'currentVisit' => $client->getCurrentVisit(),
@@ -68,8 +74,16 @@ class ClientController extends Controller
     public function visits(int $client)
     {
         return Visit::where('client_id', $client)
+            ->withTrashed()
             ->whereNotNull('billed')
-            ->orderBy('id', 'desc')
+            ->orderBy('visit_date', 'desc')
+            ->get();
+    }
+
+    public function sheets(int $client)
+    {
+        return TechnicalSheet::where('client_id', $client)
+            ->orderBy('created_at', 'desc')
             ->get();
     }
 
