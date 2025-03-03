@@ -78,6 +78,7 @@ class VisitController extends Controller
     public function destroy(Visit $visit)
     {
         $visit->sales()->forceDelete();
+        $visit->technicalSheet()->forceDelete();
         return $visit->forceDelete();
     }
 
