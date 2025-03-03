@@ -11,6 +11,7 @@ const store = useAdminClientsStore();
 store.fetchVisits();
 
 function goToVisitDetails({ data }) {
+    store.visit = data;
     router.push(`/admin/clients/${store.client.id}/visits/${data.id}`);
 }
 </script>
