@@ -24,5 +24,9 @@ class ServiceCategorySeeder extends Seeder
                 'label' => $row['NomService'],
             ]);
         });
+
+        ServiceCategory::where('id', 4)->update([
+            'options' => ['preventDelete' => true, 'forceTechnicalSheet' => true]
+        ]);
     }
 }

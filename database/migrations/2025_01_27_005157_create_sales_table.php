@@ -17,6 +17,7 @@ return new class extends Migration
         Schema::create('sales', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->softDeletes();
             $table->foreignIdFor(Visit::class);
             $table->foreignIdFor(Service::class)->nullable();
             $table->foreignIdFor(Article::class)->nullable();
@@ -25,6 +26,7 @@ return new class extends Migration
             $table->integer('quantity')->default(1);
             $table->string('type')->nullable();
             $table->string('label')->nullable();
+            $table->text('notes')->nullable();
         });
     }
 

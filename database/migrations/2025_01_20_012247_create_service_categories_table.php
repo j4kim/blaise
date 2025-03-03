@@ -17,6 +17,7 @@ return new class extends Migration
             $table->softDeletes();
             $table->integer("sort_order")->nullable();
             $table->string("label")->nullable();
+            $table->json("options")->nullable();
         });
     }
 

@@ -15,10 +15,17 @@ return new class extends Migration
         Schema::create('visits', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->softDeletes();
             $table->foreignIdFor(Client::class);
             $table->datetime('visit_date');
             $table->decimal('billed', 5, 2)->nullable();
-            $table->text('notes')->nullable();
+            $table->decimal('rounding', 4, 2)->nullable();
+            $table->decimal('tip', 4, 2)->nullable();
+            $table->decimal('voucher_payment', 5, 2)->nullable();
+            $table->decimal('cash', 5, 2)->nullable();
+            $table->decimal('twint', 5, 2)->nullable();
+            $table->decimal('card', 5, 2)->nullable();
+            $table->boolean('send_by_email')->nullable();
         });
     }
 

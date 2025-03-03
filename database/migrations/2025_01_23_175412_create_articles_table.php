@@ -24,6 +24,7 @@ return new class extends Migration
             $table->decimal('retail_price', 5, 2)->nullable();
             $table->decimal('catalog_price', 5, 2)->nullable();
             $table->integer('sort_order')->nullable();
+            $table->integer('stock')->default(1);
         });
     }
 
