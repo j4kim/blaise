@@ -10,6 +10,13 @@ class Service extends Model
 {
     use SoftDeletes;
 
+    protected function casts(): array
+    {
+        return [
+            'price' => 'real',
+        ];
+    }
+
     public function sales(): HasMany
     {
         return $this->hasMany(Sale::class);

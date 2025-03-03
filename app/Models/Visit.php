@@ -19,6 +19,12 @@ class Visit extends Model
     {
         return [
             'billed' => 'real',
+            'card_payment' => 'real',
+            'cash_payment' => 'real',
+            'twint_payment' => 'real',
+            'voucher_payment' => 'real',
+            'tip' => 'real',
+            'rounding' => 'real',
             'visit_date' => 'datetime',
         ];
     }
