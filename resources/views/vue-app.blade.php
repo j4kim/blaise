@@ -7,7 +7,14 @@
 
         <title>blaise</title>
 
-        <link rel="icon" href="{{ asset('b.svg') }}" type="image/svg+xml">
+        <meta name="description" content="Gestion de salon en plus simple">
+        <link rel="icon" type="image/png" href="{{ asset('favicon-96x96.png')}}" sizes="96x96" />
+        <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg')}}" />
+        <link rel="shortcut icon" href="{{ asset('favicon.ico')}}" />
+        <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png')}}" />
+        <meta name="apple-mobile-web-app-title" content="blaise" />
+        <link rel="manifest" href="{{ asset('site.webmanifest')}}" />
+        <meta name="theme-color" content="#8b5cf6">
 
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
