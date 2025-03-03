@@ -2,7 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1,  user-scalable=0">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1,  user-scalable=0, viewport-fit=cover">
         <meta name="robots" content="noindex">
 
         <title>blaise</title>
@@ -14,6 +14,7 @@
         <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png')}}" />
         <meta name="apple-mobile-web-app-title" content="blaise" />
         <link rel="manifest" href="{{ asset('site.webmanifest')}}" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
