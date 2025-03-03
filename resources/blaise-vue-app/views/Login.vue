@@ -3,6 +3,8 @@ import { Button, InputText, Message, Password } from "primevue";
 import { reactive, ref } from "vue";
 import { csrfToken, post } from "../api";
 import { useRouter } from "vue-router";
+import { useArticlesStore } from "../stores/articles";
+import { useServicesStore } from "../stores/services";
 
 const router = useRouter();
 
@@ -19,6 +21,8 @@ async function submit() {
     if (response.ok) {
         csrfToken.value = data.new_token;
         router.push("/");
+        useArticlesStore().fetch();
+        useServicesStore().fetch();
     } else if (response.status === 422) {
         error.value = "Authentification échouée";
     } else {
