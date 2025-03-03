@@ -1,11 +1,12 @@
 <script setup>
 import { reactive } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { get } from "../../api";
 import { Column, DataTable } from "primevue";
 import { formatDate } from "../../tools";
 
 const route = useRoute();
+const router = useRouter();
 
 const state = reactive({ visits: [] });
 
@@ -16,6 +17,10 @@ async function fetchVisits(id) {
 }
 
 fetchVisits(route.params.clientId);
+
+function goToVisitDetails({ data }) {
+    router.push(`/admin/clients/${route.params.clientId}/visits/${data.id}`);
+}
 </script>
 
 <template>
@@ -25,12 +30,7 @@ fetchVisits(route.params.clientId);
             :value="state.visits"
             paginator
             :rows="10"
-            @row-click="
-                ({ data }) =>
-                    $router.push(
-                        `/admin/clients/${route.params.clientId}/visits/${data.id}`
-                    )
-            "
+            @row-click="goToVisitDetails"
             selectionMode="single"
             paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink"
             currentPageReportTemplate="visites {first} à {last} sur {totalRecords}"
