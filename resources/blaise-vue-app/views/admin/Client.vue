@@ -53,10 +53,8 @@ const tab = computed({
         </header>
         <div class="py-2 px-3" v-if="store.client.deleted_at">
             <Message severity="warn">
-                {{ store.client.title }} supprimé<span
-                    v-if="store.client.gender == 0"
-                    >e</span
-                >
+                <span v-if="store.client.gender == 0"> Cliente supprimée </span>
+                <span v-else> Client supprimé </span>
                 le {{ formatDate(store.client.deleted_at) }}
             </Message>
         </div>
